@@ -1,12 +1,23 @@
-﻿<Window x:Class="Guqu.MainWindow"
+﻿<Window x:Name="MainWindow1" x:Class="Guqu.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Guqu" Height="768" Width="1024">
+    <Menu x:Name="menu" Height="40" Width="1024" Margin="0,0,0,697">
+        <MenuItem Header="File" Height="40" Width="190" Background="#FF7EC8DE">
+            <MenuItem Header="_Log out" Click="logoutClicked" />
+            <MenuItem Header="_Exit" Click="exitClicked"/>
+            <MenuItem Header="_Check for updates" Click="checkForUpdatesClicked"/>
+        </MenuItem>
+        <MenuItem Header="Edit" Height="40" Width="190" Background="#FFAFD66B">
+            <MenuItem Header="_Manage Accounts" Click="manageAccountsClicked"/>
+            <MenuItem Header="_Settings" Click="settingsClicked"/>
+        </MenuItem>
+        <MenuItem Header="Help" Height="40" Width="190" Background="#FFD6836B">
+            <MenuItem Header="_Wiki" Click="wikiClicked"/>
+        </MenuItem>
+    </Menu>
 </Window>

@@ -55,6 +55,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="cloudLoginWindow.xaml.cs">
+      <DependentUpon>cloudLoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="cloudPickerWindow.xaml.cs">
+      <DependentUpon>cloudPickerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="createAccountWindow.xaml.cs">
+      <DependentUpon>createAccountWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="settingsWindow.xaml.cs">
+      <DependentUpon>settingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="cloudLoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="cloudPickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="createAccountWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="logInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,12 +91,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="logInWindow.xaml.cs">
+      <DependentUpon>logInWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="manageCloudAccountsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="settingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="manageCloudAccountsWindow.xaml.cs">
+      <DependentUpon>manageCloudAccountsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
