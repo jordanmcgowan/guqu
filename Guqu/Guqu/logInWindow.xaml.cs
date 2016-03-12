@@ -42,6 +42,9 @@ namespace Guqu
             createWin.Show();
             this.Close();
         }
-        
+        private void Button_Handler(object sender, RoutedEventArgs e)
+        {
+            Login_Title.Text = "something";
+        }
     }
 }

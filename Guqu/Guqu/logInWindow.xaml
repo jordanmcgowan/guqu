@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="logInWindow" Height="300" Width="300">
     <Grid>
-        
+        <TextBox x:Name="Login_Title" HorizontalAlignment="Left" Height="23" Margin="85,10,0,0" TextWrapping="Wrap" Text="Brent Is awesome" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="button" Content="Click me" HorizontalAlignment="Left" Margin="68,189,0,0" VerticalAlignment="Top" Width="156" Height="81" RenderTransformOrigin="0.5,0.5" Click="Button_Handler"/>
+
     </Grid>
 </Window>
