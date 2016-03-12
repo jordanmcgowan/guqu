@@ -64,6 +64,12 @@
     <Compile Include="createAccountWindow.xaml.cs">
       <DependentUpon>createAccountWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\BoxCommunicationParser.cs" />
+    <Compile Include="Models\CommunicationParser_I.cs" />
+    <Compile Include="Models\DownloadManager.cs" />
+    <Compile Include="Models\GoogleDriveCommunicationParser.cs" />
+    <Compile Include="Models\MetaDataController.cs" />
+    <Compile Include="Models\OneDriveCommunicationParser.cs" />
     <Compile Include="settingsWindow.xaml.cs">
       <DependentUpon>settingsWindow.xaml</DependentUpon>
     </Compile>
