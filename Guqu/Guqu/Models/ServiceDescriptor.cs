@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.Models
 {
-    class BoxCommunicationParser
+    class ServiceDescriptor
     {
-
     }
 }

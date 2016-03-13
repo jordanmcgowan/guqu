@@ -34,9 +34,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,11 +70,13 @@
       <DependentUpon>createAccountWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\BoxCommunicationParser.cs" />
+    <Compile Include="Models\CommonDescriptor.cs" />
     <Compile Include="Models\CommunicationParser_I.cs" />
     <Compile Include="Models\DownloadManager.cs" />
     <Compile Include="Models\GoogleDriveCommunicationParser.cs" />
     <Compile Include="Models\MetaDataController.cs" />
     <Compile Include="Models\OneDriveCommunicationParser.cs" />
+    <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="settingsWindow.xaml.cs">
       <DependentUpon>settingsWindow.xaml</DependentUpon>
     </Compile>

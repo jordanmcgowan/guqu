@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Guqu.Models;
 namespace Guqu
 {
     /// <summary>
@@ -20,9 +20,13 @@ namespace Guqu
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        CommonDescriptor cd;
         public MainWindow()
         {
             InitializeComponent();
+            DateTime dt = new DateTime(1994, 2, 9);
+            cd = new CommonDescriptor("TestFile", "doc", "GoogleDrive\\NewFile", dt, 1234);
         }
 
         private void logoutClicked(object sender, RoutedEventArgs e)
@@ -50,6 +54,21 @@ namespace Guqu
         }
         private void wikiClicked(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            MetaDataController controller = new MetaDataController("Shouldn't matter");
+            controller.addCommonDescriptorFile(cd);
+            
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            MetaDataController controller = new MetaDataController("Shouldn't matter");
+            CommonDescriptor newDesc = controller.getCommonDescriptorFile(cd.FilePath);
+            
+            controller.removeFile(cd.FilePath);
         }
     }
 }
