@@ -6,7 +6,5 @@
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
         Title="manageCloudAccountsWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+    <Grid/>
 </Window>

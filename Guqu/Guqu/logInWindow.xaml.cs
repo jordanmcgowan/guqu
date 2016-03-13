@@ -42,6 +42,5 @@ namespace Guqu
             createWin.Show();
             this.Close();
         }
-        
     }
 }
