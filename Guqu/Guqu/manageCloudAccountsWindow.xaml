@@ -6,5 +6,34 @@
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
         Title="manageCloudAccountsWindow" Height="300" Width="300">
-    <Grid/>
+    <Grid >
+
+        <ListView Margin="10,10,10 60">
+            <ListViewItem IsSelected="False">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="act1img" Source="/oneDrive.png" Margin="0,10,5,0" Width="50"/>
+                    <TextBlock Margin="20,30,0,0" FontSize="16">act. 1</TextBlock>
+                    <CheckBox Margin="10,30,0,0" FontSize="16">Save Password</CheckBox>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem IsSelected="False">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name ="act2img"  Source="/googleDrive.png" Margin="0,10,5,0" Width="50"/>
+                    <TextBlock Margin="20,30,0,0" FontSize="16">act. 2</TextBlock>
+                    <CheckBox Margin="10,30,0,0" FontSize="16">Save Password</CheckBox>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem IsSelected="False">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="act3img"  Source="/box.png" Margin="0,10,5,0"  Width="50"/>
+                    <TextBlock Margin="20,30,0,0" FontSize="16">act. 3</TextBlock>
+                    <CheckBox Margin="10,30,0,0" FontSize="16">Save Password</CheckBox>
+                </StackPanel>
+            </ListViewItem>
+        </ListView>
+        
+        <Button x:Name="delete_button" Content="Delete Account" HorizontalAlignment="Left" Margin="156,220,0,0" VerticalAlignment="Top" Width="110" Height="30" Click= "delete_click"/>
+        <Button x:Name="add_Copy" Content="Add Account" HorizontalAlignment="Left" Margin="30,220,0,0" VerticalAlignment="Top" Width="110" Height="30" Click= "add_click"/>
+
+    </Grid>
 </Window>

@@ -21,7 +21,22 @@ namespace Guqu
     {
         public manageCloudAccountsWindow()
         {
+            //act1img.SetValue()
             InitializeComponent();
+        }
+
+        private void delete_click(object sender, RoutedEventArgs e)
+        {
+            confirmationPrompt cPrompt = new confirmationPrompt();
+            cPrompt.Show();
+            this.Close();
+        }
+
+        private void add_click(object sender, RoutedEventArgs e)
+        {
+            cloudPicker cloudPick = new cloudPicker();
+            cloudPick.Show();
+            this.Close();
         }
     }
 }
