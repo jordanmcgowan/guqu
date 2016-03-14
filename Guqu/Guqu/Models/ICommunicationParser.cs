@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Guqu.Models
 {
-    interface CommunicationParser_I
+    interface ICommunicationParser
     {
         /*
         *Create a commonDescriptor from the information available in the
         *original metadata file retrieved from the cloud storage servce.
         */
-        CommonDescriptor createCommonDescriptor(string filePath);
+        CommonDescriptor createCommonDescriptor(StreamReader fileStreamReader, string relativeFilePath);
 
         /*
         *Create a string that can be inserted into an API call that will

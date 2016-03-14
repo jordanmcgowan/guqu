@@ -18,12 +18,12 @@ namespace Guqu.Models
         /*
         Get the StreamReader for the MetaData file
         */
-        public StreamReader getMetaDataFile(string filePath)
+        public StreamReader getMetaDataFile(string relativeFilePath)
         {
             StreamReader streamReader = null;
             try
             {
-                streamReader = new StreamReader(rootStoragePath + METADATAPATH + filePath);
+                streamReader = new StreamReader(rootStoragePath + METADATAPATH + relativeFilePath);
             }
             catch (IOException e)
             {

@@ -14,9 +14,9 @@ namespace Guqu.Models
     {
         private string fileName, fileType, filePath;
         private DateTime lastModified;
-        private int fileSize;
+        private long fileSize;
 
-        public CommonDescriptor(string name, string fileType, string filePath, DateTime lastModified, int fileSize)
+        public CommonDescriptor(string name, string fileType, string filePath, DateTime lastModified, long fileSize)
         {
             FileName = name;
             FileType = fileType;
@@ -80,7 +80,7 @@ namespace Guqu.Models
             }
         }
 
-        public int FileSize
+        public long FileSize
         {
             get
             {
