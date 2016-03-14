@@ -20,25 +20,10 @@ namespace Guqu.Models
         */
         public StreamReader getMetaDataFile(string filePath)
         {
-            return getStreamReader(rootStoragePath + METADATAPATH + filePath);
-        }
-        /*
-        Deserialize the common descriptor file and return the object.
-        */
-        public CommonDescriptor getCommonDescriptorFile(string filePath)
-        {
-            JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
-            string jsonCD = File.ReadAllText(rootStoragePath + COMMONDESCRIPTORPATH + filePath +".json");
-            CommonDescriptor cd = jsonSerializer.Deserialize<CommonDescriptor>(jsonCD);
-            return cd;
-        }
-        //helper method to create the stream readers
-        private StreamReader getStreamReader(string filePath)
-        {
             StreamReader streamReader = null;
             try
             {
-                streamReader = new StreamReader(rootStoragePath + "\\MetaData\\" + filePath);
+                streamReader = new StreamReader(rootStoragePath + METADATAPATH + filePath);
             }
             catch (IOException e)
             {
@@ -55,12 +40,27 @@ namespace Guqu.Models
                 return null;
             }
         }
-        public Boolean addMetaDataFile()
+        /*
+        Deserialize the common descriptor file and return the object.
+        */
+        public CommonDescriptor getCommonDescriptorFile(string filePath)
         {
-            //not sure how to do this.
-            //might transform into this sending a string to the download manager for where the file should be stored.
-            return false;
+            JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
+            string jsonCD = File.ReadAllText(rootStoragePath + COMMONDESCRIPTORPATH + filePath +".json");
+            CommonDescriptor cd = jsonSerializer.Deserialize<CommonDescriptor>(jsonCD);
+            return cd;
         }
+
+        /*
+        Returns the absolute file path for a file to be saved at. If the path leads to a place that does not exist. 
+        Path should result in a accessible location. If not the directory will be created here. 
+        */
+        public string getAbsoluteFilePathForAddingMDFile(string relativeFilePath)
+        {
+            string toReturn = rootStoragePath + METADATAPATH + relativeFilePath;
+            return toReturn;
+        }
+
         /*
         Takes in a CommonDescriptor object, transforms it to a JSON file, and then saves it to the disk
         */
@@ -110,6 +110,45 @@ namespace Guqu.Models
             if (File.Exists(cdPath))
             {
                 File.Delete(cdPath);
+            }
+
+            return true;
+        }
+
+        /*
+        Will delete both the CD and MD directory at a given relative path. If the directory does not exist, then this function won't do anything.
+        */
+        public Boolean removeDirectory(string relativeDirectoryPath)
+        {
+            string mdPath = rootStoragePath + METADATAPATH + relativeDirectoryPath;
+            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + relativeDirectoryPath;
+
+            if (Directory.Exists(mdPath))
+            {
+                Directory.Delete(mdPath);
+            }
+            if (Directory.Exists(cdPath))
+            {
+                Directory.Delete(cdPath);
+            }
+            return true;
+        }
+        /*
+        Will attempt to create the requested directory (for CD and MD) and will recrsively create all nested directories if applicable.
+        If the directry already exists, then this will not do anything. 
+        */
+        public Boolean createDirectory(string relativeDirectoryPath)
+        {
+            string mdPath = rootStoragePath + METADATAPATH + relativeDirectoryPath;
+            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + relativeDirectoryPath;
+
+            if (!Directory.Exists(mdPath))
+            {
+                Directory.CreateDirectory(mdPath);
+            }
+            if (!Directory.Exists(cdPath))
+            {
+                Directory.CreateDirectory(cdPath);
             }
             return true;
         }
