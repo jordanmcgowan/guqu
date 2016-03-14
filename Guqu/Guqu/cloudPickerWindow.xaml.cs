@@ -23,5 +23,25 @@ namespace Guqu
         {
             InitializeComponent();
         }
+
+        private void boxClick(object sender, RoutedEventArgs e)
+        {
+            cloudLoginWindow cloudLogWin = new cloudLoginWindow("box");
+            cloudLogWin.Show();
+            this.Close();
+        }
+        private void oneDriveClick(object sender, RoutedEventArgs e)
+        {
+            cloudLoginWindow cloudLogWin = new cloudLoginWindow("oneDrive");
+            cloudLogWin.Show();
+            this.Close();
+        }
+        private void googleDriveClick(object sender, RoutedEventArgs e)
+        {
+            cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
+            cloudLogWin.Show();
+            this.Close();
+        }
     }
+    
 }

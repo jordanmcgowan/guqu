@@ -5,7 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="cloudPicker" Height="300" Width="300">
+        Title="cloudPicker" Height="350" Width="350">
     <Grid>
+        <Button  Width="75" Margin="20,97,197,97" Click="boxClick">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="box.png"/>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button  Height=" 75"  Width="75" Click="oneDriveClick">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="oneDrive.png"/>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Height="75" Width="75" Margin="197,97,20,97" Click="googleDriveClick">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="googleDrive.png"/>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBlock Width="110" Height="20" Margin="91,33,91,216">Select account type</TextBlock>
     </Grid>
 </Window>

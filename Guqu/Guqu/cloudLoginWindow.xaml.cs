@@ -19,7 +19,7 @@ namespace Guqu
     /// </summary>
     public partial class cloudLoginWindow : Window
     {
-        public cloudLoginWindow()
+        public cloudLoginWindow(String accountType)
         {
             InitializeComponent();
         }
