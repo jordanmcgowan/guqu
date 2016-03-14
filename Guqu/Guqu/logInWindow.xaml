@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="logInWindow" Height="300" Width="300">
     <Grid>
-        <Label x:Name="label" Content="Email Address" HorizontalAlignment="Left" Height="30" Margin="26,60,0,0" VerticalAlignment="Top" Width="103"/>
-        <Label x:Name="label_Copy" Content="Password" HorizontalAlignment="Left" Height="30" Margin="26,110,0,0" VerticalAlignment="Top" Width="103"/>
+        <Label x:Name="email" Content="Email Address" HorizontalAlignment="Left" Height="30" Margin="26,60,0,0" VerticalAlignment="Top" Width="103"/>
+        <Label x:Name="password" Content="Password" HorizontalAlignment="Left" Height="30" Margin="26,110,0,0" VerticalAlignment="Top" Width="103"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="134,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="134,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="button" Content="Login" HorizontalAlignment="Left" Margin="156,194,0,0" VerticalAlignment="Top" Width="120" Click="loginClick" Height="30"/>
