@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Google Drive Usages
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Drive.v3.Data;
@@ -17,6 +18,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+//Box Usages
+using Box.V2;
+using Box.V2.Auth;
+using Box.V2.Config;
+
 
 
 
@@ -26,33 +32,51 @@ namespace Guqu.WebServices
     {
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/drive-dotnet-quickstart.json
+
         static string[] Scopes = { DriveService.Scope.DriveReadonly };
         static string ApplicationName = "Guqu";
+        static UserCredential googleDriveCredential;
+        public static DriveService googleDriveService;
+        static BoxClient boxClient;
 
-    
+        private static string box_client_id = "ihmzn176po17yuln4khbbihpsnnb7485";
+        private static string box_secret = "2iZ4SIekP9Q96FhhTIGCTS7Nta9gQ3aE";
+        private static Uri box_redirect_uri;
+        private static string box_redirect_uri_string;
+
+        private static string onedrive_client_id = "000000004018A88F";
+        private static string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
+        private static string onedrive_scope = "onedrive.readwrite";
+        private static string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
+
+
+
 
         public InitializeAPI()
         {
-            initializeGoogleDriveAPI();
+            initGoogleDriveAPI();
 
 
 
 
         }
 
-        private static void initializeGoogleDriveAPI()
-        {
-
-            UserCredential credential;
-
+        /*
+        Code needed to initialize the Google Drive 
+        From https://developers.google.com/drive/v3/web/quickstart/dotnet
+                    
+            */
+        private static void initGoogleDriveAPI()
+        { 
+        
             using (var stream =
-                new FileStream("../Keys/guqu_drive_client_secret.json", FileMode.Open, FileAccess.Read))
+                new FileStream("../../WebServices/guqu_drive_client_id.json", FileMode.Open, FileAccess.Read))
             {
                 string credPath = System.Environment.GetFolderPath(
                     System.Environment.SpecialFolder.Personal);
                 credPath = Path.Combine(credPath, ".credentials/drive-dotnet-quickstart.json");
 
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                googleDriveCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
                     "user",
@@ -62,39 +86,66 @@ namespace Guqu.WebServices
             }
 
             // Create Drive API service.
-            var service = new DriveService(new BaseClientService.Initializer()
+            googleDriveService = new DriveService(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = credential,
+                HttpClientInitializer = googleDriveCredential,
                 ApplicationName = ApplicationName,
             });
 
-            // Define parameters of request.
-            FilesResource.ListRequest listRequest = service.Files.List();
-            listRequest.PageSize = 10;
-            listRequest.Fields = "nextPageToken, files(id, name)";
+            
 
-            // List files.
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
-            Console.WriteLine("Files:");
-            if (files != null && files.Count > 0)
-            {
-                foreach (var file in files)
-                {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No files found.");
-            }
-            Console.Read();
+     
+
+        }//end init google drive
+
+
+        /*
+        Box init - TODO
+            
+            
+            */
+        private static async void initBoxAPI()
+        {
+            /*
+            box_redirect_uri = null;
+
+            var boxConfig = new BoxConfig(box_client_id, box_secret, box_redirect_uri);
+            var boxClient = new BoxClient(boxConfig);
+            
+
+
+            String box_authCode = await OAuth2Sample.GetAuthCode(boxConfig.AuthCodeBaseUri, new Uri(boxConfig.RedirectUri));
+            await boxClient.Auth.AuthenticateAsync(box_authCode);
+            */           
+
+        }
+
+
+
+        
+        /* 
+        One Drive Initialization - Uses the 
+
+        */
+        private static void initOneDriveAPI() {
+
+            
+
+
+
+
+
+
+
 
 
 
 
 
         }
+
+
+
 
 
 
