@@ -22,6 +22,10 @@ using System.Threading.Tasks;
 using Box.V2;
 using Box.V2.Auth;
 using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Extensions;
+using Box.V2.Models;
+using Box.V2.Services;
 
 
 
@@ -33,11 +37,11 @@ namespace Guqu.WebServices
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/drive-dotnet-quickstart.json
 
-        static string[] Scopes = { DriveService.Scope.DriveReadonly };
         static string ApplicationName = "Guqu";
+
         static UserCredential googleDriveCredential;
         public static DriveService googleDriveService;
-        static BoxClient boxClient;
+     
 
         private static string box_client_id = "ihmzn176po17yuln4khbbihpsnnb7485";
         private static string box_secret = "2iZ4SIekP9Q96FhhTIGCTS7Nta9gQ3aE";
@@ -49,16 +53,20 @@ namespace Guqu.WebServices
         private static string onedrive_scope = "onedrive.readwrite";
         private static string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
 
+        private static string google_client_secret = "ecgV2ElpJNNg3FunOu1QK43x";
+        private static string google_client_id = "177370389076-4ho5v080260k2c8ieiscncdn0e48sdcp.apps.googleusercontent.com";
+
+
+
+
 
 
 
         public InitializeAPI()
         {
             initGoogleDriveAPI();
-
-
-
-
+            initBoxAPI();
+            initOneDriveAPI();
         }
 
         /*
@@ -67,34 +75,28 @@ namespace Guqu.WebServices
                     
             */
         private static void initGoogleDriveAPI()
-        { 
-        
-            using (var stream =
-                new FileStream("../../WebServices/guqu_drive_client_id.json", FileMode.Open, FileAccess.Read))
-            {
-                string credPath = System.Environment.GetFolderPath(
-                    System.Environment.SpecialFolder.Personal);
-                credPath = Path.Combine(credPath, ".credentials/drive-dotnet-quickstart.json");
+        {
 
-                googleDriveCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
-            }
+            //Scopes for use with the Google Drive API
+            string[] scopes = new string[] { DriveService.Scope.Drive,
+                                 DriveService.Scope.DriveFile};
+          
+                                               // here is where we Request the user to give us access, or use the Refresh Token that was previously stored in %AppData%
+            googleDriveCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets{ClientId = google_client_id, ClientSecret = google_client_secret},
+                                                                        scopes,
+                                                                        Environment.UserName,
+                                                                        CancellationToken.None,
+                                                                        new FileDataStore("Guqu.GoogleDrive.Auth.Store")).Result;
 
-            // Create Drive API service.
+
+
+
+            // Create Drive API service. Needed for actual log on - might have to move this
             googleDriveService = new DriveService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = googleDriveCredential,
                 ApplicationName = ApplicationName,
             });
-
-            
-
-     
 
         }//end init google drive
 
@@ -106,17 +108,20 @@ namespace Guqu.WebServices
             */
         private static async void initBoxAPI()
         {
-            /*
+            
             box_redirect_uri = null;
 
             var boxConfig = new BoxConfig(box_client_id, box_secret, box_redirect_uri);
             var boxClient = new BoxClient(boxConfig);
+
+
+
+
             
 
-
-            String box_authCode = await OAuth2Sample.GetAuthCode(boxConfig.AuthCodeBaseUri, new Uri(boxConfig.RedirectUri));
-            await boxClient.Auth.AuthenticateAsync(box_authCode);
-            */           
+            
+            //await boxClient.Auth.AuthenticateAsync(box_authCode);
+                    
 
         }
 
@@ -129,32 +134,7 @@ namespace Guqu.WebServices
         */
         private static void initOneDriveAPI() {
 
-            
-
-
-
-
-
-
-
-
-
-
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
+       }
 
     }
 }
