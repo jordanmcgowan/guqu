@@ -21,8 +21,61 @@ namespace Guqu
     {
         public manageCloudAccountsWindow()
         {
-            //act1img.SetValue()
+            
+            
+
+            
             InitializeComponent();
+
+            //basic skelly of accounts
+            //loop to add accounts to listView
+            for (int i = 0; i < 5; i++)
+            {        
+                BitmapImage image = new BitmapImage();
+                Image img = new Image();
+                StackPanel sPanel = new StackPanel();
+                CheckBox cBox = new CheckBox();
+                TextBlock tBlock = new TextBlock();
+
+                image.BeginInit();
+                /*  
+                Account accounts[] = new Account();
+                //initialize and add accounts to the list of accounts
+                if (act[i].getType.equals("box"))
+                {
+                    image.UriSource = new Uri("box.png", UriKind.Relative);
+                }
+                else if (act[i].getType.equals("box"))
+                {
+                    image.UriSource = new Uri("oneDrive.png", UriKind.Relative);
+                }
+                else
+                {
+                    image.UriSource = new Uri("googleDrive.png", UriKind.Relative);
+                }
+                */
+                image.EndInit();
+                img.Width = 75;
+                img.Source = image;
+
+
+               
+                
+                tBlock.Text = "act1";
+                //tBlock.Text = act[i].getUsername(); // 
+                tBlock.VerticalAlignment = VerticalAlignment.Bottom;
+                tBlock.Margin = new Thickness(10, 0, 10, 0); 
+                
+                cBox.Content = "Save Password?";
+                cBox.VerticalAlignment = VerticalAlignment.Bottom;
+
+
+                sPanel.Orientation = Orientation.Horizontal;
+                sPanel.Children.Add(img);
+                sPanel.Children.Add(tBlock);
+                sPanel.Children.Add(cBox);
+                this.listView.Items.Add(sPanel);
+            }//end for
         }
 
         private void delete_click(object sender, RoutedEventArgs e)
