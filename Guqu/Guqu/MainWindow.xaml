@@ -17,7 +17,9 @@
             <MenuItem Header="_Settings" Click="settingsClicked"/>
         </MenuItem>
         <MenuItem Header="Help" Height="40" Width="190" Background="#FFD6836B">
-            <MenuItem Header="_Wiki" Click="wikiClicked"/>
+            <Hyperlink NavigateUri = "http://www.google.com">
+                <MenuItem Header="_Wiki" Click="wikiClicked"/>
+            </Hyperlink>
         </MenuItem>
     </Menu>
 </Window>

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Diagnostics;
 namespace Guqu
 {
     /// <summary>
@@ -48,8 +48,10 @@ namespace Guqu
             settingsWindow settingsWin = new settingsWindow();
             settingsWin.Show();
         }
+        //TODO Make actual wiki and update link 
         private void wikiClicked(object sender, RoutedEventArgs e)
         {
+            Process.Start("http://www.google.com");
         }
     }
 }

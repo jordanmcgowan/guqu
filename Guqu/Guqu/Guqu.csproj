@@ -61,6 +61,9 @@
     <Compile Include="cloudPickerWindow.xaml.cs">
       <DependentUpon>cloudPickerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="confirmationPrompt.xaml.cs">
+      <DependentUpon>confirmationPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="createAccountWindow.xaml.cs">
       <DependentUpon>createAccountWindow.xaml</DependentUpon>
     </Compile>
@@ -72,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="cloudPickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="confirmationPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,6 +143,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="googleDrive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="oneDrive.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

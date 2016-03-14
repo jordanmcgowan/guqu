@@ -41,6 +41,21 @@ namespace Guqu
             this.Close();
         }
 
-        
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void alreadyHaveAccountClick(object sender, RoutedEventArgs e)
+        {
+            logInWindow logInWin = new logInWindow();
+            logInWin.Show();
+            this.Close();
+        }
+
+        private void createNewAccountClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
