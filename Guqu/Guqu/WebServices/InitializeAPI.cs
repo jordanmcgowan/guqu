@@ -42,7 +42,7 @@ namespace Guqu.WebServices
 
         static string ApplicationName = "Guqu";
 
-        static UserCredential googleDriveCredential;
+        public static UserCredential googleDriveCredential;
         public static DriveService googleDriveService;
 
         private static string box_base_URI = "https://www.box.com/api/oauth2/authorize?";
@@ -69,9 +69,9 @@ namespace Guqu.WebServices
 
         public InitializeAPI()
         {
-            //initGoogleDriveAPI();
+            initGoogleDriveAPI();
             //initBoxAPI();
-            initOneDriveAPI();
+            //initOneDriveAPI();
         }
 
         /*
@@ -109,14 +109,7 @@ namespace Guqu.WebServices
 
 
             
-            // Create Drive API service & login 
-            //TODO - move this code snippet to the login section - not init
-            googleDriveService = new DriveService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = googleDriveCredential,
-                    ApplicationName = ApplicationName,
-                });
-
+         /*
             // Define parameters of request.
             FilesResource.ListRequest listRequest = googleDriveService.Files.List();
             listRequest.PageSize = 10;
