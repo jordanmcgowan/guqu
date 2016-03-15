@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Dynamic;
 
 namespace Guqu.Models
 {
@@ -66,7 +63,34 @@ namespace Guqu.Models
         //Required by interface
         public string createUploadBody(ServiceDescriptor descriptor)
         {
-            return null;
+            StringBuilder builder = new StringBuilder("");
+            builder.Append("POST /upload/drive/v3/files?uploadType=multipart HTTP/1.1\n");
+            builder.Append("Host: www.googleapis.com\n");
+            builder.Append("Authorization: Bearer ");
+            //TODO: ensure this is the correct file location of the keys.
+            //TODO: put these files with the metaData?
+            //TODO: create a 'keys' controller that can give the absolute path of a file for something like that.
+            string google_auth_token = File.ReadAllText("..\\keys\\guqu_drive_client_id.json");
+            builder.Append(google_auth_token + "\n");
+
+            //TODO: use a unique string to act as the boundary calls for all uploads? For google, for everything?
+            string boundary = "BOUNDARYSTRING";
+            builder.Append("Content-Type: multipart/related; boundary=" + boundary + "\n");
+
+            //Dictionary<string, string> dict = descriptor.getRequestHeaders();
+            CommonDescriptor cd = descriptor.getCommonDescriptor();
+            
+            builder.Append("Content-Length: " + cd.FileSize + "\n\n");
+            builder.Append("--" + boundary);
+            builder.Append("Content-Type: application/json; charset=UTF-8\n\n");
+            builder.Append("{ name: " + cd.FileName + " }\n");
+            builder.Append("--" + boundary);
+            builder.Append("Content-Type: " + cd.FileType);
+
+            //TODO: then you add the data to this, and terminate with another boundary string.
+
+
+            return builder.ToString();
         }
 
     }

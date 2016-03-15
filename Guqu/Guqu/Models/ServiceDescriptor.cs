@@ -8,5 +8,22 @@ namespace Guqu.Models
 {
     class ServiceDescriptor
     {
+        private CommonDescriptor cd;
+        public ServiceDescriptor(CommonDescriptor cd)
+        {
+            this.cd = cd;
+        }
+        public ServiceDescriptor(CommonDescriptor cd, Dictionary<string, string> requestHeaders)
+        {
+            this.cd = cd;
+        }
+        public Dictionary<string, string> getRequestHeaders()
+        {
+            return null;
+        }
+        public CommonDescriptor getCommonDescriptor()
+        {
+            return cd;
+        }
     }
 }
