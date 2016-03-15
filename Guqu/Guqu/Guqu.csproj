@@ -184,7 +184,7 @@
     <Compile Include="settingsWindow.xaml.cs">
       <DependentUpon>settingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WebServices\Login.cs" />
+    <Compile Include="WebServices\CloudLogin.cs" />
     <Compile Include="WebServices\InitializeAPI.cs" />
     <Page Include="cloudLoginWindow.xaml">
       <SubType>Designer</SubType>

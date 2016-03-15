@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.OneDrive.Sdk;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Guqu.WebServices
             return false;
         }
 
-        private static bool oneDriveLogin()
+        public async static void oneDriveLogin()
         {
             //these are also login params, should move to login class
             try
@@ -32,7 +33,6 @@ namespace Guqu.WebServices
 
             }
 
-            return false;
         }
 
         private static bool boxLogin()
