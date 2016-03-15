@@ -55,7 +55,7 @@ namespace Guqu.WebServices
         public static IOneDriveClient oneDriveClient;
         private const string onedrive_client_id = "000000004018A88F";
         private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
-        private static string[] onedrive_scope = { "onedrive.readwrite" };
+        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
         private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
 
         private static string google_client_secret = "ecgV2ElpJNNg3FunOu1QK43x";
@@ -71,7 +71,7 @@ namespace Guqu.WebServices
         {
             initGoogleDriveAPI();
             //initBoxAPI();
-            //initOneDriveAPI();
+            initOneDriveAPI();
         }
 
         /*

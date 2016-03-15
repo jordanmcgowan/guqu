@@ -3,6 +3,7 @@ using Google.Apis.Services;
 using Microsoft.OneDrive.Sdk;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,17 +64,49 @@ namespace Guqu.WebServices
 
         public async static void oneDriveLogin()
         {
+
+            var _oneDriveClient = InitializeAPI.oneDriveClient;
             //these are also login params, should move to login class
-            try
-            {
-                await InitializeAPI.oneDriveClient.AuthenticateAsync();
-                Console.Write("This succedded");
+
+            if (!_oneDriveClient.IsAuthenticated) { 
+                try
+                {
+                    await _oneDriveClient.AuthenticateAsync();
+                  var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+                    Console.WriteLine("This succedded and Jordan is a bitch");
+
+                }
+                catch (OneDriveException e)
+                {
+                    Console.WriteLine(e);
+
+                }
+        }
+
+           
+
+            try {
+                var root = await _oneDriveClient.Drive.Root.Request().Expand("children").GetAsync();
+                Console.WriteLine(root.Id);
+
+               Stream cStream = await _oneDriveClient.Drive.Items[root.Id].Content.Request().GetAsync();
+                Console.WriteLine(cStream.ToString());
+
+
+
+
+
+             
+                          
+           
+                
             }
-            catch (OneDriveException e)
+            catch(Exception e)
             {
-                Console.Write(e);
+                Console.WriteLine(e);
 
             }
+
 
         }
 
