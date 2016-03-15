@@ -17,7 +17,6 @@
         <TextBox x:Name="passwordConfirm" HorizontalAlignment="Left" Height="25" Margin="156,176,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
         <Button x:Name="createButton" Content="Create Account" HorizontalAlignment="Left" Margin="28,232,0,0" VerticalAlignment="Top" Width="90" Click="createAccountClick"/>
         <Button x:Name="haveAccountButton" Content="Already Have Account?" HorizontalAlignment="Left" Margin="133,232,0,0" VerticalAlignment="Top" Width="130" Click="alreadyHaveAccountClick"/>
-        <Label x:Name="errorMessage" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left"  Height="39" Margin="19,10,0,0" VerticalAlignment="Top" Width="244" TextOptions.TextFormattingMode="Display"/>
-
+        <TextBlock x:Name="errorMessage" TextAlignment="Center" HorizontalAlignment="Left"  Height="39" Margin="19,10,0,0" VerticalAlignment="Top" Width="244" Foreground="Red" TextOptions.TextFormattingMode="Display"/>
     </Grid>
 </Window>

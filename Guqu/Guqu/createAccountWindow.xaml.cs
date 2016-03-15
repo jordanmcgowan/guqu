@@ -45,22 +45,30 @@ namespace Guqu
             }
             else
             {
-               // this.errorMessage.Content = "Error incorrect emails or passwords!!!!!";
+               // this.errorMessage.Content = "Error incorrect email or password";
             }          
         }
 
 
         private bool emailExists(String email)
         {
-            //add call to DB to check?
-            return false;
+            
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool validInput(String email, String emailConfirm, String password, String passwordConfirm)
         {
-            if (!email.Contains(".") || !email.Contains("@") || !email.Equals(emailConfirm)) //||eamilExists(email)
+            if (!email.Equals(emailConfirm) || !emailExists(email))
             {
-                this.errorMessage.Content = "Error incorrect email.";
+                this.errorMessage.Text = "Error incorrect email.";
                 return false;
             }
             else
@@ -68,7 +76,7 @@ namespace Guqu
                 if (password.Length < 8 || !password.Equals(passwordConfirm))
                 {
                     
-                    this.errorMessage.Content = "Error incorrect password.";
+                    this.errorMessage.Text = "Error incorrect password.";
                     return false;
                 }
          
@@ -76,7 +84,6 @@ namespace Guqu
                 {
                     return true;
                 }
-                
             }          
         } 
 
