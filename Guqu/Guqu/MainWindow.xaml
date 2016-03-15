@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         xmlns:self="clr-namespace:Guqu"
-
         mc:Ignorable="d"
         Title="Guqu" Height="768" Width="1024">
+
     <Grid>
         <Menu x:Name="menu1" Height="40" Width="1024" Margin="0,0,0,697">
             <MenuItem Header="File" Height="40" Width="190" Background="#FF7EC8DE">
@@ -26,8 +26,7 @@
             </MenuItem>
         </Menu>
 
-
-        <TreeView x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188">
+        <TreeView x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
                     <TextBlock Text="{Binding Title}" />
@@ -35,28 +34,68 @@
             </TreeView.ItemTemplate>
             <ScrollViewer Height="100" Width="100"/>
         </TreeView>
-        <ListView x:Name="folderView" HorizontalAlignment="Left" Height="640" Margin="188,97,0,0" VerticalAlignment="Top" Width="828">
-            <ListView.Resources>
-                <Style TargetType="{x:Type GridViewColumnHeader}">
-                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                </Style>
-            </ListView.Resources>
+        <ListView  x:Name="folderView" HorizontalAlignment="Left" Height="613" Margin="188,124,0,0" VerticalAlignment="Top" Width="828">
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="110" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Type" Width="110" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="Size" Width="110" DisplayMemberBinding="{Binding Size}" />
                     <GridViewColumn Header="DateModified" Width="110" DisplayMemberBinding="{Binding DateModified}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
 
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="pathView" HorizontalAlignment="Left" Height="55" Margin="188,42,0,0" VerticalAlignment="Top" Width="828">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Button x:Name="uploadButton" Content="Upload" HorizontalAlignment="Left" Height="30" Margin="191,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="uploadButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="downloadButton" Content="Download" HorizontalAlignment="Left" Height="30" Margin="381,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="downloadButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="transferButton" Content="Transfer" HorizontalAlignment="Left" Height="30" Margin="570,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="transferButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Left" Height="30" Margin="759,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="deleteButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <ScrollViewer HorizontalAlignment="Left" Height="38" Margin="193,68,0,0" VerticalAlignment="Top" Width="813" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Visible"
+>
+            <TextBox x:Name="pathBox" Height="20" TextWrapping="Wrap" Text="TextBox" Width="8130"/>
+
+        </ScrollViewer>
+
+
+
+
+
     </Grid>
+
 </Window>

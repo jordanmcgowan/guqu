@@ -101,44 +101,52 @@ namespace Guqu
             fileTreeMenu.Items.Add(root);
 
             //Dummy data for folderView
-            List<User> items = new List<User>();
-            items.Add(new User() { Name = "myFile1", Type = ".pdf", Size = "11 kb" , DateModified = "1/1/11"});
-            items.Add(new User() { Name = "myFile2", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile3", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile4", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile5", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile6", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile7", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile8", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFile9", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilea", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFileb", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilec", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFiled", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilee", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilef", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFileg", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFileh", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilei", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilej", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilek", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilel", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilem", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilen", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFileo", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilep", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFileq", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFiler", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFiles", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilet", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFileu", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilev", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilew", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilex", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFiley", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new User() { Name = "myFilez", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-          
+            List<fileOrFolder> items = new List<fileOrFolder>();
+            items.Add(new fileOrFolder() { Name = "myFile1", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile2", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile3", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile4", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile5", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile6", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile7", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile8", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFile9", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilea", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFileb", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilec", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFiled", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilee", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilef", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFileg", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFileh", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilei", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilej", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilek", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilel", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilem", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilen", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFileo", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilep", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFileq", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFiler", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFiles", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilet", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFileu", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilev", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilew", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilex", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFiley", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new fileOrFolder() { Name = "myFilez", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+
             folderView.ItemsSource = items;
+
+
+            //Dummy data to display path
+            List<string> mylist = new List<string>(new string[] { "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element2", "element3", });
+            String path = generatePath(mylist);
+            pathBox.Text = path;
+
+
         }
 
         private void logoutClicked(object sender, RoutedEventArgs e)
@@ -171,28 +179,59 @@ namespace Guqu
         {
             Process.Start("http://www.google.com");
         }
-    }
-
-public class MenuItem
-    {
-        public MenuItem()
+        private String generatePath(List<String> hierarchy)
         {
-            this.Items = new ObservableCollection<MenuItem>();
+            String path = "";
+            foreach (String file in hierarchy)
+            {
+                path = path  + file + " > ";
+            }
+            return path;
+
         }
 
-        public string Title { get; set; }
+        private void uploadButton_Click(object sender, RoutedEventArgs e)
+        {
 
-        public ObservableCollection<MenuItem> Items { get; set; }
+        }
+
+        private void downloadButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void transferButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
-}
-public class User
-{
-    public string Name { get; set; }
+    public class MenuItem
+        {
+            public MenuItem()
+            {
+                this.Items = new ObservableCollection<MenuItem>();
+            }
 
-    public string Type { get; set; }
+            public string Title { get; set; }
 
-    public string Size { get; set; }
+            public ObservableCollection<MenuItem> Items { get; set; }
+        }
+    
+    public class fileOrFolder
+    {
+        public string Name { get; set; }
 
-    public string DateModified { get; set; }
+        public string Type { get; set; }
+
+        public string Size { get; set; }
+
+        public string DateModified { get; set; }
+
+    }
 
 }
