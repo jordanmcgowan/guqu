@@ -37,7 +37,7 @@ namespace Guqu
             accountNames.Add("myOtherOtherUsername");
 
 
-            //Tons of dummy data to prove scrolling works
+            //Dummy data to prove scrolling works for file tree view
             //TODO figure out how data is being brought in
             //TODO figure out how make tree from that data, neither of these will prolly be bad
             MenuItem root = new MenuItem() { Title = "Menu" };
@@ -98,7 +98,47 @@ namespace Guqu
             root.Items.Add(childItem1);
 
             root.Items.Add(new MenuItem() { Title = "Child item #3" });
-            trvMenu.Items.Add(root);
+            fileTreeMenu.Items.Add(root);
+
+            //Dummy data for folderView
+            List<User> items = new List<User>();
+            items.Add(new User() { Name = "myFile1", Type = ".pdf", Size = "11 kb" , DateModified = "1/1/11"});
+            items.Add(new User() { Name = "myFile2", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile3", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile4", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile5", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile6", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile7", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile8", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFile9", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilea", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFileb", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilec", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFiled", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilee", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilef", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFileg", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFileh", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilei", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilej", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilek", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilel", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilem", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilen", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFileo", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilep", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFileq", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFiler", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFiles", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilet", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFileu", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilev", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilew", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilex", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFiley", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+            items.Add(new User() { Name = "myFilez", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
+          
+            folderView.ItemsSource = items;
         }
 
         private void logoutClicked(object sender, RoutedEventArgs e)
@@ -133,7 +173,7 @@ namespace Guqu
         }
     }
 
-    public class MenuItem
+public class MenuItem
     {
         public MenuItem()
         {
@@ -144,4 +184,15 @@ namespace Guqu
 
         public ObservableCollection<MenuItem> Items { get; set; }
     }
+}
+public class User
+{
+    public string Name { get; set; }
+
+    public string Type { get; set; }
+
+    public string Size { get; set; }
+
+    public string DateModified { get; set; }
+
 }

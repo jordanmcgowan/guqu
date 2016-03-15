@@ -54,7 +54,7 @@ namespace Guqu
                     image.UriSource = new Uri("googleDrive.png", UriKind.Relative);
                 }
                 */
-                image.EndInit();
+                //image.EndInit();
                 img.Width = 75;
                 img.Source = image;
 
