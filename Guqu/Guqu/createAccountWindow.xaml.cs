@@ -26,14 +26,69 @@ namespace Guqu
 
         private void createAccountClick(object sender, RoutedEventArgs e)
         {
-            createAccountWindow createWin = new createAccountWindow();
-            createWin.Show();
-         //   if (accountCreate())
-         //   {
-                this.Close();
+            String email;
+            String emailConfirm;
+            String password;
+            String passwordConfirm;
 
-        //    }
+
+            email = this.email.GetLineText(0);
+            emailConfirm = this.emailConfirm.GetLineText(0);
+            password = this.password.GetLineText(0);
+            passwordConfirm = this.passwordConfirm.GetLineText(0);
+            if (validInput(email, emailConfirm, password, passwordConfirm))
+            {
+                //create account
+                cloudPicker cPick = new cloudPicker();
+                cPick.Show();
+                this.Close();
+            }            
         }
+
+
+        private bool emailExists(String email)
+        {
+            //add call to DB to check
+            return false;
+        }
+        private bool validInput(String email, String emailConfirm, String password, String passwordConfirm)
+        {
+            if (!email.Contains(".") || !email.Contains("@"))
+            {
+                MessageBox.Show("email must contain @ and .");
+            }
+            else
+            {
+                if (!email.Equals(emailConfirm))
+                {
+                    MessageBox.Show("emails must be the same");
+                }
+                else if (emailExists(email))
+                {
+                    MessageBox.Show("Email has an exsisting account");
+                }
+                else
+                {
+                    if (password.Length < 8)
+                    {
+                        MessageBox.Show("Password must be 8 chars long");
+                    }
+                    else
+                    {
+                        if (!password.Equals(passwordConfirm))
+                        {
+                            MessageBox.Show("Passwords must be the same");
+                        }
+                        else
+                        {
+                            //TODO create an account with this info
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        } 
         private void haveAnAccountClick(object sender, RoutedEventArgs e)
         {
             logInWindow logInWin = new logInWindow();
@@ -41,21 +96,11 @@ namespace Guqu
             this.Close();
         }
 
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void alreadyHaveAccountClick(object sender, RoutedEventArgs e)
         {
             logInWindow logInWin = new logInWindow();
             logInWin.Show();
             this.Close();
-        }
-
-        private void createNewAccountClick(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
