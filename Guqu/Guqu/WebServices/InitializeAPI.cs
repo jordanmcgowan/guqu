@@ -52,7 +52,7 @@ namespace Guqu.WebServices
         private static string box_redirect_uri_string = "&redirect_uri=https://app.box.com/services/guqu";
         private static string responseType = "&response_type=code";
 
-        private static IOneDriveClient oneDriveClient;
+        public static IOneDriveClient oneDriveClient;
         private const string onedrive_client_id = "000000004018A88F";
         private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
         private static string[] onedrive_scope = { "onedrive.readwrite" };
@@ -222,7 +222,7 @@ namespace Guqu.WebServices
 
         
         /* 
-        One Drive Initialization - Uses the 
+        One Drive Initialization - Uses the Web Forms Authenticator
 
         */
         private static async void initOneDriveAPI() {
@@ -235,16 +235,7 @@ namespace Guqu.WebServices
 
                 );
 
-            //these are also login params, should move to login class
-            try {
-                await oneDriveClient.AuthenticateAsync();
-                Console.Write("This succedded");       
-            }
-            catch(OneDriveException e)
-            {
-                Console.Write(e);
-
-            }
+           
 
        }
 
