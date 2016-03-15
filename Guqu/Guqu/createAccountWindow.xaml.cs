@@ -42,53 +42,45 @@ namespace Guqu
                 cloudPicker cPick = new cloudPicker();
                 cPick.Show();
                 this.Close();
-            }            
+            }
+            else
+            {
+               // this.errorMessage.Content = "Error incorrect emails or passwords!!!!!";
+            }          
         }
 
 
         private bool emailExists(String email)
         {
-            //add call to DB to check
+            //add call to DB to check?
             return false;
         }
+
         private bool validInput(String email, String emailConfirm, String password, String passwordConfirm)
         {
-            if (!email.Contains(".") || !email.Contains("@"))
+            if (!email.Contains(".") || !email.Contains("@") || !email.Equals(emailConfirm)) //||eamilExists(email)
             {
-                MessageBox.Show("email must contain @ and .");
+                this.errorMessage.Content = "Error incorrect email.";
+                return false;
             }
             else
             {
-                if (!email.Equals(emailConfirm))
+                if (password.Length < 8 || !password.Equals(passwordConfirm))
                 {
-                    MessageBox.Show("emails must be the same");
+                    
+                    this.errorMessage.Content = "Error incorrect password.";
+                    return false;
                 }
-                else if (emailExists(email))
-                {
-                    MessageBox.Show("Email has an exsisting account");
-                }
+         
                 else
                 {
-                    if (password.Length < 8)
-                    {
-                        MessageBox.Show("Password must be 8 chars long");
-                    }
-                    else
-                    {
-                        if (!password.Equals(passwordConfirm))
-                        {
-                            MessageBox.Show("Passwords must be the same");
-                        }
-                        else
-                        {
-                            //TODO create an account with this info
-                            return true;
-                        }
-                    }
+                    return true;
                 }
-            }
-            return false;
+                
+            }          
         } 
+
+
         private void haveAnAccountClick(object sender, RoutedEventArgs e)
         {
             logInWindow logInWin = new logInWindow();
