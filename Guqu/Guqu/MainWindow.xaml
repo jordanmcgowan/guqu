@@ -18,7 +18,8 @@
             </MenuItem>
             <MenuItem Header="Edit" Height="20" Width="40" >
                 <MenuItem Header="_Manage Accounts" Click="manageAccountsClicked"/>
-                <MenuItem Header="_Settings" Click="settingsClicked"/>
+                <MenuItem Header="_Change Password" Click="changePasswordClicked"/>
+                <MenuItem Header="_Change Local Download Path" Click="changePathClicked"/>
             </MenuItem>
             <MenuItem Header="Help" Height="20" Width="40" >
                 <Hyperlink NavigateUri = "http://www.google.com">

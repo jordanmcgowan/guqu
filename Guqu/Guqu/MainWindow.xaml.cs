@@ -182,10 +182,15 @@ namespace Guqu
             manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow();
             manageAccountsWin.Show();
         }
-        private void settingsClicked(object sender, RoutedEventArgs e)
+        private void changePasswordClicked(object sender, RoutedEventArgs e)
         {
-            settingsWindow settingsWin = new settingsWindow();
-            settingsWin.Show();
+            changePasswordWindow changePassWin = new changePasswordWindow();
+            changePassWin.Show();
+        }
+        private void changePathClicked(object sender, RoutedEventArgs e)
+        {
+            changePathWindow changePathWin = new changePathWindow();
+            changePathWin.Show();
         }
         //TODO Make actual wiki and update link 
         private void wikiClicked(object sender, RoutedEventArgs e)
@@ -223,6 +228,8 @@ namespace Guqu
         {
 
         }
+
+     
     }
     public class MenuItem
         {
