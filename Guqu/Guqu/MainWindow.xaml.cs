@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Guqu.Models;
+using Guqu.WebServices;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.ObjectModel;

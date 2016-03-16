@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Guqu.Models
         files to
         
         */
-        void promptDownloadWindow();
+         Boolean downloadFile(MemoryStream stream, string fileName);
+
     }
 }

@@ -1,6 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Web.Script.Serialization;
+using Guqu.Models.SupportClasses;
+using System.Collections.Generic;
+
 namespace Guqu.Models
 {
     class MetaDataController
@@ -113,6 +116,55 @@ namespace Guqu.Models
             }
 
             return true;
+        }
+
+        public TreeNode getRoot(string account)
+        {
+
+            TreeNode root = new TreeNode(null, null);
+            string rootPath = rootStoragePath + METADATAPATH + account;
+            return createTree(root, rootPath);
+            
+        }
+        private TreeNode createTree(TreeNode rootNode, string rootFilePath)
+        {
+            var folderQueue = new Queue<TreeNode>();
+            //get everything in this directory. Should be only folders and CD.json files
+            string[] subDirs = Directory.GetFiles(rootFilePath, "*.json", SearchOption.TopDirectoryOnly);
+            FileAttributes curAttr;
+            CommonDescriptor curfileCD;
+            TreeNode childNode;
+
+            foreach(string file in subDirs)
+            {
+                curAttr = File.GetAttributes(file);
+                //is a CD.json file 
+                if (!curAttr.HasFlag(FileAttributes.Directory))
+                {
+                    //add as children
+                    curfileCD = getCommonDescriptorFile(file);
+                    childNode = new TreeNode(rootNode, curfileCD);
+                   
+                    //TODO: ensure that all CD store fiile type for folders as 'folder'
+                    //Because each actual file is terminated with _file.json, we can be sure
+                    //that the directory (which is not terminated) can be found by removing .json from the string
+                    if(curfileCD.FileType.Equals("folder"))
+                    {
+                        //only will recurse upon directories
+                        rootNode.addChild(createTree(rootNode, file.Replace(".json", "")));                      
+                    }
+                    else
+                    {
+                        //only add the normal files to the rootNode now.
+                        rootNode.addChild(childNode);
+                    }
+
+                }
+
+            }
+
+            return rootNode;
+
         }
 
         /*
