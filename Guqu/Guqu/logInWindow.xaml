@@ -9,10 +9,11 @@
     <Grid>
         <Label x:Name="email" Content="Email Address" HorizontalAlignment="Left" Height="30" Margin="26,60,0,0" VerticalAlignment="Top" Width="103"/>
         <Label x:Name="password" Content="Password" HorizontalAlignment="Left" Height="30" Margin="26,110,0,0" VerticalAlignment="Top" Width="103"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="134,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="134,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="23" Margin="134,114,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="134,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="button" Content="Login" HorizontalAlignment="Left" Margin="156,194,0,0" VerticalAlignment="Top" Width="120" Click="loginClick" Height="30"/>
         <Button x:Name="button_Copy" Content="Create New Account" HorizontalAlignment="Left" Margin="15,194,0,0" VerticalAlignment="Top" Width="120" Height="30" Click="createAccountClick"/>
+        <TextBlock x:Name="errorMessage" HorizontalAlignment="Left" Height="32" Margin="26,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Foreground = "Red"/>
 
     </Grid>
 </Window>
