@@ -13,11 +13,13 @@ namespace Guqu.WebServices
     class CloudLogin
     {
 
-        public CloudLogin() {
+        public CloudLogin()
+        {
             //empty constructor 
         }
 
-        public async static void googleDriveLogin() {
+        public async static void googleDriveLogin()
+        {
 
             var _googleDriveCredential = InitializeAPI.googleDriveCredential;
             var _googleDriveService = InitializeAPI.googleDriveService;
@@ -36,29 +38,44 @@ namespace Guqu.WebServices
             ****************************************
            THIS BLOCK NEEDED FOR TESTING
            WILL PRINT OUT LIST OF FILES IN CONSOLE
-            ****************************************
+            *****************************************/
 
-           FilesResource.ListRequest listRequest = _googleDriveService.Files.List();
-           listRequest.PageSize = 10;
-           listRequest.Fields = "nextPageToken, files(id, name)";
-           
-           // List files.
-           IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-               .Files;
-           Console.WriteLine("Files:");
-           if (files != null && files.Count > 0)
-           {
-               foreach (var file in files)
-               {
-                   Console.WriteLine("{0} ({1})", file.Name, file.Id);
-               }
-           }
-           else
-           {
-               Console.WriteLine("No files found.");
-           }
-           Console.Read();
-           */
+
+
+            FilesResource.ListRequest listRequest = _googleDriveService.Files.List();
+            listRequest.PageSize = 10;
+            listRequest.Fields = "nextPageToken, files(id, name)";
+
+            // List files.
+            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
+                .Files;
+            Console.WriteLine("Files:");
+            int count = 0;
+            if (files != null && files.Count > 0)
+            {
+                foreach (var file in files)
+                {
+                    /*
+                    if (count == 0) {
+                        count++;
+                        var stream = _googleDriveService.HttpClient.GetStreamAsync(file.WebContentLink);
+                        var result = stream.Result;
+                        using (var fileStream = System.IO.File.Create(""))
+                        {
+                            result.CopyTo(fileStream);
+                        }
+                           }
+                           */
+                          
+                            Console.WriteLine("{0} ({1})", file.Name, file.Size);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No files found.");
+            }
+            Console.Read();
+
 
         }
 
@@ -68,11 +85,12 @@ namespace Guqu.WebServices
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             //these are also login params, should move to login class
 
-            if (!_oneDriveClient.IsAuthenticated) { 
+            if (!_oneDriveClient.IsAuthenticated)
+            {
                 try
                 {
                     await _oneDriveClient.AuthenticateAsync();
-                  var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+                    var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
                     Console.WriteLine("This succedded and Jordan is a bitch");
 
                 }
@@ -81,42 +99,48 @@ namespace Guqu.WebServices
                     Console.WriteLine(e);
 
                 }
-        }
-
-           
-
-            try {
-                var root = await _oneDriveClient.Drive.Root.Request().Expand("children").GetAsync();
-                Console.WriteLine(root.Id);
-
-               Stream cStream = await _oneDriveClient.Drive.Items[root.Id].Content.Request().GetAsync();
-                Console.WriteLine(cStream.ToString());
-
-
-
-
-
-             
-                          
-           
-                
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-
             }
 
+            /*
+            *******************
+            This is all for testing how to download
+            It is not actually needed for instantiating One Drive
+            *******************
+
+
+             try {
+                 var root = await _oneDriveClient.Drive.Root.Request().Expand("children").GetAsync();
+                 Console.WriteLine(root.Id);
+
+                Stream cStream = await _oneDriveClient.Drive.Items[root.Id].Content.Request().GetAsync();
+                 Console.WriteLine(cStream.ToString());
+
+
+
+
+
+
+
+
+
+             }
+             catch(Exception e)
+             {
+                 Console.WriteLine(e);
+
+             }
+
+
+         }
+
+         private static bool boxLogin()
+         {
+
+             return false;
+         }
+         */
+
 
         }
-
-        private static bool boxLogin()
-        {
-
-            return false;
-        }
-
-
-
     }
 }

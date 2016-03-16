@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Guqu.Models;
+using Guqu.WebServices;
 namespace Guqu
 {
     /// <summary>
@@ -58,8 +59,8 @@ namespace Guqu
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            MetaDataController controller = new MetaDataController("Shouldn't matter");
-            controller.addCommonDescriptorFile(cd);
+            InitializeAPI api = new InitializeAPI();
+            CloudLogin.googleDriveLogin();
             
         }
 

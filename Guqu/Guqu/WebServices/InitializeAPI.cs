@@ -85,17 +85,18 @@ namespace Guqu.WebServices
             // If modifying these scopes, delete your previously saved credentials
             // at ~/.credentials/drive-dotnet-quickstart.json
             string[] Scopes = { DriveService.Scope.DriveReadonly };
-            
 
-           
-                UserCredential credential;
 
-                using (var stream =
+
+            using (var stream =
                     new FileStream("../../WebServices/guqu_drive_client_id.json", FileMode.Open, FileAccess.Read))
                 {
                     string credPath = System.Environment.GetFolderPath(
-                        System.Environment.SpecialFolder.Personal);
-                    credPath = Path.Combine(credPath, ".credentials/guqu_gdrive_creds.json");
+                        System.Environment.SpecialFolder.LocalApplicationData);
+                    credPath = Path.Combine(credPath, "Guqu/.credentials/guqu_gdrive_creds.json");
+
+                    
+                
 
                     googleDriveCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.Load(stream).Secrets,
