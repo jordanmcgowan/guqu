@@ -60,8 +60,8 @@ namespace Guqu
         private void button_Click(object sender, RoutedEventArgs e)
         {
             InitializeAPI api = new InitializeAPI();
-            CloudLogin.googleDriveLogin();
-            
+            //CloudLogin.googleDriveLogin();
+            CloudLogin.oneDriveLogin();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)

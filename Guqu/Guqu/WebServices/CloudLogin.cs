@@ -126,6 +126,7 @@ namespace Guqu.WebServices
         {
 
             var _oneDriveClient = InitializeAPI.oneDriveClient;
+            Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
             
             //these are also login params, should move to login class
 
@@ -136,6 +137,13 @@ namespace Guqu.WebServices
                     await _oneDriveClient.AuthenticateAsync();
                     var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
                     Console.WriteLine("This succedded and Jordan is a bitch");
+
+                    var contentStream = await _oneDriveClient.Drive.Items["8FA41A1E5CF18E2B!112"].Content.Request().GetAsync();
+                    MemoryStream stream = (MemoryStream)contentStream;
+
+                    //TODO: not always a .doc, change.
+                    wdm.downloadFile(stream, "test.doc");
+
 
                 }
                 catch (OneDriveException e)
