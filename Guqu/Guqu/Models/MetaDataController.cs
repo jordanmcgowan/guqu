@@ -151,7 +151,7 @@ namespace Guqu.Models
                     if(curfileCD.FileType.Equals("folder"))
                     {
                         //only will recurse upon directories
-                        rootNode.addChild(createTree(rootNode, file.Replace(".json", ""));                      
+                        rootNode.addChild(createTree(rootNode, file.Replace(".json", "")));                      
                     }
                     else
                     {
