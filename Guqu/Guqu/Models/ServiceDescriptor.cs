@@ -19,6 +19,7 @@ namespace Guqu.Models
         }
         public Dictionary<string, string> getRequestHeaders()
         {
+            //todo: itr2
             return null;
         }
         public CommonDescriptor getCommonDescriptor()

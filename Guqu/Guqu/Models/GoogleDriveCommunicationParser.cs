@@ -52,6 +52,8 @@ namespace Guqu.Models
         //Required by interface
         public string createUploadBody(ServiceDescriptor descriptor)
         {
+            //todo itr2
+
             StringBuilder builder = new StringBuilder("");
             builder.AppendLine("POST /upload/drive/v3/files?uploadType=multipart HTTP/1.1");
             builder.AppendLine("Host: www.googleapis.com");

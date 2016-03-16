@@ -57,6 +57,7 @@ namespace Guqu.Models
         //Required by interface
         public string createUploadBody(ServiceDescriptor descriptor)
         {
+            //todo itr2
             StringBuilder builder = new StringBuilder("");
             string folderID = "TODO"; //how should I get this>???
             string boundary = "BOUNDARYSTRING";
