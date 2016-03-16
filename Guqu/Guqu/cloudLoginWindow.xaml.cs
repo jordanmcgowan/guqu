@@ -22,6 +22,19 @@ namespace Guqu
         public cloudLoginWindow(String accountType)
         {
             InitializeComponent();
+
+            if (accountType.Equals("box"))
+            {
+                //login to box and add to accounts
+            }
+            else if (accountType.Equals("oneDrive"))
+            {
+                //login to oneDrive and add to accounts
+            }
+            else if (accountType.Equals("googleDrive"))
+            {
+                //login to googleDrive and add to accounts
+            }
         }
     }
 }

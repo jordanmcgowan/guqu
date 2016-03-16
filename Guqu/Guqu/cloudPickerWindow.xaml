@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="cloudPicker" Height="350" Width="350">
+        Title="cloudPicker" Height="350" Width="350"
+        ResizeMode="NoResize">
     <Grid>
         <Button  Width="75" Margin="20,97,197,97" Click="boxClick">
             <Button.Template>

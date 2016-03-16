@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="logInWindow" Height="300" Width="300">
+        Title="logInWindow" Height="300" Width="300"
+        ResizeMode="NoResize">
     <Grid>
         <Label x:Name="email" Content="Email Address" HorizontalAlignment="Left" Height="30" Margin="26,60,0,0" VerticalAlignment="Top" Width="103"/>
         <Label x:Name="password" Content="Password" HorizontalAlignment="Left" Height="30" Margin="26,110,0,0" VerticalAlignment="Top" Width="103"/>

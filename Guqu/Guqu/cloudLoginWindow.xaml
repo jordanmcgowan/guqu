@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="cloudLoginWindow" Height="300" Width="300">
+        Title="cloudLoginWindow" Height="300" Width="300"
+        ResizeMode="NoResize">
     <Grid>
         
     </Grid>
