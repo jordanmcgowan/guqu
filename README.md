@@ -5,4 +5,4 @@ Jordan McGowan [jmmcgowan@wisc.edu] <br/>
 Bradley Trapp [bbtrapp@wisc.edu] <br/>
 Nikhil Jain [njain9@wisc.edu] <br/>
 Matthew WIlcox [mwilcox@wisc.edu] <br/>
-
+MJ Oak [oak@wisc.edu] <br/>
