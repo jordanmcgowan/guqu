@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -101,6 +101,22 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ExtendedLinguisticServices, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-ExtendedLinguisticServices.1.1.1\lib\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Sensors, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Sensors.1.1.1\lib\Microsoft.WindowsAPICodePack.Sensors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-ShellExtensions.1.1.1\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -165,26 +181,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="changePathWindow.xaml.cs">
+    <Page Include="changePathWindow.xaml.cs">
       <DependentUpon>changePathWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="cloudLoginWindow.xaml.cs">
+    </Page>
+    <Page Include="cloudLoginWindow.xaml.cs">
       <DependentUpon>cloudLoginWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="cloudPickerWindow.xaml.cs">
+    </Page>
+    <Page Include="cloudPickerWindow.xaml.cs">
       <DependentUpon>cloudPickerWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="confirmationPrompt.xaml.cs">
+    </Page>
+    <Page Include="confirmationPrompt.xaml.cs">
       <DependentUpon>confirmationPrompt.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="createAccountWindow.xaml.cs">
+    </Page>
+    <Page Include="createAccountWindow.xaml.cs">
       <DependentUpon>createAccountWindow.xaml</DependentUpon>
-    </Compile>
+    </Page>
     <Compile Include="Models\BoxCommunicationParser.cs" />
     <Compile Include="Models\CommonDescriptor.cs" />
     <Compile Include="Models\ICommunicationParser.cs" />
     <Compile Include="Models\DownloadManager.cs" />
     <Compile Include="Models\GoogleDriveCommunicationParser.cs" />
+    <Compile Include="Models\JsonFileParser.cs" />
     <Compile Include="Models\MetaDataController.cs" />
     <Compile Include="Models\OneDriveCommunicationParser.cs" />
     <Compile Include="Models\ServiceDescriptor.cs" />
@@ -193,9 +210,9 @@
     <Compile Include="settingsWindow.xaml.cs">
       <DependentUpon>settingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="shareWindow.xaml.cs">
+    <Page Include="shareWindow.xaml.cs">
       <DependentUpon>shareWindow.xaml</DependentUpon>
-    </Compile>
+    </Page>
     <Page Include="changePathWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,13 +248,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="logInWindow.xaml.cs">
+    <Page Include="logInWindow.xaml.cs">
       <DependentUpon>logInWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    </Page>
+    <Page Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
+    </Page>
     <Page Include="manageCloudAccountsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -252,9 +269,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="manageCloudAccountsWindow.xaml.cs">
+    <Page Include="manageCloudAccountsWindow.xaml.cs">
       <DependentUpon>manageCloudAccountsWindow.xaml</DependentUpon>
-    </Compile>
+    </Page>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
