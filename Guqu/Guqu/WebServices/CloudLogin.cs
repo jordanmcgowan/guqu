@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Guqu.Models;
 namespace Guqu.WebServices
 {
     class CloudLogin
@@ -44,7 +44,7 @@ namespace Guqu.WebServices
 
 
             FilesResource.ListRequest listRequest = _googleDriveService.Files.List();
-            listRequest.PageSize = 10;
+            listRequest.PageSize = 1;
             listRequest.Fields = "nextPageToken, files(id, name)";
 
             // List files.
@@ -70,7 +70,9 @@ namespace Guqu.WebServices
                         Console.Write(file.MimeType);
                         Console.WriteLine("********");
                         var request = _googleDriveService.Files.Export(fileId, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                        var stream = new System.IO.MemoryStream();
+                        var stream = new MemoryStream();
+                        WindowsDownloadManager wdm = new WindowsDownloadManager();
+                        
 
                         
                         request.MediaDownloader.ProgressChanged +=
@@ -98,7 +100,9 @@ namespace Guqu.WebServices
 
                         try {
                             await request.DownloadAsync(stream);
-                            
+                            //TODO: not always a .doc, change.
+                            wdm.downloadFile(stream, file.Name + ".doc");
+
                         }
                         catch(Exception e)
                         {
