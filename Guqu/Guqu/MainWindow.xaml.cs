@@ -213,9 +213,10 @@ namespace Guqu
 
         }
 
-        private void transferButton_Click(object sender, RoutedEventArgs e)
+        private void shareButton_Click(object sender, RoutedEventArgs e)
         {
-
+            shareWindow shareWin = new shareWindow();
+            shareWin.Show();
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
