@@ -1,4 +1,5 @@
-﻿using Google.Apis.Drive.v3;
+﻿using Google.Apis.Download;
+using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Microsoft.OneDrive.Sdk;
 using System;
@@ -50,23 +51,61 @@ namespace Guqu.WebServices
             IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
                 .Files;
             Console.WriteLine("Files:");
+           
+            
             int count = 0;
             if (files != null && files.Count > 0)
             {
                 foreach (var file in files)
                 {
-                    /*
-                    if (count == 0) {
+
+                    if (count == 0)
+                    {
                         count++;
-                        var stream = _googleDriveService.HttpClient.GetStreamAsync(file.WebContentLink);
-                        var result = stream.Result;
-                        using (var fileStream = System.IO.File.Create(""))
+                        var fileId = file.Id;
+
+                        Console.WriteLine("********");
+                        Console.WriteLine(fileId);
+                        Console.WriteLine(file.Name);
+                        Console.Write(file.MimeType);
+                        Console.WriteLine("********");
+                        var request = _googleDriveService.Files.Export(fileId, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                        var stream = new System.IO.MemoryStream();
+
+                        
+                        request.MediaDownloader.ProgressChanged +=
+                        (IDownloadProgress progress) =>
                         {
-                            result.CopyTo(fileStream);
+                            switch (progress.Status)
+                            {
+                                case DownloadStatus.Downloading:
+                                    {
+                                        Console.WriteLine(progress.BytesDownloaded);
+                                        break;
+                                    }
+                                case DownloadStatus.Completed:
+                                    {
+                                        Console.WriteLine("Download complete.");
+                                        break;
+                                    }
+                                case DownloadStatus.Failed:
+                                    {
+                                        Console.WriteLine("Download failed.");
+                                        break;
+                                    }
+                            }
+                        };
+
+                        try {
+                            await request.DownloadAsync(stream);
+                            
                         }
-                           }
-                           */
-                          
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                        
+                    }
                             Console.WriteLine("{0} ({1})", file.Name, file.Size);
                 }
             }
@@ -83,6 +122,7 @@ namespace Guqu.WebServices
         {
 
             var _oneDriveClient = InitializeAPI.oneDriveClient;
+            
             //these are also login params, should move to login class
 
             if (!_oneDriveClient.IsAuthenticated)
