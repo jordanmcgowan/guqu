@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="createAccountWindow" Height="300" Width="300">
+        Title="createAccountWindow" Height="300" Width="300"
+        ResizeMode="NoResize">
     <Grid>
-        
+        <Label x:Name="label" Content="Email Address" HorizontalAlignment="Left" Height="25" Margin="19,60,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label x:Name="label_Copy" Content="Confirm Email Address" HorizontalAlignment="Left" Height="25" Margin="19,95,0,0" VerticalAlignment="Top" Width="132"/>
+        <Label x:Name="label_Copy1" Content="Password" HorizontalAlignment="Left" Height="25" Margin="19,136,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label x:Name="label_Copy2" Content="Confirm Password" HorizontalAlignment="Left" Height="25" Margin="19,176,0,0" VerticalAlignment="Top" Width="109"/>
+        <TextBox x:Name="email" HorizontalAlignment="Left" Height="25" Margin="156,60,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <TextBox x:Name="emailConfirm" HorizontalAlignment="Left" Height="25" Margin="156,99,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <TextBox x:Name="password" HorizontalAlignment="Left" Height="25" Margin="156,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <TextBox x:Name="passwordConfirm" HorizontalAlignment="Left" Height="25" Margin="156,176,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <Button x:Name="createButton" Content="Create Account" HorizontalAlignment="Left" Margin="28,232,0,0" VerticalAlignment="Top" Width="90" Click="createAccountClick"/>
+        <Button x:Name="haveAccountButton" Content="Already Have Account?" HorizontalAlignment="Left" Margin="133,232,0,0" VerticalAlignment="Top" Width="130" Click="alreadyHaveAccountClick"/>
+        <TextBlock x:Name="errorMessage" TextAlignment="Center" HorizontalAlignment="Left"  Height="39" Margin="19,10,0,0" VerticalAlignment="Top" Width="244" Foreground="Red" TextOptions.TextFormattingMode="Display"/>
     </Grid>
 </Window>

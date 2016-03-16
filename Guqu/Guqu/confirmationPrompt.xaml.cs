@@ -15,13 +15,23 @@ using System.Windows.Shapes;
 namespace Guqu
 {
     /// <summary>
-    /// Interaction logic for settingsWindow.xaml
+    /// Interaction logic for confirmationPrompt.xaml
     /// </summary>
-    public partial class settingsWindow : Window
+    public partial class confirmationPrompt : Window
     {
-        public settingsWindow()
+        public confirmationPrompt()
         {
             InitializeComponent();
+        }
+
+        private void yesClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void noClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

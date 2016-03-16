@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,23 +63,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="changePathWindow.xaml.cs">
+      <DependentUpon>changePathWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="cloudLoginWindow.xaml.cs">
       <DependentUpon>cloudLoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="cloudPickerWindow.xaml.cs">
       <DependentUpon>cloudPickerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="confirmationPrompt.xaml.cs">
+      <DependentUpon>confirmationPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="createAccountWindow.xaml.cs">
       <DependentUpon>createAccountWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="settingsWindow.xaml.cs">
-      <DependentUpon>settingsWindow.xaml</DependentUpon>
+    <Compile Include="changePasswordWindow.xaml.cs">
+      <DependentUpon>changePasswordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="shareWindow.xaml.cs">
+      <DependentUpon>shareWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="changePathWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="cloudLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="cloudPickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="confirmationPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -102,7 +127,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="settingsWindow.xaml">
+    <Page Include="changePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="shareWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,6 +157,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -136,6 +166,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="googleDrive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="oneDrive.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
