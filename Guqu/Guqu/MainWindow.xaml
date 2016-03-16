@@ -6,20 +6,21 @@
         xmlns:local="clr-namespace:Guqu"
         xmlns:self="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="Guqu" Height="768" Width="1024">
+        Title="Guqu" Height="768" Width="1024"
+        WindowState="Maximized">
 
     <Grid>
-        <Menu x:Name="menu1" Height="40" Width="1024" Margin="0,0,0,697">
-            <MenuItem Header="File" Height="40" Width="190" Background="#FF7EC8DE">
+        <Menu x:Name="menu1" Height="20" Width="1024"  HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+            <MenuItem Header="File" Height="20" Width="40" >
                 <MenuItem Header="_Log out" Click="logoutClicked" />
                 <MenuItem Header="_Exit" Click="exitClicked"/>
                 <MenuItem Header="_Check for updates" Click="checkForUpdatesClicked"/>
             </MenuItem>
-            <MenuItem Header="Edit" Height="40" Width="190" Background="#FFAFD66B">
+            <MenuItem Header="Edit" Height="20" Width="40" >
                 <MenuItem Header="_Manage Accounts" Click="manageAccountsClicked"/>
                 <MenuItem Header="_Settings" Click="settingsClicked"/>
             </MenuItem>
-            <MenuItem Header="Help" Height="40" Width="190" Background="#FFD6836B">
+            <MenuItem Header="Help" Height="20" Width="40" >
                 <Hyperlink NavigateUri = "http://www.google.com">
                     <MenuItem Header="_Wiki" Click="wikiClicked"/>
                 </Hyperlink>
@@ -45,6 +46,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
 
         <Button x:Name="uploadButton" Content="Upload" HorizontalAlignment="Left" Height="30" Margin="191,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="uploadButton_Click">
             <Button.RenderTransform>
@@ -86,7 +88,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <ScrollViewer HorizontalAlignment="Left" Height="38" Margin="193,68,0,0" VerticalAlignment="Top" Width="813" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Visible"
+        <ScrollViewer x:Name ="scrollText" HorizontalAlignment="Left" Height="38" Margin="193,81,0,0" VerticalAlignment="Top" Width="813" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Visible"
 >
             <TextBox x:Name="pathBox" Height="20" TextWrapping="Wrap" Text="TextBox" Width="8130"/>
 

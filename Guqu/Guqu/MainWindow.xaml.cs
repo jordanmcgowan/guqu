@@ -26,7 +26,20 @@ namespace Guqu
         {
 
             InitializeComponent();
-            List<string> accountServices = new List<String>();
+            this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight);
+            this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
+            this.menu1.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
+            this.fileTreeMenu.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 116; //82
+            this.pathBox.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 198;
+            this.scrollText.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 198;
+            this.folderView.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 193;
+            this.folderView.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 200;
+
+
+
+
+
+            List <string> accountServices = new List<String>();
             accountServices.Add("driveDrive");
             accountServices.Add("boxBook");
             accountServices.Add("cloudFace");
