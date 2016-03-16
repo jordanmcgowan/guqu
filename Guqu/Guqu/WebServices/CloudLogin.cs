@@ -17,7 +17,7 @@ namespace Guqu.WebServices
             //empty constructor 
         }
 
-        public async static void googleDriveLogin() {
+        public static void googleDriveLogin() {
 
             var _googleDriveCredential = InitializeAPI.googleDriveCredential;
             var _googleDriveService = InitializeAPI.googleDriveService;
