@@ -181,11 +181,13 @@
     <Compile Include="Models\MetaDataController.cs" />
     <Compile Include="Models\OneDriveCommunicationParser.cs" />
     <Compile Include="Models\ServiceDescriptor.cs" />
+    <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="settingsWindow.xaml.cs">
       <DependentUpon>settingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WebServices\CloudLogin.cs" />
     <Compile Include="WebServices\InitializeAPI.cs" />
+    <Compile Include="WebServices\WebCallerController.cs" />
     <Page Include="cloudLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
