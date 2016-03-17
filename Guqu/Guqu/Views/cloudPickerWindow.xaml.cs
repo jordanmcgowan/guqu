@@ -51,8 +51,18 @@ namespace Guqu
             CloudLogin.googleDriveLogin();
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
             //cloudLogWin.Show();
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            foreach (var wnd in Application.Current.Windows)
+            {
+                if (wnd is MainWindow || wnd is cloudPicker)
+                {
+                    Console.WriteLine("Main or Cloud window open");
+                }
+                else
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                }
+            }
             this.Close();
         }
     }

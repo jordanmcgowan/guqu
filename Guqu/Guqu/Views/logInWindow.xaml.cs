@@ -53,6 +53,7 @@ namespace Guqu
                 if (db.emailExists(email))
                 {
                     User user = db.SelectUser(email);
+                    db.UpdateLastLogin(email);
                     //List<String> list = db.SelectUser(email);
 
                     if (user.Pass_hash == pass) //TODO: Iteration 2: add hasing & salting

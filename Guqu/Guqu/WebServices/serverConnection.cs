@@ -88,7 +88,7 @@ namespace GuquMysql
 
             if (tablename == "users")
             {
-                query = "INSERT INTO " + tablename + " (email, pass_hash, pass_salt, sign_up_date, last_login) VALUES(\"" + email + "\", \"" + hash + "\", \"" + salt + "\", NOW(), NOW());";
+                query = "INSERT INTO " + tablename + " (email, pass_hash, pass_salt, sign_up_date, last_login) VALUES('" + email + "', '" + hash + "', '" + salt + "', NOW(), NOW());"; //TODO: try catch if the query actually worked.
             }
 
             //open connection
@@ -144,7 +144,7 @@ namespace GuquMysql
         //Select statement
         public User SelectUser(string email)
         {
-            string query = "SELECT * FROM users WHERE email = \"" + email + "\";";
+            string query = "SELECT * FROM users WHERE email = '" + email + "';";
             Console.WriteLine(query);
 
             //Create a list to store the result
@@ -305,7 +305,7 @@ namespace GuquMysql
 
         public Boolean emailExists(string email)
         {
-            string query = "SELECT COUNT(*) AS emailcount FROM users WHERE email = \"" + email + "\";";
+            string query = "SELECT COUNT(*) AS emailcount FROM users WHERE email = '" + email + "';";
             //Open Connection
             if (this.OpenConnection() == true)
             {
@@ -351,7 +351,24 @@ namespace GuquMysql
             }
         }
 
+        public void UpdateLastLogin(string email)
+        {
+            //open connection
+            if (this.OpenConnection() == true)
+            {
+                string query = "UPDATE users SET last_login = NOW() WHERE email = '" + email + "';"; //TODO: try catch if the query actually worked.
 
+                //create command and assign the query and connection from the constructor
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                //Execute command
+                cmd.ExecuteNonQuery();
+
+                //close connection
+                this.CloseConnection();
+            }
+
+        }
 
     }
 
