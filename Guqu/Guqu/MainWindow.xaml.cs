@@ -231,6 +231,7 @@ namespace Guqu
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
 
+
         }
 
      

@@ -76,9 +76,7 @@ namespace Guqu.Models
             try
             {
                 var serializedJson = jsonSerializer.Serialize(cd);
-                Console.WriteLine("JSON: " + serializedJson);
                 File.WriteAllText(rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath + ".json", serializedJson);
-                Console.WriteLine("Wrote file");
             }
             catch (InvalidOperationException e)
             {

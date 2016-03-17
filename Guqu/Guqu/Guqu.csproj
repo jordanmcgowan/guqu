@@ -200,6 +200,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\SettingsController.cs" />
+    <Compile Include="Models\SupportClasses\SettingsFile.cs" />
     <Compile Include="Views\changePathWindow.xaml.cs">
       <DependentUpon>changePathWindow.xaml</DependentUpon>
     </Compile>
@@ -233,6 +235,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="WebServices\GoogleDriveCalls.cs" />
     <Compile Include="WebServices\ICloudCalls.cs" />
     <Compile Include="WebServices\serverConnection.cs" />
     <Compile Include="WebServices\CloudLogin.cs" />
