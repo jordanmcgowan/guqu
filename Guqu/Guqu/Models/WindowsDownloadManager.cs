@@ -72,7 +72,20 @@ namespace Guqu.Models
             //fixedFileName = errorPrompt.getresponse[0];
             //return true;
 
-            fixedFileName = fileName.Replace('/', '-');
+            foreach (char curChar in forbiddenCharacters)
+            {
+                if (fileName.Contains(curChar))
+                {
+                    //TODO: uncomment after errorprompt is working
+                    //if any of the forbidden characters are found, return false
+                    //isValid = false;
+
+                    //temp fix, replace all bad characters with '-'
+                    //fileName.Replace(curChar, '-');
+                    fileName = fileName.Replace(curChar, '-');
+                }
+            }
+            fixedFileName = fileName;
             return true;
 
         }

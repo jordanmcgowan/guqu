@@ -5,6 +5,7 @@ using System.Web.Script.Serialization;
 using System.Collections.Generic;
 
 using TreeNode = Guqu.Models.SupportClasses.TreeNode;
+using System.Linq;
 
 namespace Guqu.Models
 {
@@ -69,10 +70,24 @@ namespace Guqu.Models
                 //create directory
                 createDirectory(relativeFilePath);
             }
-            else
-            {
 
+            /*
+            //TODO: move the following to a diff module - also in WindowsDownloadManager
+            char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
+            foreach (char curChar in forbiddenCharacters)
+            {
+                if (toReturn.Contains(curChar))
+                {
+                    //TODO: uncomment after errorprompt is working
+                    //if any of the forbidden characters are found, return false
+                    //isValid = false;
+
+                    //temp fix, replace all bad characters with '-'
+                    //fileName.Replace(curChar, '-');
+                    toReturn = toReturn.Replace(curChar, '-');
+                }
             }
+            */
             return toReturn;
         }
 

@@ -77,124 +77,96 @@ namespace Guqu.WebServices
 
         public bool fetchAllMetaData(MetaDataController controller, string accountName)
         {
-            string googleFolderName = "application/vnd.google-apps.folder";
+            fetchAllMDFiles(controller, accountName, "root");
+            return true;
+        }
+        //TODO: have controller be global, or static
+        private void fetchAllMDFiles(MetaDataController controller, string relativeRequestPath, string parentID)
+        {
 
-            //over arching list of files
-            IList<Google.Apis.Drive.v3.Data.File> folders = new List<Google.Apis.Drive.v3.Data.File>();
+            string googleFolderName = "application/vnd.google-apps.folder";
+            int numItemsPerFetch = 1000;
+
+            //over arching list of files in this directory
+            IList<Google.Apis.Drive.v3.Data.File> allFiles = new List<Google.Apis.Drive.v3.Data.File>();
 
             //Each iteration fill the files list.
-            IList<Google.Apis.Drive.v3.Data.File> files;
+            IList<Google.Apis.Drive.v3.Data.File> iterationFiles;
+
             //Execution for each iteration
             Google.Apis.Drive.v3.Data.FileList exec;
 
             var googleDriveService = InitializeAPI.googleDriveService;
-
-            //begin loop to get all files.
-            Boolean moreFolders = true;
-            FilesResource.GetRequest getRequest;
-            FilesResource.ListRequest listRequest;
+            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
+            
             string nextPageToken = null;
-            while (moreFolders) 
+
+            Boolean moreFilesExist = true;
+
+            //get all files in this directory
+            while (moreFilesExist)
             {
-                getRequest = formGetRequest("root");
-                var file = getRequest.Execute();
                 listRequest = googleDriveService.Files.List();
+                listRequest.Fields = "nextPageToken, files";
+                listRequest.PageSize = numItemsPerFetch; //get 20 things each pass
+                listRequest.Q = "'" + parentID + "' in parents";
                 //get the next 10 possible folders
-                listRequest.PageSize = 10;
-                if(nextPageToken != null)
+                if (nextPageToken != null)
                 {
                     listRequest.PageToken = nextPageToken;
                 }
-                listRequest.OrderBy = "folder";
-                listRequest.Fields = "nextPageToken, files";
-
                 exec = listRequest.Execute();
-                files = exec.Files;
                 nextPageToken = exec.NextPageToken;
-                //now we have the next page size worth of files, check the last to see if it is a folder
-                
-                foreach(var newFile in files)
+                iterationFiles = exec.Files;
+
+                //files has first 20 items.
+                foreach(var cur in iterationFiles)
                 {
-                    if (newFile.MimeType.Equals(googleFolderName))
+                    if(cur.Trashed != true)
                     {
-                        //is a folder
-                        if(newFile.Trashed == false)
-                        {
-                            //and not trashed
-                            folders.Add(newFile);
-                        }
+                        //not trash
+                        allFiles.Add(cur);
                     }
-                    else
-                    {
-                        moreFolders = false;
-                    }
+                    
+                }
+                if(iterationFiles.Count != numItemsPerFetch)
+                {
+                    //we did not have max items, no more items to fetch
+                    moreFilesExist = false;
                 }
             }
 
 
+            //now we have all files/folders in the current directory
 
-            return true;
-        }
-        //TODO: have controller be global, or static
-        private void fetchAllMDFiles(MetaDataController controller, FilesResource.GetRequest getRequest, string relativeRequestPath)
-        {
-
-            //getRequest.Fields = "children";
-            var file = getRequest.Execute();
-            //don't want metadata for root
-            var googleDriveService = InitializeAPI.googleDriveService;
-            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
-            listRequest.PageSize = 25;
-            //listRequest.Fields = "nextPageToken, files(id, name)";
-            listRequest.OrderBy = "folder";
-
-            //listRequest.Execute().NextPageToken;
-
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
-            
             string pathForFile;
             //string nextToken = listRequest.Execute().NextPageToken;
             Google.Apis.Drive.v3.Data.File curFile;
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string curFileSerialized;
-            while (files.Count != 0) //while there are elements
+
+            while (allFiles.Count != 0) //while there are elements
             {
-                curFile = files.First(); //get first file 
+                curFile = allFiles.First(); //get first file 
                 curFileSerialized = serializer.Serialize(curFile);
                 pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
-                //TODO: define this string somewhre
-                if(curFile.MimeType.Equals("application/vnd.google-apps.folder"))
+          
+                if (curFile.MimeType.Equals(googleFolderName))
                 {
-
                     //store data for the folder
                     //recurse on the folder and do its children
-                    File.WriteAllText(pathForFile + curFile.Name + "_folder.json", curFileSerialized);
-                    fetchAllMDFiles(controller, formGetRequest(curFile.Id), relativeRequestPath + "//" + curFile.Name);
+                    File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
+                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + curFile.Name, curFile.Id);
                 }
                 else
                 {
                     //store data for this file
-                    File.WriteAllText(pathForFile + curFile.Name + "_file.json", curFileSerialized);
-                    
+                    File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
                 }
+                allFiles.RemoveAt(0); //remove this element
             }
 
-
-            /*
-            // Define parameters of request.
-            var googleDriveService = InitializeAPI.googleDriveService;
-            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
-            listRequest.PageSize = 25;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-            listRequest.OrderBy = "folder";
-
-            //listRequest.Execute().NextPageToken;
-
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
-
-    */
         }
         private FilesResource.GetRequest formGetRequest(string fileID)
         {
