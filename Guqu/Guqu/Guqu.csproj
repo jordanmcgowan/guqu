@@ -230,6 +230,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="WebServices\ICloudCalls.cs" />
     <Compile Include="WebServices\CloudLogin.cs" />
     <Compile Include="WebServices\InitializeAPI.cs" />
     <Compile Include="WebServices\WebCallerController.cs" />
