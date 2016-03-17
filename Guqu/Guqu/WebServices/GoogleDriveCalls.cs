@@ -56,7 +56,7 @@ namespace Guqu.WebServices
             {
                 await request.DownloadAsync(stream);
                 //TODO: not always a .doc, change.
-                wdm.downloadFile(stream, file.Name + ".doc");
+                wdm.downloadFile(stream, _file.Name + ".doc");
 
             }
             catch (Exception e)

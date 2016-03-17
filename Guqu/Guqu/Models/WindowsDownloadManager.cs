@@ -72,7 +72,7 @@ namespace Guqu.Models
             //fixedFileName = errorPrompt.getresponse[0];
             //return true;
 
-            fixedFileName = fileName;
+            fixedFileName = fileName.Replace('/', '-');
             return true;
 
         }
@@ -90,7 +90,7 @@ namespace Guqu.Models
                     //isValid = false;
 
                     //temp fix, replace all bad characters with '-'
-                    fileName.Replace(curChar, '-');
+                    //fileName.Replace(curChar, '-');
                 }
             }
             //if none are found, return true
