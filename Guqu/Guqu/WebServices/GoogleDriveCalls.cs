@@ -16,6 +16,13 @@ namespace Guqu.WebServices
 {
     class GoogleDriveCalls : ICloudCalls
     {
+        private GoogleDriveCommunicationParser googleCommParser;
+
+        public GoogleDriveCalls()
+        {
+            googleCommParser = new GoogleDriveCommunicationParser();
+        }
+
         public async Task<bool> downloadFile(Google.Apis.Drive.v3.Data.File file)
         {
             var _googleDriveService = InitializeAPI.googleDriveService;
@@ -145,7 +152,8 @@ namespace Guqu.WebServices
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string curFileSerialized;
-
+            CommonDescriptor curCD;
+            StreamReader streamReader;
             while (allFiles.Count != 0) //while there are elements
             {
                 curFile = allFiles.First(); //get first file 
@@ -157,12 +165,20 @@ namespace Guqu.WebServices
                     //store data for the folder
                     //recurse on the folder and do its children
                     File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
+                    streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_folder.json");
+                    curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
+                    controller.addCommonDescriptorFile(curCD);
+                    //get a stream for the file we just wrote. 
+
                     fetchAllMDFiles(controller, relativeRequestPath + "\\" + curFile.Name, curFile.Id);
                 }
                 else
                 {
                     //store data for this file
                     File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
+                    streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_file.json");
+                    curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
+                    controller.addCommonDescriptorFile(curCD);
                 }
                 allFiles.RemoveAt(0); //remove this element
             }

@@ -14,11 +14,11 @@ namespace Guqu.Models
         public GoogleDriveCommunicationParser()
         {
             cd_google_Term_Dictionary = new Dictionary<string, string>();
-            cd_google_Term_Dictionary.Add("fileName", "title");
-            cd_google_Term_Dictionary.Add("fileType", "mimeType");
-            cd_google_Term_Dictionary.Add("fileSize", "fileSize");
-            cd_google_Term_Dictionary.Add("fileID", "id");
-            cd_google_Term_Dictionary.Add("lastModified", "modifiedData");
+            cd_google_Term_Dictionary.Add("fileName", "Name");
+            cd_google_Term_Dictionary.Add("fileType", "MimeType");
+            cd_google_Term_Dictionary.Add("fileSize", "Size");
+            cd_google_Term_Dictionary.Add("fileID", "Id");
+            cd_google_Term_Dictionary.Add("lastModified", "ModifiedTime");
         }
 
         //Required by interface
