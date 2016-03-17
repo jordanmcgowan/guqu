@@ -17,6 +17,8 @@ using Guqu.WebServices;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.ObjectModel;
+using Guqu.Models.SupportClasses;
+
 namespace Guqu
 {
     /// <summary>
@@ -233,8 +235,25 @@ namespace Guqu
 
 
         }
+        private void populateTree(TreeNode treeRoot, MenuItem xamlRoot)
+        {
+            xamlRoot = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
+            recursiveBuildTree(treeRoot, xamlRoot);
 
-     
+        }
+
+        private void recursiveBuildTree(TreeNode treeRoot, MenuItem xamlRoot)
+        {
+            foreach (TreeNode child in treeRoot.getChildren())
+            {
+                MenuItem currNode = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
+                recursiveBuildTree(child, currNode);
+                currNode.Items.Add(new MenuItem() { Title = child.getCommonDescriptor().FileName });
+                xamlRoot.Items.Add(currNode);
+            }
+        }
+
+
     }
     public class MenuItem
         {
