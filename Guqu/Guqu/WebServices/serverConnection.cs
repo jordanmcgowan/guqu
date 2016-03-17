@@ -101,9 +101,9 @@ namespace GuquMysql
         }
 
         //Insert statement
-        public void Insert(string email, DateTime signUp, DateTime lastLogin, string hash, string salt, int failedAttempts, string failedPassDates)
+        public void Insert(string email, string hash, string salt)
         {
-            string query = "INSERT INTO tableinfo (name, age) VALUES('John Smith', '33')";
+            string query = "INSERT INTO users (email, pash_hash, pass_salt) VALUES(" + email + ", " + hash +  ", " + salt + ");";
 
             //open connection
             if (this.OpenConnection() == true)
