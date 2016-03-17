@@ -13,15 +13,15 @@ namespace Guqu.WebServices
 
         //returns Memory Stream of file data
         //must be written to
-        MemoryStream downloadFile();
+        Task<bool> downloadFile(Google.Apis.Drive.v3.Data.File file);
 
         //returns TRUE if file upload was successful, 
         //else FALSE
-        bool uploadFile(File file);
+        bool uploadFile(Stream stream);
 
         //returns TRUE if file was shared successfully, 
         //else FALSE
-        bool shareFile(File file);
+        bool shareFile(Stream stream);
         bool shareFile(MemoryStream stream);
 
         //returns TRUE if all meta data was fetched
