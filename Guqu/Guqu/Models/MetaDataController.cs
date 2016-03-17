@@ -97,10 +97,19 @@ namespace Guqu.Models
         public Boolean addCommonDescriptorFile(CommonDescriptor cd)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
+            string filePath;
             try
             {
                 var serializedJson = jsonSerializer.Serialize(cd);
-                File.WriteAllText(rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath + ".json", serializedJson);
+                filePath = rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath + "\\" + cd.FileName;
+                if (cd.FileType.Equals("folder")){
+                    filePath += "_folder.json";
+                }
+                else
+                {
+                    filePath += "_file.json";
+                }
+                File.WriteAllText(filePath, serializedJson);
             }
             catch (InvalidOperationException e)
             {

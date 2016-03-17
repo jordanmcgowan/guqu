@@ -167,6 +167,7 @@ namespace Guqu.WebServices
                     File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
                     streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_folder.json");
                     curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
+                    streamReader.Close();
                     controller.addCommonDescriptorFile(curCD);
                     //get a stream for the file we just wrote. 
 
@@ -175,10 +176,12 @@ namespace Guqu.WebServices
                 else
                 {
                     //store data for this file
-                    File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
-                    streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_file.json");
-                    curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
-                    controller.addCommonDescriptorFile(curCD);
+                        File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
+                        streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_file.json");
+                        curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
+                        streamReader.Close();
+                        controller.addCommonDescriptorFile(curCD);
+                    
                 }
                 allFiles.RemoveAt(0); //remove this element
             }
