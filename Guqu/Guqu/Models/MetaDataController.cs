@@ -50,10 +50,20 @@ namespace Guqu.Models
         /*
         Deserialize the common descriptor file and return the object.
         */
-        public CommonDescriptor getCommonDescriptorFile(string filePath)
+        public CommonDescriptor getCommonDescriptorFile(string relativeFilePath)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
-            string jsonCD = File.ReadAllText(rootStoragePath + COMMONDESCRIPTORPATH + filePath + ".json");
+            string filePath = rootStoragePath + COMMONDESCRIPTORPATH + relativeFilePath;
+            //TODO: don't need the following because when I add in a CD, I append _file/_folder to it.
+            //if (isFile)
+            //{
+            //    filePath += "_file.json";
+           // }
+            //else
+            //{
+            //    filePath += "_folder.json";
+            //}
+            string jsonCD = File.ReadAllText(filePath);
             CommonDescriptor cd = jsonSerializer.Deserialize<CommonDescriptor>(jsonCD);
             return cd;
         }
@@ -158,48 +168,47 @@ namespace Guqu.Models
         {
 
         TreeNode root = new TreeNode(null, null);
-        string rootPath = rootStoragePath + METADATAPATH + account;
+        string rootPath = rootStoragePath + COMMONDESCRIPTORPATH + account;
         return createTree(root, rootPath);
 
         }
 
     private TreeNode createTree(TreeNode rootNode, string rootFilePath)
     {
-        var folderQueue = new Queue<TreeNode>();
         //get everything in this directory. Should be only folders and CD.json files
         string[] subDirs = Directory.GetFiles(rootFilePath, "*.json", SearchOption.TopDirectoryOnly);
-        FileAttributes curAttr;
         CommonDescriptor curfileCD;
         TreeNode childNode;
-
         foreach (string file in subDirs)
         {
-            curAttr = File.GetAttributes(file);
-                //is a CD.json file 
-                if (!curAttr.HasFlag(FileAttributes.Directory))
-                {
-                    //add as children
-                    curfileCD = getCommonDescriptorFile(file);
-                    childNode = new TreeNode(rootNode, curfileCD);
+                //only reading .json files
 
-                    //TODO: ensure that all CD store fiile type for folders as 'folder'
-                    //Because each actual file is terminated with _file.json, we can be sure
-                    //that the directory (which is not terminated) can be found by removing .json from the string
-                    if (curfileCD.FileType.Equals("folder"))
-                    {
-                        //only will recurse upon directories
-                        rootNode.addChild(createTree(rootNode, file.Replace(".json", "")));
-                    }
-                    else
-                    {
-                        //only add the normal files to the rootNode now.
-                        rootNode.addChild(childNode);
-                    }
+                curfileCD = getCDforTreeCreation(file);
+                //add as a child of rootNode
+                childNode = new TreeNode(rootNode, curfileCD);
+                   
+                //find directory by removing the _folder.json from the name of the file.
+                if (curfileCD.FileType.Equals("folder"))
+                {
+                    //TODO: do I get the folder object in the tree?
+                    //only will recurse upon directories
+                    rootNode.addChild(createTree(childNode, file.Replace("_folder.json", "")));
                 }
+                else
+                {
+                    //only add the normal files to the rootNode now.
+                    rootNode.addChild(childNode);
+                }
+                
 
       }
             return rootNode;
    }
+        private CommonDescriptor getCDforTreeCreation(string filePath)
+        {
+            string reducedFilePath = filePath.Replace(rootStoragePath + COMMONDESCRIPTORPATH, "");
+            return getCommonDescriptorFile(reducedFilePath);
+        }
         /*
         Will delete both the CD and MD directory at a given relative path. If the directory does not exist, then this function won't do anything.
         */
