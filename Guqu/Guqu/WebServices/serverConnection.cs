@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Guqu.WebServices;
 
 namespace GuquMysql
 {
@@ -162,15 +163,17 @@ namespace GuquMysql
         }
         */
         //Select statement
-        public List<string> Select(string tablename, string email)
+        public User SelectUser(string email)
         {
-            string query = "SELECT * FROM " + tablename + " WHERE email = \"" + email + "\";";
+            string query = "SELECT * FROM users WHERE email = \"" + email + "\";";
             Console.WriteLine(query);
 
             //Create a list to store the result
             //List<string>[] list = new List<string>[8];
             //list[0] = new List<string>();
-            List<string> list = new List<string>();
+            //List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
+            User user = new User();
+
             //Create Command
             if (this.OpenConnection() == true)
             {
@@ -181,6 +184,26 @@ namespace GuquMysql
                 //Read the data and store them in the list
                 while (dataReader.Read())
                 {
+                    user.User_id = dataReader["user_id"] + "";
+                    user.Email = dataReader["email"] + "";
+                    user.Sign_up_date = dataReader["sign_up_date"] + "";
+                    user.Last_login = dataReader["last_login"] + "";
+                    user.Pass_hash = dataReader["pass_hash"] + "";
+                    user.Pass_salt = dataReader["pass_salt"] + "";
+                    user.Failed_pass_attempts = dataReader["failed_pass_attempts"] + "";
+                    user.Failed_pass_date = dataReader["failed_pass_date"] + "";
+
+                    /*
+                    list.Add(new KeyValuePair<string, string>("user_id", dataReader["user_id"] + ""));
+                    list.Add(new KeyValuePair<string, string>("email", dataReader["email"] + ""));
+                    list.Add(new KeyValuePair<string, string>("sign_up_date", dataReader["sign_up_date"] + ""));
+                    list.Add(new KeyValuePair<string, string>("last_login", dataReader["last_login"] + ""));
+                    list.Add(new KeyValuePair<string, string>("pass_hash", dataReader["pass_hash"] + ""));
+                    list.Add(new KeyValuePair<string, string>("pass_salt", dataReader["pass_salt"] + ""));
+                    list.Add(new KeyValuePair<string, string>("failed_pass_attempts", dataReader["failed_pass_attempts"] + ""));
+                    list.Add(new KeyValuePair<string, string>("failed_pass_date", dataReader["failed_pass_date"] + ""));
+
+                    
                     list.Add(dataReader["user_id"] + "");
                     list.Add(dataReader["email"] + "");
                     list.Add(dataReader["sign_up_date"] + "");
@@ -189,7 +212,7 @@ namespace GuquMysql
                     list.Add(dataReader["pass_salt"] + "");
                     list.Add(dataReader["failed_pass_attempts"] + "");
                     list.Add(dataReader["failed_pass_date"] + "");
-
+                    */
                 }
 
                 //close Data Reader
@@ -199,24 +222,24 @@ namespace GuquMysql
                 this.CloseConnection();
 
                 //return list to be displayed
-                if (list.Count > 0)
+                if (user.Email != null)
                 {
-                    Console.WriteLine(list[1]);
-                    return list;
+                    Console.WriteLine(user.Email);
+                    return user;
                 }
                 else
                 {
                     Console.WriteLine("No results");
-                    return list;
+                    return user;
                 }
             }
             else
             {
                 Console.WriteLine("Conn not open");
-                return list;
+                return user;
             }
         }
-
+        /*
         //Count statement
         public int Count()
         {
@@ -247,7 +270,7 @@ namespace GuquMysql
                 return Count;
             }
         }
-        /*
+        
         //Backup
         public void Backup()
         {

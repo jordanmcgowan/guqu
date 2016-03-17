@@ -51,6 +51,8 @@ namespace Guqu
             CloudLogin.googleDriveLogin();
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
             //cloudLogWin.Show();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
     }
