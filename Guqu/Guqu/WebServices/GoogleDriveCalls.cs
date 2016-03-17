@@ -74,34 +74,6 @@ namespace Guqu.WebServices
 
         public bool fetchAllMetaData(MetaDataController controller)
         {
-            var _googleDriveService = InitializeAPI.googleDriveService;
-
-            ChildrenResource.ListRequest request = _googleDriveService.Children.List("root");
-
-            do
-            {
-                try
-                {
-                    ChildList children = request.Execute();
-
-                    foreach (ChildReference child in children.Items)
-                    {
-                        Console.WriteLine("File Id: " + child.Id);
-                    }
-                    request.PageToken = children.NextPageToken;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("An error occurred: " + e.Message);
-                    request.PageToken = null;
-                }
-            } while (!String.IsNullOrEmpty(request.PageToken));
-
-
-
-
-
-
             return false;
         }
 
