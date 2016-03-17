@@ -64,6 +64,15 @@ namespace Guqu.Models
         public string getAbsoluteFilePathForAddingMDFile(string relativeFilePath)
         {
             string toReturn = rootStoragePath + METADATAPATH + relativeFilePath;
+            if (!Directory.Exists(toReturn))
+            {
+                //create directory
+                createDirectory(relativeFilePath);
+            }
+            else
+            {
+
+            }
             return toReturn;
         }
 

@@ -10,6 +10,7 @@ using Google.Apis.Download;
 using Google.Apis.Drive;
 using Google.Apis.Drive.v3;
 using System.Collections;
+using System.Web.Script.Serialization;
 
 namespace Guqu.WebServices
 {
@@ -94,26 +95,33 @@ namespace Guqu.WebServices
 
             //listRequest.Execute().NextPageToken;
 
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
+            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
+            
             string pathForFile;
             //string nextToken = listRequest.Execute().NextPageToken;
             Google.Apis.Drive.v3.Data.File curFile;
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string curFileSerialized;
             while (files.Count != 0) //while there are elements
             {
                 curFile = files.First(); //get first file 
+                curFileSerialized = serializer.Serialize(curFile);
                 pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
                 //TODO: define this string somewhre
                 if(curFile.MimeType.Equals("application/vnd.google-apps.folder"))
                 {
-                    
+
                     //store data for the folder
-                    File.WriteAllText(pathForFile, curFile);
+                    //recurse on the folder and do its children
+                    File.WriteAllText(pathForFile + curFile.Name + "_folder.json", curFileSerialized);
                     fetchAllMDFiles(controller, formGetRequest(curFile.Id), relativeRequestPath + "//" + curFile.Name);
                 }
                 else
                 {
-
+                    //store data for this file
+                    File.WriteAllText(pathForFile + curFile.Name + "_file.json", curFileSerialized);
+                    
                 }
             }
 
