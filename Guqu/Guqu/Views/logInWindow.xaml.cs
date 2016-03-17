@@ -30,6 +30,13 @@ namespace Guqu
         public logInWindow()
         {
             InitializeComponent();
+            setup();
+        }
+
+        private void setup()
+        {
+            textBox.TabIndex = 1;
+            passwordBox.TabIndex = 2;
         }
         
         private void loginClick(object sender, RoutedEventArgs e)
