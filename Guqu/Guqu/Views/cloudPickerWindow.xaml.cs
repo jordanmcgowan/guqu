@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using Guqu.WebServices;
+
 namespace Guqu
 {
     /// <summary>
@@ -19,27 +21,36 @@ namespace Guqu
     /// </summary>
     public partial class cloudPicker : Window
     {
+        InitializeAPI api;
         public cloudPicker()
         {
             InitializeComponent();
+            api = new InitializeAPI();
         }
 
         private void boxClick(object sender, RoutedEventArgs e)
         {
-            cloudLoginWindow cloudLogWin = new cloudLoginWindow("box");
-            cloudLogWin.Show();
+            //InitializeAPI api = new InitializeAPI();
+            
+            //cloudLoginWindow cloudLogWin = new cloudLoginWindow("box");
+            //cloudLogWin.Show();
             this.Close();
         }
         private void oneDriveClick(object sender, RoutedEventArgs e)
         {
-            cloudLoginWindow cloudLogWin = new cloudLoginWindow("oneDrive");
-            cloudLogWin.Show();
+
+            api.initOneDriveAPI();
+            CloudLogin.oneDriveLogin();
+            //cloudLoginWindow cloudLogWin = new cloudLoginWindow("oneDrive");
+            //cloudLogWin.Show();
             this.Close();
         }
         private void googleDriveClick(object sender, RoutedEventArgs e)
         {
-            cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
-            cloudLogWin.Show();
+            api.initGoogleDriveAPI();
+            CloudLogin.googleDriveLogin();
+            //cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
+            //cloudLogWin.Show();
             this.Close();
         }
     }
