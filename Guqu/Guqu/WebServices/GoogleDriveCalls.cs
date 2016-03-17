@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Guqu.Models;
 using Google.Apis.Download;
 
+using Google.Apis.Drive;
+
 namespace Guqu.WebServices
 {
     class GoogleDriveCalls : ICloudCalls
@@ -72,7 +74,35 @@ namespace Guqu.WebServices
 
         public bool fetchAllMetaData(MetaDataController controller)
         {
-            throw new NotImplementedException();
+            var _googleDriveService = InitializeAPI.googleDriveService;
+
+            ChildrenResource.ListRequest request = _googleDriveService.Children.List("root");
+
+            do
+            {
+                try
+                {
+                    ChildList children = request.Execute();
+
+                    foreach (ChildReference child in children.Items)
+                    {
+                        Console.WriteLine("File Id: " + child.Id);
+                    }
+                    request.PageToken = children.NextPageToken;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred: " + e.Message);
+                    request.PageToken = null;
+                }
+            } while (!String.IsNullOrEmpty(request.PageToken));
+
+
+
+
+
+
+            return false;
         }
 
         public bool shareFile(MemoryStream stream)
