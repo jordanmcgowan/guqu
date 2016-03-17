@@ -228,6 +228,9 @@
     <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="Models\WindowsDownloadManager.cs" />
+    <Compile Include="Views\errorManagerWindow.xaml.cs">
+      <DependentUpon>errorManagerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\shareWindow.xaml.cs">
       <DependentUpon>shareWindow.xaml</DependentUpon>
     </Compile>
@@ -254,6 +257,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\createAccountWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\errorManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
