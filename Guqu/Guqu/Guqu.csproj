@@ -197,19 +197,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="changePathWindow.xaml.cs">
+    <Compile Include="Views\changePathWindow.xaml.cs">
       <DependentUpon>changePathWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="cloudLoginWindow.xaml.cs">
+    <Compile Include="Views\cloudLoginWindow.xaml.cs">
       <DependentUpon>cloudLoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="cloudPickerWindow.xaml.cs">
+    <Compile Include="Views\cloudPickerWindow.xaml.cs">
       <DependentUpon>cloudPickerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="confirmationPrompt.xaml.cs">
+    <Compile Include="Views\confirmationPrompt.xaml.cs">
       <DependentUpon>confirmationPrompt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="createAccountWindow.xaml.cs">
+    <Compile Include="Views\createAccountWindow.xaml.cs">
       <DependentUpon>createAccountWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\BoxCommunicationParser.cs" />
@@ -223,33 +223,33 @@
     <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="Models\WindowsDownloadManager.cs" />
-    <Compile Include="shareWindow.xaml.cs">
+    <Compile Include="Views\shareWindow.xaml.cs">
       <DependentUpon>shareWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="changePathWindow.xaml">
+    <Page Include="Views\changePathWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="WebServices\CloudLogin.cs" />
     <Compile Include="WebServices\InitializeAPI.cs" />
     <Compile Include="WebServices\WebCallerController.cs" />
-    <Page Include="cloudLoginWindow.xaml">
+    <Page Include="Views\cloudLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="cloudPickerWindow.xaml">
+    <Page Include="Views\cloudPickerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="confirmationPrompt.xaml">
+    <Page Include="Views\confirmationPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="createAccountWindow.xaml">
+    <Page Include="Views\createAccountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="logInWindow.xaml">
+    <Page Include="Views\logInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -261,28 +261,28 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="logInWindow.xaml.cs">
+    <Compile Include="Views\logInWindow.xaml.cs">
       <DependentUpon>logInWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="manageCloudAccountsWindow.xaml">
+    <Page Include="Views\manageCloudAccountsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="changePasswordWindow.xaml">
+    <Page Include="Views\changePasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="shareWindow.xaml">
+    <Page Include="Views\shareWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="manageCloudAccountsWindow.xaml.cs">
+    <Compile Include="Views\manageCloudAccountsWindow.xaml.cs">
       <DependentUpon>manageCloudAccountsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -319,13 +319,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="box.png" />
+    <Resource Include="Res\box.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="googleDrive.png" />
+    <Resource Include="Res\googleDrive.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="oneDrive.png" />
+    <Resource Include="Res\oneDrive.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
