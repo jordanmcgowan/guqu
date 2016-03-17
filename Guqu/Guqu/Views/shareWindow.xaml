@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="shareWindow" Height="300" Width="300">
+        Title="shareWindow" Height="300" Width="300"
+        ResizeMode="NoResize">
     <Grid>
         <TextBlock x:Name="shareWindowInfo" HorizontalAlignment="Left" Height="36" Margin="25,3,0,0" TextWrapping="Wrap" Text="Enter the email addresses of the people you want to share with separated by commas" VerticalAlignment="Top" Width="247"/>
         <TextBox x:Name="emailsToShareBox" HorizontalAlignment="Left" Height="43" Margin="25,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="247"/>
         <StackPanel Margin="25,94,20,125">
-            <RadioButton GroupName="shareType" Content="Read/Write (Can upload to folder)" IsChecked="True" Checked="readWrite_Checked"/>
+            <RadioButton GroupName="shareType" Content="Read/Write (Can upload to folder)"  Checked="readWrite_Checked"/>
             <RadioButton GroupName="shareType" Content="Read (Can download)" Checked="read_Checked" />
             <RadioButton GroupName="shareType" Content="View (Cannot download)" Checked="view_Checked" />
         </StackPanel>
