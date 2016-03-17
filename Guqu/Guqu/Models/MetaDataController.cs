@@ -1,11 +1,14 @@
 using System;
 using System.IO;
 using System.Web.Script.Serialization;
-using Guqu.Models.SupportClasses;
+
 using System.Collections.Generic;
+
+using TreeNode = Guqu.Models.SupportClasses.TreeNode;
 
 namespace Guqu.Models
 {
+
     class MetaDataController
     {
         private readonly string METADATAPATH = "\\MetaData\\";
@@ -17,7 +20,7 @@ namespace Guqu.Models
             //rootpath should be defined in settng and on creation of this module, the value is passed in.
             rootStoragePath = rootPath;
             rootStoragePath = "E:\\GuquTestFolder";
-        } 
+        }
         /*
         Get the StreamReader for the MetaData file
         */
@@ -49,7 +52,7 @@ namespace Guqu.Models
         public CommonDescriptor getCommonDescriptorFile(string filePath)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
-            string jsonCD = File.ReadAllText(rootStoragePath + COMMONDESCRIPTORPATH + filePath +".json");
+            string jsonCD = File.ReadAllText(rootStoragePath + COMMONDESCRIPTORPATH + filePath + ".json");
             CommonDescriptor cd = jsonSerializer.Deserialize<CommonDescriptor>(jsonCD);
             return cd;
         }
@@ -77,17 +80,17 @@ namespace Guqu.Models
                 File.WriteAllText(rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath + ".json", serializedJson);
                 Console.WriteLine("Wrote file");
             }
-            catch(InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 Console.WriteLine("{0} InvalidOperation caught.", e);
                 return false;
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 Console.WriteLine("{0} ArgumentException caught.", e);
                 return false;
             }
-            catch(DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException e)
             {
                 //TODO: Should we ever get this error? Should be handled by other procs
                 Console.WriteLine("{0} DirectoryNotFoundException caught.", e);
@@ -103,7 +106,7 @@ namespace Guqu.Models
         public Boolean removeFile(string filePath)
         {
             string mdPath = rootStoragePath + METADATAPATH + filePath + ".json";
-            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + filePath +".json";
+            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + filePath + ".json";
 
             if (File.Exists(mdPath))
             {
@@ -118,55 +121,54 @@ namespace Guqu.Models
             return true;
         }
 
+        
+        
         public TreeNode getRoot(string account)
         {
 
-            TreeNode root = new TreeNode(null, null);
-            string rootPath = rootStoragePath + METADATAPATH + account;
-            return createTree(root, rootPath);
-            
-        }
-        private TreeNode createTree(TreeNode rootNode, string rootFilePath)
-        {
-            var folderQueue = new Queue<TreeNode>();
-            //get everything in this directory. Should be only folders and CD.json files
-            string[] subDirs = Directory.GetFiles(rootFilePath, "*.json", SearchOption.TopDirectoryOnly);
-            FileAttributes curAttr;
-            CommonDescriptor curfileCD;
-            TreeNode childNode;
+        TreeNode root = new TreeNode(null, null);
+        string rootPath = rootStoragePath + METADATAPATH + account;
+        return createTree(root, rootPath);
 
-            foreach(string file in subDirs)
-            {
-                curAttr = File.GetAttributes(file);
+        }
+
+    private TreeNode createTree(TreeNode rootNode, string rootFilePath)
+    {
+        var folderQueue = new Queue<TreeNode>();
+        //get everything in this directory. Should be only folders and CD.json files
+        string[] subDirs = Directory.GetFiles(rootFilePath, "*.json", SearchOption.TopDirectoryOnly);
+        FileAttributes curAttr;
+        CommonDescriptor curfileCD;
+        TreeNode childNode;
+
+        foreach (string file in subDirs)
+        {
+            curAttr = File.GetAttributes(file);
                 //is a CD.json file 
                 if (!curAttr.HasFlag(FileAttributes.Directory))
                 {
                     //add as children
                     curfileCD = getCommonDescriptorFile(file);
                     childNode = new TreeNode(rootNode, curfileCD);
-                   
+
                     //TODO: ensure that all CD store fiile type for folders as 'folder'
                     //Because each actual file is terminated with _file.json, we can be sure
                     //that the directory (which is not terminated) can be found by removing .json from the string
-                    if(curfileCD.FileType.Equals("folder"))
+                    if (curfileCD.FileType.Equals("folder"))
                     {
                         //only will recurse upon directories
-                        rootNode.addChild(createTree(rootNode, file.Replace(".json", "")));                      
+                        rootNode.addChild(createTree(rootNode, file.Replace(".json", "")));
                     }
                     else
                     {
                         //only add the normal files to the rootNode now.
                         rootNode.addChild(childNode);
                     }
-
                 }
 
-            }
-
+      }
             return rootNode;
-
-        }
-
+   }
         /*
         Will delete both the CD and MD directory at a given relative path. If the directory does not exist, then this function won't do anything.
         */
@@ -204,6 +206,6 @@ namespace Guqu.Models
             }
             return true;
         }
-
     }
 }
+

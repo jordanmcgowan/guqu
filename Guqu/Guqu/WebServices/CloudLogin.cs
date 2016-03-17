@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Guqu.Models;
+using WindowsDownloadManager = Guqu.Models.WindowsDownloadManager;
+
 namespace Guqu.WebServices
 {
     class CloudLogin
