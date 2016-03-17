@@ -11,21 +11,21 @@
         <Button  Width="75" Margin="20,97,197,97" Click="boxClick">
             <Button.Template>
                 <ControlTemplate>
-                    <Image Source="box.png"/>
+                    <Image Source="../Res/box.png"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
         <Button  Height=" 75"  Width="75" Click="oneDriveClick">
             <Button.Template>
                 <ControlTemplate>
-                    <Image Source="oneDrive.png"/>
+                    <Image Source="../Res/oneDrive.png"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
         <Button Height="75" Width="75" Margin="197,97,20,97" Click="googleDriveClick">
             <Button.Template>
                 <ControlTemplate>
-                    <Image Source="googleDrive.png"/>
+                    <Image Source="../Res/googleDrive.png"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
