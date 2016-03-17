@@ -77,7 +77,62 @@ namespace Guqu.WebServices
 
         public bool fetchAllMetaData(MetaDataController controller, string accountName)
         {
-            fetchAllMDFiles(controller, formGetRequest("root"), accountName);
+            string googleFolderName = "application/vnd.google-apps.folder";
+
+            //over arching list of files
+            IList<Google.Apis.Drive.v3.Data.File> folders = new List<Google.Apis.Drive.v3.Data.File>();
+
+            //Each iteration fill the files list.
+            IList<Google.Apis.Drive.v3.Data.File> files;
+            //Execution for each iteration
+            Google.Apis.Drive.v3.Data.FileList exec;
+
+            var googleDriveService = InitializeAPI.googleDriveService;
+
+            //begin loop to get all files.
+            Boolean moreFolders = true;
+            FilesResource.GetRequest getRequest;
+            FilesResource.ListRequest listRequest;
+            string nextPageToken = null;
+            while (moreFolders) 
+            {
+                getRequest = formGetRequest("root");
+                var file = getRequest.Execute();
+                listRequest = googleDriveService.Files.List();
+                //get the next 10 possible folders
+                listRequest.PageSize = 10;
+                if(nextPageToken != null)
+                {
+                    listRequest.PageToken = nextPageToken;
+                }
+                listRequest.OrderBy = "folder";
+                listRequest.Fields = "nextPageToken, files";
+
+                exec = listRequest.Execute();
+                files = exec.Files;
+                nextPageToken = exec.NextPageToken;
+                //now we have the next page size worth of files, check the last to see if it is a folder
+                
+                foreach(var newFile in files)
+                {
+                    if (newFile.MimeType.Equals(googleFolderName))
+                    {
+                        //is a folder
+                        if(newFile.Trashed == false)
+                        {
+                            //and not trashed
+                            folders.Add(newFile);
+                        }
+                    }
+                    else
+                    {
+                        moreFolders = false;
+                    }
+                }
+            }
+
+
+
             return true;
         }
         //TODO: have controller be global, or static
@@ -145,6 +200,7 @@ namespace Guqu.WebServices
         {
             var driveService = InitializeAPI.googleDriveService;
             FilesResource.GetRequest getRequest = driveService.Files.Get(fileID);
+
             return getRequest;
         }
 
