@@ -188,8 +188,8 @@ namespace Guqu
         }
         private void changePasswordClicked(object sender, RoutedEventArgs e)
         {
-            changePasswordWindow changePassWin = new changePasswordWindow();
-            changePassWin.Show();
+            /*changePasswordWindow changePassWin = new changePasswordWindow();
+            changePassWin.Show();*/
         }
         private void changePathClicked(object sender, RoutedEventArgs e)
         {
