@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GuquMysql;
 
 namespace Guqu
 {
@@ -66,6 +67,7 @@ namespace Guqu
 
         private bool validInput(String email, String emailConfirm, String password, String passwordConfirm)
         {
+
             if (!email.Equals(emailConfirm) || !emailExists(email))
             {
                 this.errorMessage.Text = "Error incorrect email.";
@@ -73,16 +75,28 @@ namespace Guqu
             }
             else
             {
-                if (password.Length < 8 || !password.Equals(passwordConfirm))
+                ServerCommunicationController db = new ServerCommunicationController(); //TODO: make this object as global
+                if (!db.emailExists(email))
                 {
-                    
-                    this.errorMessage.Text = "Error incorrect password.";
-                    return false;
+
+                    if (password.Length < 8 || !password.Equals(passwordConfirm))
+                    {
+
+                        this.errorMessage.Text = "Error incorrect password.";
+                        return false;
+                    }
+
+                    else
+                    {
+                        //DB INSERT
+                        db.Insert("users", email, password, "salt");
+                        return true;
+                    }
                 }
-         
                 else
                 {
-                    return true;
+                    this.errorMessage.Text = "Email already exists. Please try again!";
+                    return false;
                 }
             }          
         } 

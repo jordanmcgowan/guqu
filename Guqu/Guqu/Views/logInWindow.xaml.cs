@@ -11,14 +11,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GuquMysql;
 
 namespace Guqu
 {
+    
+    
+
     /// <summary>
     /// Interaction logic for logInWindow.xaml
     /// </summary>
     public partial class logInWindow : Window
     {
+
+        
+
         public logInWindow()
         {
             InitializeComponent();
@@ -26,18 +33,16 @@ namespace Guqu
 
         private void loginClick(object sender, RoutedEventArgs e)
         {
-            if (usernameExists(textBox.Text.ToString()))
-            {
-                if (passwordCorrect(passwordBox.Password.ToString()))
-                {
+
+            string email = textBox.Text.ToString();
+            string pass = passwordBox.Password.ToString();
+
+            if (usernameExists(email, pass))
+            {    
                     MainWindow mainWin = new MainWindow();
                     mainWin.Show();
                     this.Close();
-                }
-                else//passwordIncorect
-                {
-                    errorMessage.Text = "Incorrect password.";
-                }
+
             }
             else//user name doesn't exist
             {
@@ -47,26 +52,41 @@ namespace Guqu
 
         }
         //check if username given exists
-        private bool usernameExists(String username)
+        private bool usernameExists(string username, string pass)
         {
-            return true;
+            ServerCommunicationController db = new ServerCommunicationController(); //TODO: make this object as global
+            List<String> list = db.Select("users", username);
+            if (list.Count > 0){
+                if (list[1] == username)
+                {
+                    passwordCorrect(list[4], pass);
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
         }
         //check to see if password for given username is correct
-        private bool passwordCorrect(String password)
+        private bool passwordCorrect(string dbPassword, string enteredPassword)
         {
-            return true;
+            if (enteredPassword == dbPassword)
+            {
+                return true;
+            }
+            else
+            {
+                errorMessage.Text = "Incorrect password.";
+                return false;
+            }
         }
 
         private void createAccountClick(object sender, RoutedEventArgs e)
         {
-            //if (!acceptableEmailAddress())
-            //{
-            // error message  
-            //}
-            //if (!acceptablePassword())
-            //{
-            // error message
-            //}
+
             createAccountWindow createWin = new createAccountWindow();
             createWin.Show();
             this.Close();

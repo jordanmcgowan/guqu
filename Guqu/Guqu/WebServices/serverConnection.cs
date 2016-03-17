@@ -9,13 +9,14 @@ using System.Diagnostics;
 
 namespace GuquMysql
 {
+    /*
     class ServerCommunicationController
     {
         static void Main(string[] args)
         {
             DBConnect dbc = new DBConnect();
             List<String>[] arr = new List<string>[3];
-            arr = dbc.Select();
+            //arr = dbc.Select();
             Debug.WriteLine("-------------------FETCH START----------------");
             foreach (List<String> li in arr)
             {
@@ -27,9 +28,9 @@ namespace GuquMysql
             }
         }
     }
+    */
 
-
-    class DBConnect
+    class ServerCommunicationController
     {
         private MySqlConnection connection;
         private string server;
@@ -38,7 +39,7 @@ namespace GuquMysql
         private string password;
 
         //Constructor
-        public DBConnect()
+        public ServerCommunicationController()
         {
             Initialize();
         }
@@ -101,9 +102,14 @@ namespace GuquMysql
         }
 
         //Insert statement
-        public void Insert(string email, string hash, string salt)
+        public void Insert(string tablename, string email, string hash, string salt)
         {
-            string query = "INSERT INTO users (email, pash_hash, pass_salt) VALUES(" + email + ", " + hash +  ", " + salt + ");";
+            string query = "";
+
+            if (tablename == "users")
+            {
+                query = "INSERT INTO " + tablename + " (email, pass_hash, pass_salt, sign_up_date, last_login) VALUES(\"" + email + "\", \"" + hash + "\", \"" + salt + "\", NOW(), NOW());";
+            }
 
             //open connection
             if (this.OpenConnection() == true)
@@ -156,20 +162,18 @@ namespace GuquMysql
         }
         */
         //Select statement
-        public List<string>[] Select()
+        public List<string> Select(string tablename, string email)
         {
-            string query = "SELECT * FROM users";
+            string query = "SELECT * FROM " + tablename + " WHERE email = \"" + email + "\";";
+            Console.WriteLine(query);
 
             //Create a list to store the result
-            List<string>[] list = new List<string>[3];
-            list[0] = new List<string>();
-            list[1] = new List<string>();
-            list[2] = new List<string>();
-
-            //Open connection
+            //List<string>[] list = new List<string>[8];
+            //list[0] = new List<string>();
+            List<string> list = new List<string>();
+            //Create Command
             if (this.OpenConnection() == true)
             {
-                //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -177,9 +181,15 @@ namespace GuquMysql
                 //Read the data and store them in the list
                 while (dataReader.Read())
                 {
-                    list[0].Add(dataReader["user_id"] + "");
-                    list[1].Add(dataReader["email"] + "");
-                    list[2].Add(dataReader["sign_up_date"] + "");
+                    list.Add(dataReader["user_id"] + "");
+                    list.Add(dataReader["email"] + "");
+                    list.Add(dataReader["sign_up_date"] + "");
+                    list.Add(dataReader["last_login"] + "");
+                    list.Add(dataReader["pass_hash"] + "");
+                    list.Add(dataReader["pass_salt"] + "");
+                    list.Add(dataReader["failed_pass_attempts"] + "");
+                    list.Add(dataReader["failed_pass_date"] + "");
+
                 }
 
                 //close Data Reader
@@ -189,10 +199,20 @@ namespace GuquMysql
                 this.CloseConnection();
 
                 //return list to be displayed
-                return list;
+                if (list.Count > 0)
+                {
+                    Console.WriteLine(list[1]);
+                    return list;
+                }
+                else
+                {
+                    Console.WriteLine("No results");
+                    return list;
+                }
             }
             else
             {
+                Console.WriteLine("Conn not open");
                 return list;
             }
         }
@@ -208,9 +228,14 @@ namespace GuquMysql
             {
                 //Create Mysql Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 //ExecuteScalar will return one value
                 Count = int.Parse(cmd.ExecuteScalar() + "");
+
+
+                //close Data Reader
+                dataReader.Close();
 
                 //close Connection
                 this.CloseConnection();
@@ -276,7 +301,53 @@ namespace GuquMysql
         */
 
 
+        public Boolean emailExists(string email)
+        {
+            string query = "SELECT COUNT(*) AS emailcount FROM users WHERE email = \"" + email + "\";";
+            //Open Connection
+            if (this.OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
 
+                int doesExist = -1;
+
+                //Read the data and store them in the list
+                while (dataReader.Read())
+                {
+                    doesExist = Int32.Parse(dataReader["emailcount"] + "");
+
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                if (doesExist == 1)
+                {
+                    return true;
+                }
+                else if (doesExist == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Verification failed.");
+                    return false;
+                }
+
+                
+            }
+            else
+            {
+                Console.WriteLine("ERROR!!");
+                return false;
+            }
+        }
 
 
 
