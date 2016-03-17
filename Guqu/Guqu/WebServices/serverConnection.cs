@@ -10,27 +10,6 @@ using Guqu.WebServices;
 
 namespace GuquMysql
 {
-    /*
-    class ServerCommunicationController
-    {
-        static void Main(string[] args)
-        {
-            DBConnect dbc = new DBConnect();
-            List<String>[] arr = new List<string>[3];
-            //arr = dbc.Select();
-            Debug.WriteLine("-------------------FETCH START----------------");
-            foreach (List<String> li in arr)
-            {
-                foreach (String str in li)
-                {
-                    Debug.Write(str);
-                }
-                Debug.WriteLine("");
-            }
-        }
-    }
-    */
-
     class ServerCommunicationController
     {
         private MySqlConnection connection;

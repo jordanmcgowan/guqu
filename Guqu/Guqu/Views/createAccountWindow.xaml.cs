@@ -33,11 +33,10 @@ namespace Guqu
             String password;
             String passwordConfirm;
 
-
             email = this.email.GetLineText(0);
             emailConfirm = this.emailConfirm.GetLineText(0);
-            password = this.password.GetLineText(0);
-            passwordConfirm = this.passwordConfirm.GetLineText(0);
+            password = this.password.Password.ToString();
+            passwordConfirm = this.passwordConfirm.Password.ToString();
             if (validInput(email, emailConfirm, password, passwordConfirm))
             {
                 //create account
@@ -95,7 +94,7 @@ namespace Guqu
                 else
                 {
                     //Create DB connection if email is valid
-                    ServerCommunicationController db = new ServerCommunicationController(); //TODO: make this object as global
+                    ServerCommunicationController db = new ServerCommunicationController();
 
                     if (!db.emailExists(email))
                     {
@@ -113,7 +112,7 @@ namespace Guqu
                         else
                         {
                             //DB INSERT
-                            db.Insert("users", email, password, "salt"); //TODO: add hasing & salting
+                            db.Insert("users", email, password, "salt"); //TODO: Iteration 2: add hasing & salting
                             Console.WriteLine(email + " has been added successfully.");
                             return true;
                         }

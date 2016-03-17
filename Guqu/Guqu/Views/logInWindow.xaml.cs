@@ -31,14 +31,11 @@ namespace Guqu
         {
             InitializeComponent();
         }
-
+        
         private void loginClick(object sender, RoutedEventArgs e)
         {
-
             string email = textBox.Text.ToString();
             string pass = passwordBox.Password.ToString();
-
-
 
             if (email == "")
             {
@@ -51,14 +48,14 @@ namespace Guqu
             else
             {
                 //Query DB users table for username entered
-                ServerCommunicationController db = new ServerCommunicationController(); //TODO: make this object as global
+                ServerCommunicationController db = new ServerCommunicationController();
 
                 if (db.emailExists(email))
                 {
                     User user = db.SelectUser(email);
                     //List<String> list = db.SelectUser(email);
 
-                    if (user.Pass_hash == pass) //TODO: add hasing & salting
+                    if (user.Pass_hash == pass) //TODO: Iteration 2: add hasing & salting
                     {
                         MainWindow mainWin = new MainWindow();
                         mainWin.Show();
