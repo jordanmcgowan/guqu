@@ -8,6 +8,8 @@ using Guqu.Models;
 using Google.Apis.Download;
 
 using Google.Apis.Drive;
+using Google.Apis.Drive.v3;
+using System.Collections;
 
 namespace Guqu.WebServices
 {
@@ -72,9 +74,70 @@ namespace Guqu.WebServices
 
         }
 
-        public bool fetchAllMetaData(MetaDataController controller)
+        public bool fetchAllMetaData(MetaDataController controller, string accountName)
         {
-            return false;
+            fetchAllMDFiles(controller, formGetRequest("root"), accountName);
+            return true;
+        }
+        //TODO: have controller be global, or static
+        private void fetchAllMDFiles(MetaDataController controller, FilesResource.GetRequest getRequest, string relativeRequestPath)
+        {
+
+            //getRequest.Fields = "children";
+            var file = getRequest.Execute();
+            //don't want metadata for root
+            var googleDriveService = InitializeAPI.googleDriveService;
+            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
+            listRequest.PageSize = 25;
+            //listRequest.Fields = "nextPageToken, files(id, name)";
+            listRequest.OrderBy = "folder";
+
+            //listRequest.Execute().NextPageToken;
+
+            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
+                .Files;
+            string pathForFile;
+            //string nextToken = listRequest.Execute().NextPageToken;
+            Google.Apis.Drive.v3.Data.File curFile;
+            while (files.Count != 0) //while there are elements
+            {
+                curFile = files.First(); //get first file 
+                pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
+                //TODO: define this string somewhre
+                if(curFile.MimeType.Equals("application/vnd.google-apps.folder"))
+                {
+                    
+                    //store data for the folder
+                    File.WriteAllText(pathForFile, curFile);
+                    fetchAllMDFiles(controller, formGetRequest(curFile.Id), relativeRequestPath + "//" + curFile.Name);
+                }
+                else
+                {
+
+                }
+            }
+
+
+            /*
+            // Define parameters of request.
+            var googleDriveService = InitializeAPI.googleDriveService;
+            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
+            listRequest.PageSize = 25;
+            listRequest.Fields = "nextPageToken, files(id, name)";
+            listRequest.OrderBy = "folder";
+
+            //listRequest.Execute().NextPageToken;
+
+            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
+                .Files;
+
+    */
+        }
+        private FilesResource.GetRequest formGetRequest(string fileID)
+        {
+            var driveService = InitializeAPI.googleDriveService;
+            FilesResource.GetRequest getRequest = driveService.Files.Get(fileID);
+            return getRequest;
         }
 
         public bool shareFile(MemoryStream stream)

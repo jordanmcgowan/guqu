@@ -18,6 +18,7 @@ namespace Guqu.Models
 
         public CommonDescriptor(string name, string fileType, string filePath, string fileID, DateTime lastModified, long fileSize)
         {
+            //TODO: store a isFile boolean, in the future save the fileType as 'vnd.applicaiton.google.folder' (or whatever), and set is file to true
             FileName = name;
             FileType = fileType;
             FilePath = filePath;
