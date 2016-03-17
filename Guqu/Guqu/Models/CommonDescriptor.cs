@@ -12,17 +12,18 @@ namespace Guqu.Models
     [Serializable]
     public class CommonDescriptor
     {
-        private string fileName, fileType, filePath;
+        private string fileName, fileType, filePath, fileID;
         private DateTime lastModified;
         private long fileSize;
 
-        public CommonDescriptor(string name, string fileType, string filePath, DateTime lastModified, long fileSize)
+        public CommonDescriptor(string name, string fileType, string filePath, string fileID, DateTime lastModified, long fileSize)
         {
             FileName = name;
             FileType = fileType;
             FilePath = filePath;
             LastModified = lastModified;
             FileSize = fileSize;
+            FileID = fileID;
         }
         public CommonDescriptor()
         {
@@ -66,7 +67,18 @@ namespace Guqu.Models
                 filePath = value;
             }
         }
+        public string FileID
+        {
+            get
+            {
+                return fileID;
+            }
 
+            set
+            {
+                fileID = value;
+            }
+        }
         public DateTime LastModified
         {
             get
