@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.ObjectModel;
 using Guqu.Models.SupportClasses;
+using System.Windows.Forms;
 
 namespace Guqu
 {
@@ -27,7 +28,9 @@ namespace Guqu
     public partial class MainWindow : Window
     {
 
-        CommonDescriptor cd;
+        private CommonDescriptor cd;
+
+
         public MainWindow()
         {
 
@@ -45,7 +48,7 @@ namespace Guqu
 
 
 
-            List <string> accountServices = new List<String>();
+            List<string> accountServices = new List<String>();
             accountServices.Add("driveDrive");
             accountServices.Add("boxBook");
             accountServices.Add("cloudFace");
@@ -55,11 +58,13 @@ namespace Guqu
             accountNames.Add("myOtherUsername");
             accountNames.Add("myOtherOtherUsername");
 
+            /*
             MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
             TreeNode rootnode = mdc.getRoot("test");
             MenuItem root = new MenuItem() { Title = "test" }; //label as the account name
             root = populateMenuItem(root, rootnode);
-            
+            */
+
             /*
             foreach (var ele in rootnode.getChildren())
             {
@@ -74,8 +79,8 @@ namespace Guqu
                 }
             }
             */
-            fileTreeMenu.Items.Add(root);
-            
+            //fileTreeMenu.Items.Add(root);
+
             //Dummy data to display path
             List<string> mylist = new List<string>(new string[] { "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element2", "element3", });
             String path = generatePath(mylist);
@@ -83,7 +88,7 @@ namespace Guqu
 
 
         }
-        private MenuItem populateMenuItem(MenuItem root, TreeNode node)
+        private MenuItem populateMenuItem(MenuItem root, Guqu.Models.SupportClasses.TreeNode node)
         {
             MenuItem newFolder;
             foreach (var ele in node.getChildren())
@@ -141,7 +146,7 @@ namespace Guqu
             String path = "";
             foreach (String file in hierarchy)
             {
-                path = path  + file + " > ";
+                path = path + file + " > ";
             }
             return path;
 
@@ -154,7 +159,25 @@ namespace Guqu
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Please select a folder to download the files to.";
+            DialogResult result = fbd.ShowDialog();
+            string selectedFolderPath;
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                selectedFolderPath = fbd.SelectedPath;
+                MetaDataController mdc = new MetaDataController(selectedFolderPath);
+                GoogleDriveCalls gdc = new GoogleDriveCalls();
+                gdc.fetchAllMetaData(mdc, "Google Drive");
 
+                Guqu.Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
+                root = populateMenuItem(root, rootnode);
+                fileTreeMenu.Items.Add(root);
+            }
+
+
+            //TreeNode rootNode = mdc.getRoot("test");
         }
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
@@ -165,21 +188,18 @@ namespace Guqu
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
-            GoogleDriveCalls gdc = new GoogleDriveCalls();
-            gdc.fetchAllMetaData(mdc, "test");
-            //TreeNode rootNode = mdc.getRoot("test");
+
         }
-        private void populateTree(TreeNode treeRoot, MenuItem xamlRoot)
+        private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {
             xamlRoot = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
             recursiveBuildTree(treeRoot, xamlRoot);
 
         }
 
-        private void recursiveBuildTree(TreeNode treeRoot, MenuItem xamlRoot)
+        private void recursiveBuildTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {
-            foreach (TreeNode child in treeRoot.getChildren())
+            foreach (Guqu.Models.SupportClasses.TreeNode child in treeRoot.getChildren())
             {
                 MenuItem currNode = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
                 recursiveBuildTree(child, currNode);
@@ -191,17 +211,17 @@ namespace Guqu
 
     }
     public class MenuItem
+    {
+        public MenuItem()
         {
-            public MenuItem()
-            {
-                this.Items = new ObservableCollection<MenuItem>();
-            }
-
-            public string Title { get; set; }
-
-            public ObservableCollection<MenuItem> Items { get; set; }
+            this.Items = new ObservableCollection<MenuItem>();
         }
-    
+
+        public string Title { get; set; }
+
+        public ObservableCollection<MenuItem> Items { get; set; }
+    }
+
     public class fileOrFolder
     {
         public string Name { get; set; }
