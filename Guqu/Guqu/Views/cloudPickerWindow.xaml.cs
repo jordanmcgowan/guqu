@@ -53,7 +53,9 @@ namespace Guqu
             //cloudLogWin.Show();
             foreach (var wnd in Application.Current.Windows)
             {
-                if (wnd is MainWindow || wnd is cloudPicker)
+                //TODO: removed || cloudPickerWindow for demo purposes for Iteration 1.
+                //TODO: this logic needs to be redone.
+                if (wnd is MainWindow)
                 {
                     Console.WriteLine("Main or Cloud window open");
                 }
