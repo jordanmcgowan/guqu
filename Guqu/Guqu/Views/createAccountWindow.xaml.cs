@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GuquMysql;
+using Guqu.WebServices;
 
 namespace Guqu
 {
@@ -31,11 +33,10 @@ namespace Guqu
             String password;
             String passwordConfirm;
 
-
             email = this.email.GetLineText(0);
             emailConfirm = this.emailConfirm.GetLineText(0);
-            password = this.password.GetLineText(0);
-            passwordConfirm = this.passwordConfirm.GetLineText(0);
+            password = this.password.Password.ToString();
+            passwordConfirm = this.passwordConfirm.Password.ToString();
             if (validInput(email, emailConfirm, password, passwordConfirm))
             {
                 //create account
@@ -66,25 +67,92 @@ namespace Guqu
 
         private bool validInput(String email, String emailConfirm, String password, String passwordConfirm)
         {
-            if (!email.Equals(emailConfirm) || !emailExists(email))
+
+            if (email == "" || emailConfirm == "")
             {
-                this.errorMessage.Text = "Error incorrect email.";
+                errorMessage.Text = "Please enter Email.";
+                return false;
+            }
+            else if (password == "" || passwordConfirm == "")
+            {
+                errorMessage.Text = "Please enter Password.";
                 return false;
             }
             else
             {
-                if (password.Length < 8 || !password.Equals(passwordConfirm))
+                //Checks if emails are different or invalid (don't contain @ + .)
+                if (!email.Equals(emailConfirm))
                 {
-                    
-                    this.errorMessage.Text = "Error incorrect password.";
+                    this.errorMessage.Text = "Please confirm email correctly.";
                     return false;
                 }
-         
+                else if (!emailExists(email))
+                {
+                    this.errorMessage.Text = "Incorrect email format.";
+                    return false;
+                }
                 else
                 {
-                    return true;
+                    //Create DB connection if email is valid
+                    ServerCommunicationController db = new ServerCommunicationController();
+
+                    if (!db.emailExists(email))
+                    {
+                        //Checks if passwords are different or invalid (less than 8 chars)
+                        if (password.Length < 8)
+                        {
+                            this.errorMessage.Text = "Password should be 8 characters minimum.";
+                            return false;
+                        }
+                        else if (!password.Equals(passwordConfirm))
+                        {
+                            this.errorMessage.Text = "Please confirm password correctly.";
+                            return false;
+                        }
+                        else
+                        {
+                            //DB INSERT
+                            db.Insert("users", email, password, "salt"); //TODO: Iteration 2: add hasing & salting
+                            Console.WriteLine(email + " has been added successfully.");
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        errorMessage.Text = "Email already exists. Please try again.";
+                        return false;
+                    }
+
+
+                    /*
+                    //Check DB to see if email is already in use
+                    if (!db.emailExists(email))
+                    {
+                        //Checks if passwords are different or invalid (less than 8 chars)
+                        if (password.Length < 8 || !password.Equals(passwordConfirm))
+                        {
+
+                            this.errorMessage.Text = "Error incorrect password.";
+                            return false;
+                        }
+
+                        else
+                        {
+                            //DB INSERT
+                            db.Insert("users", email, password, "salt");
+                            return true;
+                        }
+                    }
+                    //Email is already in DB, cant create another account with that email
+                    else
+                    {
+                        this.errorMessage.Text = "Email already exists. Please try again!";
+                        return false;
+                    }
+                    */
                 }
-            }          
+            }
+                     
         } 
 
 

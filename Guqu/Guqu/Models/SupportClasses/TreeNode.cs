@@ -31,5 +31,10 @@ namespace Guqu.Models.SupportClasses
         {
             children.AddLast(child);
         }
+        public CommonDescriptor getCommonDescriptor()
+        {
+            return commonDescriptor;
+        }
+
     }
 }

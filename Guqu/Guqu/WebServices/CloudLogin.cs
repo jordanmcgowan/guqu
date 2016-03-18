@@ -35,13 +35,15 @@ namespace Guqu.WebServices
                 ApplicationName = "Guqu",
             });
 
+            InitializeAPI.googleDriveService = _googleDriveService;
+
 
 
             /*
             ****************************************
            THIS BLOCK NEEDED FOR TESTING
            WILL PRINT OUT LIST OF FILES IN CONSOLE
-            *****************************************/
+            *****************************************
 
 
 
@@ -120,7 +122,7 @@ namespace Guqu.WebServices
                 Console.WriteLine("No files found.");
             }
             Console.Read();
-
+            */
 
         }
 
