@@ -55,117 +55,50 @@ namespace Guqu
             accountNames.Add("myOtherUsername");
             accountNames.Add("myOtherOtherUsername");
 
-
-            //Dummy data to prove scrolling works for file tree view
-            //TODO figure out how data is being brought in
-            //TODO figure out how make tree from that data, neither of these will prolly be bad
-            MenuItem root = new MenuItem() { Title = "Menu" };
-            MenuItem childItem1 = new MenuItem() { Title = "Child item #1" };
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.1" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem1.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            MenuItem childItem2 = new MenuItem() { Title = "Child item #1" };
-            childItem2.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem2.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            MenuItem childItem3 = new MenuItem() { Title = "Child item #1" };
-
-            childItem3.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem3.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem3.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem3.Items.Add(new MenuItem() { Title = "Child item #1.2" });
-            childItem2.Items.Add(childItem3);
-            childItem1.Items.Add(childItem2);
-            root.Items.Add(childItem1);
-
-            root.Items.Add(new MenuItem() { Title = "Child item #3" });
+            MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
+            TreeNode rootnode = mdc.getRoot("test");
+            MenuItem root = new MenuItem() { Title = "test" }; //label as the account name
+            root = populateMenuItem(root, rootnode);
+            
+            /*
+            foreach (var ele in rootnode.getChildren())
+            {
+                if (ele.getCommonDescriptor().FileType.Equals("folder"))
+                {
+                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName };
+                    root.Items.Add(newFolder);
+                }
+                else
+                {
+                    root.Items.Add(new MenuItem() { Title = ele.getCommonDescriptor().FileName });
+                }
+            }
+            */
             fileTreeMenu.Items.Add(root);
-
-            //Dummy data for folderView
-            List<fileOrFolder> items = new List<fileOrFolder>();
-            items.Add(new fileOrFolder() { Name = "myFile1", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile2", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile3", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile4", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile5", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile6", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile7", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile8", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFile9", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilea", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFileb", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilec", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFiled", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilee", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilef", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFileg", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFileh", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilei", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilej", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilek", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilel", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilem", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilen", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFileo", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilep", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFileq", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFiler", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFiles", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilet", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFileu", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilev", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilew", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilex", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFiley", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-            items.Add(new fileOrFolder() { Name = "myFilez", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11" });
-
-            folderView.ItemsSource = items;
-
-
+            
             //Dummy data to display path
             List<string> mylist = new List<string>(new string[] { "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element2", "element3", });
             String path = generatePath(mylist);
             pathBox.Text = path;
 
 
+        }
+        private MenuItem populateMenuItem(MenuItem root, TreeNode node)
+        {
+            MenuItem newFolder;
+            foreach (var ele in node.getChildren())
+            {
+                if (ele.getCommonDescriptor().FileType.Equals("folder"))
+                {
+                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName };
+                    root.Items.Add(populateMenuItem(newFolder, ele));
+                }
+                else
+                {
+                    root.Items.Add(new MenuItem() { Title = ele.getCommonDescriptor().FileName });
+                }
+            }
+            return root;
         }
 
         private void logoutClicked(object sender, RoutedEventArgs e)
@@ -232,8 +165,10 @@ namespace Guqu
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-
-
+            MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            gdc.fetchAllMetaData(mdc, "test");
+            //TreeNode rootNode = mdc.getRoot("test");
         }
         private void populateTree(TreeNode treeRoot, MenuItem xamlRoot)
         {

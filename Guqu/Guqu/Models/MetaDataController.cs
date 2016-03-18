@@ -20,7 +20,9 @@ namespace Guqu.Models
         {
             //rootpath should be defined in settng and on creation of this module, the value is passed in.
             rootStoragePath = rootPath;
-            rootStoragePath = "E:\\GuquTestFolder";
+            //create MetaData/Common descriptor folders if they don't exist.
+            createDirectory("");
+            //rootStoragePath = "E:\\GuquTestFolder";
         }
         /*
         Get the StreamReader for the MetaData file
@@ -235,6 +237,15 @@ namespace Guqu.Models
         {
             string mdPath = rootStoragePath + METADATAPATH + relativeDirectoryPath;
             string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + relativeDirectoryPath;
+
+            if (mdPath.EndsWith("\\")) //ends with "\\"
+            {
+                mdPath = mdPath.Remove(mdPath.LastIndexOf("\\"));
+            }
+            if (cdPath.EndsWith("\\")) //ends with "\\"
+            {
+                cdPath = cdPath.Remove(cdPath.LastIndexOf("\\"));
+            }
 
             if (!Directory.Exists(mdPath))
             {
