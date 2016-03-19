@@ -14,10 +14,11 @@ namespace Guqu.Models
         public GoogleDriveCommunicationParser()
         {
             cd_google_Term_Dictionary = new Dictionary<string, string>();
-            cd_google_Term_Dictionary.Add("fileName", "title");
-            cd_google_Term_Dictionary.Add("fileType", "mimeType");
-            cd_google_Term_Dictionary.Add("fileSize", "fileSize");
-            cd_google_Term_Dictionary.Add("lastModified", "modifiedData");
+            cd_google_Term_Dictionary.Add("fileName", "Name");
+            cd_google_Term_Dictionary.Add("fileType", "MimeType");
+            cd_google_Term_Dictionary.Add("fileSize", "Size");
+            cd_google_Term_Dictionary.Add("fileID", "Id");
+            cd_google_Term_Dictionary.Add("lastModified", "ModifiedTime");
         }
 
         //Required by interface
@@ -28,7 +29,7 @@ namespace Guqu.Models
             cd_google_Value_Dictionary = parser.retrieveValues(cd_google_Term_Dictionary, fileStreamReader);
 
             //variables to pass in
-            string fileName, fileType, fsize, lastMod;
+            string fileName, fileType, fsize, lastMod, fileID;
             DateTime lastModified;
             int fileSize;
 
@@ -40,12 +41,13 @@ namespace Guqu.Models
                 //do translaion for fileType
                 fileType = "folder";
             }
+            cd_google_Value_Dictionary.TryGetValue("fileID", out fileID);
             cd_google_Value_Dictionary.TryGetValue("fileSize", out fsize);
             cd_google_Value_Dictionary.TryGetValue("lastModified", out lastMod);
             lastModified = Convert.ToDateTime(lastMod);
             Int32.TryParse(fsize, out fileSize);
 
-            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, lastModified, fileSize);
+            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
 
             return cd;
         }

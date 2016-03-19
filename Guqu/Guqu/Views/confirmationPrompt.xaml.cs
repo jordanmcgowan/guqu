@@ -15,13 +15,23 @@ using System.Windows.Shapes;
 namespace Guqu
 {
     /// <summary>
-    /// Interaction logic for manageCloudAccountsWindow.xaml
+    /// Interaction logic for confirmationPrompt.xaml
     /// </summary>
-    public partial class manageCloudAccountsWindow : Window
+    public partial class confirmationPrompt : Window
     {
-        public manageCloudAccountsWindow()
+        public confirmationPrompt()
         {
             InitializeComponent();
+        }
+
+        private void yesClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void noClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
         Title="manageCloudAccountsWindow" Height="300" Width="300">
-    <Grid>
-        
+    <Grid >
+
+        <ListView Margin="10,10,10 60" x:Name="listView">
+        </ListView>
+        <Button x:Name="delete_button" Content="Delete Account" HorizontalAlignment="Left" Margin="156,220,0,0" VerticalAlignment="Top" Width="110" Height="30" Click= "delete_click"/>
+        <Button x:Name="add_Copy" Content="Add Account" HorizontalAlignment="Left" Margin="30,220,0,0" VerticalAlignment="Top" Width="110" Height="30" Click= "add_click"/>
+
     </Grid>
 </Window>
