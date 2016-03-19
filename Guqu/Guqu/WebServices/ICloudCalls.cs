@@ -13,7 +13,7 @@ namespace Guqu.WebServices
 
         //returns Memory Stream of file data
         //must be written to
-        Task<bool> downloadFile(Google.Apis.Drive.v3.Data.File file);
+        Task<bool> downloadFile(CommonDescriptor cd);
 
         //returns TRUE if file upload was successful, 
         //else FALSE

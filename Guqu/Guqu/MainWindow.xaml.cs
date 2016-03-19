@@ -159,6 +159,7 @@ namespace Guqu
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
+            
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
@@ -170,11 +171,19 @@ namespace Guqu
                 GoogleDriveCalls gdc = new GoogleDriveCalls();
                 gdc.fetchAllMetaData(mdc, "Google Drive");
 
-                Guqu.Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
                 MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
                 root = populateMenuItem(root, rootnode);
                 fileTreeMenu.Items.Add(root);
+
+                LinkedList<Models.SupportClasses.TreeNode> nodes = rootnode.getChildren();
+                IEnumerator<Models.SupportClasses.TreeNode> nodesEnum = nodes.GetEnumerator();
+                nodesEnum.MoveNext();
+                nodesEnum.MoveNext();
+                CommonDescriptor cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
+                gdc.downloadFile(cd);
             }
+            
 
 
             //TreeNode rootNode = mdc.getRoot("test");

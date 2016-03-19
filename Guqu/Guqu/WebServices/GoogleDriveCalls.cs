@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Guqu.Models;
 using Google.Apis.Download;
-
-using Google.Apis.Drive;
 using Google.Apis.Drive.v3;
-using System.Collections;
 using System.Web.Script.Serialization;
 
 namespace Guqu.WebServices
@@ -23,19 +19,22 @@ namespace Guqu.WebServices
             googleCommParser = new GoogleDriveCommunicationParser();
         }
 
-        public async Task<bool> downloadFile(Google.Apis.Drive.v3.Data.File file)
+        public async Task<bool> downloadFile(CommonDescriptor cd)
         {
+
             var _googleDriveService = InitializeAPI.googleDriveService;
-            var _file = file;
+            //Google.Apis.Drive.v3.Data.File file = new Google.Apis.Drive.v3.Data.File();
+            //file.Id = cd.FileID;
+            //var _file = _googleDriveService.Files.Get(cd.FileID);
             
             Console.WriteLine("********");
-            Console.WriteLine(file.Id);
-            Console.WriteLine(_file.Name);
-            Console.Write(_file.MimeType);
+            Console.WriteLine(cd.FileID);
+            //Console.WriteLine(_file.);
+            //Console.Write(_file.);
             Console.WriteLine("********");
 
 
-            var request = _googleDriveService.Files.Export(_file.Id, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+            var request = _googleDriveService.Files.Export(cd.FileID, "application/vnd.oasis.opendocument.text");
             var stream = new MemoryStream();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
 
@@ -66,9 +65,9 @@ namespace Guqu.WebServices
 
             try
             {
-                await request.DownloadAsync(stream);
+                request.Download(stream);
                 //TODO: not always a .doc, change.
-                wdm.downloadFile(stream, _file.Name + ".doc");
+                wdm.downloadFile(stream, cd.FileName + ".odt");
 
             }
             catch (Exception e)
