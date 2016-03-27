@@ -34,6 +34,8 @@ namespace Guqu.WebServices
             Console.WriteLine("********");
 
 
+            //TODO: THE MIMETYPE THIS IS CAN'T BE THE SAME MIMETYPE AS WHAT IT WAS SAVED. It needs to be an export type.
+            //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents
             var request = _googleDriveService.Files.Export(cd.FileID, "application/vnd.oasis.opendocument.text");
             var stream = new MemoryStream();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
