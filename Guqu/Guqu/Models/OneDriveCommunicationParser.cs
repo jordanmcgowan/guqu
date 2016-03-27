@@ -88,6 +88,10 @@ namespace Guqu.Models
 
             return builder.ToString();
         }
+        public string getExtension(string mimeType)
+        {
+            return null;
+        }
 
     }
 }

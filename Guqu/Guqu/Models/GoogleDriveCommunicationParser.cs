@@ -2,24 +2,45 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Newtonsoft.Json.Linq;
 
 namespace Guqu.Models
 {
     class GoogleDriveCommunicationParser : ICommunicationParser
     {
-        
+        private static Dictionary<string, string> mimeType_extension_Dictionary;
         private static Dictionary<string, string> cd_google_Term_Dictionary;
         private Dictionary<string, string> cd_google_Value_Dictionary;
         public GoogleDriveCommunicationParser()
         {
+            //TODO: can these be moved to another class/into a file.
+            //Instantiate the Common Descriptor to Google Terminology dictionary
             cd_google_Term_Dictionary = new Dictionary<string, string>();
             cd_google_Term_Dictionary.Add("fileName", "Name");
             cd_google_Term_Dictionary.Add("fileType", "MimeType");
             cd_google_Term_Dictionary.Add("fileSize", "Size");
             cd_google_Term_Dictionary.Add("fileID", "Id");
             cd_google_Term_Dictionary.Add("lastModified", "ModifiedTime");
-        }
+
+            //Instantiate the mimetype to extension dictionary
+            mimeType_extension_Dictionary = new Dictionary<string, string>();
+            mimeType_extension_Dictionary.Add("text/html", ".HTML");
+            mimeType_extension_Dictionary.Add("text/plain", ".txt");
+            mimeType_extension_Dictionary.Add("application/rtf", ".rtf");
+            mimeType_extension_Dictionary.Add("application/vnd.oasis.opendocument.text", ".odt");
+            mimeType_extension_Dictionary.Add("applicaion/pdf", ".pdf");
+            //TODO: is this the correct extension, is there a '-' (dash) in the mimetype?
+            mimeType_extension_Dictionary.Add("application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".doc");
+            mimeType_extension_Dictionary.Add("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx");
+            mimeType_extension_Dictionary.Add("application/x-vnd.oasis.opendocument.spreadsheet", ".ods");
+            mimeType_extension_Dictionary.Add("application/pdf", ".pdf");
+            mimeType_extension_Dictionary.Add("text/csv", ".csv");
+            mimeType_extension_Dictionary.Add("image/jpeg", ".jpg");
+            mimeType_extension_Dictionary.Add("image/png", ".png");
+            mimeType_extension_Dictionary.Add("image/svg+xml", ".svg");
+            mimeType_extension_Dictionary.Add("application/vnd.openxmlformats-officedocument.presentationml.presentation", ".ppt");
+            mimeType_extension_Dictionary.Add("application/vnd.google-apps.script+json", ".JSON");
+
+        }   
 
         //Required by interface
         public CommonDescriptor createCommonDescriptor(StreamReader fileStreamReader, string relativeFilePath)
@@ -86,5 +107,14 @@ namespace Guqu.Models
             return builder.ToString();
         }
 
+        public string getExtension(string fileType)
+        {
+            //Convert between the mimetype and the extension it is linked to.
+            //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents
+            string extension;
+            mimeType_extension_Dictionary.TryGetValue(fileType, out extension);
+            return extension;
+        }
+        
     }
 }

@@ -36,6 +36,8 @@ namespace Guqu.WebServices
 
             //TODO: THE MIMETYPE THIS IS CAN'T BE THE SAME MIMETYPE AS WHAT IT WAS SAVED. It needs to be an export type.
             //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents
+
+            //TODO: the mimetype needs to be converted from the googledoc format to the corresponding mimetype.
             var request = _googleDriveService.Files.Export(cd.FileID, "application/vnd.oasis.opendocument.text");
             var stream = new MemoryStream();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
@@ -67,7 +69,7 @@ namespace Guqu.WebServices
 
             try
             {
-                request.Download(stream);
+                IDownloadProgress x = await request.DownloadAsync(stream);
                 //TODO: not always a .doc, change.
                 wdm.downloadFile(stream, cd.FileName + ".odt");
 

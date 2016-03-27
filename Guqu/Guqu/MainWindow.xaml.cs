@@ -157,9 +157,8 @@ namespace Guqu
 
         }
 
-        private void downloadButton_Click(object sender, RoutedEventArgs e)
-        {
-            
+        private async void downloadButton_Click(object sender, RoutedEventArgs e)
+        {            
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
@@ -181,12 +180,9 @@ namespace Guqu
                 nodesEnum.MoveNext();
                 nodesEnum.MoveNext();
                 CommonDescriptor cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
-                gdc.downloadFile(cd);
+                await gdc.downloadFile(cd);
             }
             
-
-
-            //TreeNode rootNode = mdc.getRoot("test");
         }
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
