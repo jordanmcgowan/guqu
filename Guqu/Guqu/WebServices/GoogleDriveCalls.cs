@@ -7,6 +7,7 @@ using Guqu.Models;
 using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using System.Web.Script.Serialization;
+using Guqu.Exceptions;
 
 namespace Guqu.WebServices
 {
@@ -36,9 +37,31 @@ namespace Guqu.WebServices
 
             //TODO: THE MIMETYPE THIS IS CAN'T BE THE SAME MIMETYPE AS WHAT IT WAS SAVED. It needs to be an export type.
             //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents
+            string extension;
+            //figure out the mimetype by using the extension in the file name.
+            if (cd.FileName.IndexOf('.') != -1)
+            {
+                //has an extension.
+                extension = cd.FileName.Substring(cd.FileName.IndexOf('.')); //gets the extension.
+            }
+            else
+            {
+                //get a 'default' extension based on the format.
+                extension = cd.FileType;
+            }
 
-            //TODO: the mimetype needs to be converted from the googledoc format to the corresponding mimetype.
-            var request = _googleDriveService.Files.Export(cd.FileID, "application/vnd.oasis.opendocument.text");
+            GoogleDriveCommunicationParser gdcp = new GoogleDriveCommunicationParser();
+            string mimeType = ""; //should never get to the request before it has been changed, or an exception thrown.
+            try
+            {
+                mimeType = gdcp.getMimeType(extension);
+            }
+            catch(ExtensionNotFoundException e)
+            {
+                //Launch an error window asking user for an extension, recall the download.
+            }
+
+            var request = _googleDriveService.Files.Export(cd.FileID, mimeType);
             var stream = new MemoryStream();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
 
@@ -70,8 +93,7 @@ namespace Guqu.WebServices
             try
             {
                 IDownloadProgress x = await request.DownloadAsync(stream);
-                //TODO: not always a .doc, change.
-                wdm.downloadFile(stream, cd.FileName + ".odt");
+                wdm.downloadFile(stream, cd.FileName + extension);
 
             }
             catch (Exception e)
