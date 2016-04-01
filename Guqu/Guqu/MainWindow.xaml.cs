@@ -197,7 +197,24 @@ namespace Guqu
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             GoogleDriveCalls gdc = new GoogleDriveCalls();
-            gdc.deleteFile(cd);
+            bool result = gdc.deleteFile(cd);
+            if (result)
+            {
+                //delete happened
+                //update the view
+
+                MetaDataController mdc = new MetaDataController("E:\\GuquTestFolder");
+                gdc.fetchAllMetaData(mdc, "Google Drive");
+
+                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
+                root = populateMenuItem(root, rootnode);
+                //TODO: don't remove the 0th, but rather what was updated. Should have that info from what is selected to be deleted.
+                //fileTreeMenu.Items.RemoveAt(0);
+                //updating the root like this is kinda slow. 
+                fileTreeMenu.Items.Add(root);
+
+            }
         }
         private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {

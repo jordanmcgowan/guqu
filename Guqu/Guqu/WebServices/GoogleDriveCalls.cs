@@ -242,13 +242,20 @@ namespace Guqu.WebServices
 
         public bool deleteFile(CommonDescriptor cd)
         {
-            var _googleDriveService = InitializeAPI.googleDriveService;
-            var request = _googleDriveService.Files.Delete(cd.FileID);
-            //var temp = InitializeAPI.googleDriveCredential;
-            //request.OauthToken = temp.Token.AccessToken;
+            try {
+                var _googleDriveService = InitializeAPI.googleDriveService;
+                var request = _googleDriveService.Files.Delete(cd.FileID);
+                request.Execute();
 
-            //TODO: getting permission errors
-            request.Execute();
+                //now that that file is gone remove the CD file and the metaData file from our records.
+                MetaDataController mdc = new MetaDataController("E:\\GuquTestFolder");
+                mdc.deleteCloudObjet(cd);
+            }
+            catch(Exception e)
+            {
+                //Something caused an error, delete did not occur. 
+                return false;
+            }
             return true;
 
         }

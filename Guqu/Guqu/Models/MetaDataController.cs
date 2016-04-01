@@ -143,13 +143,25 @@ namespace Guqu.Models
 
             return true;
         }
+        public Boolean deleteCloudObjet(CommonDescriptor cd)
+        {
+            if (cd.FileType.Equals("folder"))
+            {
+                return removeDirectory(cd.FilePath);
+            }
+            else
+            {
+                return removeFile(cd.FilePath, cd.FileName);
+            }
+        }
+
         /*
         Removes both the CommonDescriptor file and the Actual metadata file if they exist
         */
-        public Boolean removeFile(string filePath)
+        public Boolean removeFile(string filePath, string fileName)
         {
-            string mdPath = rootStoragePath + METADATAPATH + filePath + ".json";
-            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + filePath + ".json";
+            string mdPath = rootStoragePath + METADATAPATH + filePath + "\\" + fileName + "_file.json";
+            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + filePath + "\\" + fileName + "_file.json";
 
             if (File.Exists(mdPath))
             {
