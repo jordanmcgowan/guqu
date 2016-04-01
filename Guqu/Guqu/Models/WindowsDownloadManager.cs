@@ -46,7 +46,8 @@ namespace Guqu.Models
                     //todo?
                 //}
             }
-
+            //release resources
+            fbd.Dispose();
             return true;
         }
 

@@ -200,6 +200,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Exceptions\ExtensionNotFoundException.cs" />
     <Compile Include="Models\SettingsController.cs" />
     <Compile Include="Models\SupportClasses\SettingsFile.cs" />
     <Compile Include="Views\changePathWindow.xaml.cs">

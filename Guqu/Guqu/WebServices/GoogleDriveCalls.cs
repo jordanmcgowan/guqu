@@ -58,7 +58,10 @@ namespace Guqu.WebServices
             }
             catch(ExtensionNotFoundException e)
             {
-                //Launch an error window asking user for an extension, recall the download.
+                //Launch an error window asking user for an extension
+                //loop here looking for a valid extension
+                //TODO: Is it better to put this loop in the GDCP, and save an extension being thrown.
+
             }
 
             var request = _googleDriveService.Files.Export(cd.FileID, mimeType);
@@ -101,7 +104,6 @@ namespace Guqu.WebServices
                 Console.WriteLine(e);
                 return false;
             }
-
 
             return true;
 
