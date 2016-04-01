@@ -37,8 +37,10 @@ namespace Guqu.WebServices
 
             //TODO: THE MIMETYPE THIS IS CAN'T BE THE SAME MIMETYPE AS WHAT IT WAS SAVED. It needs to be an export type.
             //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents
-            string extension;
+            string extension, mimeType = "";
             //figure out the mimetype by using the extension in the file name.
+
+            GoogleDriveCommunicationParser gdcp = new GoogleDriveCommunicationParser();
             if (cd.FileName.IndexOf('.') != -1)
             {
                 //has an extension.
@@ -46,22 +48,23 @@ namespace Guqu.WebServices
             }
             else
             {
-                //get a 'default' extension based on the format.
+                //get a 'default' extension based on the format, convert to a real extension
                 extension = cd.FileType;
+                extension = gdcp.convertExtension(extension);
+                if(extension == null)
+                {
+                    //still can't find a good extension
+                    //not able to be downloaded, cancel download
+                    //TODO: ban the user from pressing download on these kinds of files?
+                    return false;
+                }
             }
+            mimeType = gdcp.getMimeType(extension);
 
-            GoogleDriveCommunicationParser gdcp = new GoogleDriveCommunicationParser();
-            string mimeType = ""; //should never get to the request before it has been changed, or an exception thrown.
-            try
+            if (mimeType == null)
             {
-                mimeType = gdcp.getMimeType(extension);
-            }
-            catch(ExtensionNotFoundException e)
-            {
-                //Launch an error window asking user for an extension
-                //loop here looking for a valid extension
-                //TODO: Is it better to put this loop in the GDCP, and save an extension being thrown.
-
+                //user cancelled giving us a new extension, cancel the download
+                return false;
             }
 
             var request = _googleDriveService.Files.Export(cd.FileID, mimeType);

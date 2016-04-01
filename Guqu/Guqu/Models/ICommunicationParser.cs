@@ -26,7 +26,8 @@ namespace Guqu.Models
         *Return a string to represent the extension to be used for downloading.
         *Input parameter is the Type of the file in question
         *For example, the method will return ".xcel",".pdf", etc etc
+        
+        string get(string fileType);
         */
-        string getExtension(string fileType);
     }
 }
