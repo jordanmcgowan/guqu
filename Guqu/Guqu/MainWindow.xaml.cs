@@ -179,8 +179,11 @@ namespace Guqu
                 IEnumerator<Models.SupportClasses.TreeNode> nodesEnum = nodes.GetEnumerator();
                 nodesEnum.MoveNext();
                 nodesEnum.MoveNext();
-                CommonDescriptor cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
-                await gdc.downloadFile(cd);
+                nodesEnum.MoveNext();
+                nodesEnum.MoveNext();
+                nodesEnum.MoveNext();
+                cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
+                //await gdc.downloadFile(cd);
             }
             
         }
@@ -193,7 +196,8 @@ namespace Guqu
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            gdc.deleteFile(cd);
         }
         private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {

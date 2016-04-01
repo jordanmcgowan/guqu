@@ -56,7 +56,6 @@ namespace Guqu.Models
             extension_mimeType_Dictionary.Add(".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
             extension_mimeType_Dictionary.Add(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             extension_mimeType_Dictionary.Add(".ods", "application/x-vnd.oasis.opendocument.spreadsheet");
-            extension_mimeType_Dictionary.Add(".pdf", "application/pdf");
             extension_mimeType_Dictionary.Add(".csv", "text/csv");
             extension_mimeType_Dictionary.Add(".jpg", "image/jpeg");
             extension_mimeType_Dictionary.Add(".png", "image/png");

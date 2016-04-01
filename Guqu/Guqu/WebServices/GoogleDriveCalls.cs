@@ -239,5 +239,18 @@ namespace Guqu.WebServices
         {
             throw new NotImplementedException();
         }
+
+        public bool deleteFile(CommonDescriptor cd)
+        {
+            var _googleDriveService = InitializeAPI.googleDriveService;
+            var request = _googleDriveService.Files.Delete(cd.FileID);
+            //var temp = InitializeAPI.googleDriveCredential;
+            //request.OauthToken = temp.Token.AccessToken;
+
+            //TODO: getting permission errors
+            request.Execute();
+            return true;
+
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace Guqu.WebServices
         bool shareFile(Stream stream);
         bool shareFile(MemoryStream stream);
 
+        bool deleteFile(CommonDescriptor cd);
+
         //returns TRUE if all meta data was fetched
         //else FALSE
         bool fetchAllMetaData(MetaDataController controller, string accountName);
