@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Guqu
@@ -16,7 +17,7 @@ namespace Guqu
 
       private void chooseFolder_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new CommonOpenFileDialog();
+            /*var dlg = new CommonOpenFileDialog();
             dlg.Title = "Choose Folder";
             dlg.IsFolderPicker = true;
             dlg.AddToMostRecentlyUsedList = false;
@@ -31,8 +32,8 @@ namespace Guqu
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 String folder = dlg.FileName;
-                textBox.Text = folder;
-            }
+                //textBox.Text = folder;
+            }*/
         }
 
         private void confirmButton_Click(object sender, RoutedEventArgs e)
