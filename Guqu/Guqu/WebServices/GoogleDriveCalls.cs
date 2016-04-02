@@ -264,6 +264,21 @@ namespace Guqu.WebServices
 
         public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
+            return moveCopyFile(fileToMove, folderDestination, true);
+        }
+
+        public bool copyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            //copying currently just creates an identical pointer to the file in the new folder.
+            //this means that a copy followed by a move will remove both pointers previously created b/c they are one in the same.
+
+            //TODO: fix depends on what the user wants.
+            //a) user wants two seperate files: Need to upload a 'new file' that has the contents of the old file
+            //b) user wants two pointers to one file: Need to implement removeParent/AddParent methods to remove a specified parent, not all parents.
+            return moveCopyFile(fileToMove, folderDestination, false);
+        }
+        private bool moveCopyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination, bool destructive)
+        {
             //move a file within this account to another place within this account.
 
             var _googleDriveService = InitializeAPI.googleDriveService;
@@ -272,6 +287,8 @@ namespace Guqu.WebServices
             var parentRequest = _googleDriveService.Files.Get(fileToMove.FileID);
             parentRequest.Fields = "parents";
             var file = parentRequest.Execute();
+
+            //this will remove all parents
             var previousParents = string.Join(",", file.Parents);
 
             //move file to new folder
@@ -282,13 +299,26 @@ namespace Guqu.WebServices
 
             //TODO: switch out commented lines
             //updateRequest.AddParents = folderDestination.FileID;
-            updateRequest.AddParents = "0B0F_8LaJGpURZmxWT1ducXBkVnc";
+            updateRequest.AddParents = "0B0F_8LaJGpURSGFMY2k5UzF0LTg";
 
-            updateRequest.RemoveParents = previousParents;
+            if (destructive)
+            {
+                //will only remove it from the previous parent if its a destructive call (moving), not copying.
+                updateRequest.RemoveParents = previousParents;
+            }
+
             file = updateRequest.Execute();
+            return true;
+        }
+        //Will add a parent directory to this file
+        private bool addParentToFile(CommonDescriptor fileToAdd, CommonDescriptor newParentFolder)
+        {
 
             return true;
         }
-        
+        private bool removeParentToFile(CommonDescriptor fileToRemove, CommonDescriptor parentFolderToRemove)
+        {
+            return true;
+        }
     }
 }

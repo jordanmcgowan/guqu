@@ -28,6 +28,8 @@ namespace Guqu.WebServices
 
         bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination);
 
+        bool copyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination);
+
         //returns TRUE if all meta data was fetched
         //else FALSE
         bool fetchAllMetaData(MetaDataController controller, string accountName);
