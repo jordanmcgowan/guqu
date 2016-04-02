@@ -26,6 +26,8 @@ namespace Guqu.WebServices
 
         bool deleteFile(CommonDescriptor cd);
 
+        bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination);
+
         //returns TRUE if all meta data was fetched
         //else FALSE
         bool fetchAllMetaData(MetaDataController controller, string accountName);

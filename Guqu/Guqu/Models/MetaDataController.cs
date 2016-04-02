@@ -113,14 +113,7 @@ namespace Guqu.Models
             try
             {
                 var serializedJson = jsonSerializer.Serialize(cd);
-                filePath = rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath + "\\" + cd.FileName;
-                if (cd.FileType.Equals("folder")){
-                    filePath += "_folder.json";
-                }
-                else
-                {
-                    filePath += "_file.json";
-                }
+                filePath = rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath;
                 File.WriteAllText(filePath, serializedJson);
             }
             catch (InvalidOperationException e)

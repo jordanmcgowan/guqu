@@ -184,6 +184,7 @@ namespace Guqu.WebServices
             string curFileSerialized;
             CommonDescriptor curCD;
             StreamReader streamReader;
+            
             while (allFiles.Count != 0) //while there are elements
             {
                 curFile = allFiles.First(); //get first file 
@@ -196,6 +197,7 @@ namespace Guqu.WebServices
                     //recurse on the folder and do its children
                     File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
                     streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_folder.json");
+                    controller.createDirectory(relativeRequestPath + "\\" + curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
                     streamReader.Close();
                     controller.addCommonDescriptorFile(curCD);
@@ -259,5 +261,34 @@ namespace Guqu.WebServices
             return true;
 
         }
+
+        public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            //move a file within this account to another place within this account.
+
+            var _googleDriveService = InitializeAPI.googleDriveService;
+
+            //get previous parents to remove
+            var parentRequest = _googleDriveService.Files.Get(fileToMove.FileID);
+            parentRequest.Fields = "parents";
+            var file = parentRequest.Execute();
+            var previousParents = string.Join(",", file.Parents);
+
+            //move file to new folder
+            //var updateRequest = _googleDriveService.Files.Update(new File(), cd.FileID);
+            Google.Apis.Drive.v3.Data.File temp = new Google.Apis.Drive.v3.Data.File();
+            var updateRequest = _googleDriveService.Files.Update(temp, fileToMove.FileID);
+            updateRequest.Fields = "id, parents";
+
+            //TODO: switch out commented lines
+            //updateRequest.AddParents = folderDestination.FileID;
+            updateRequest.AddParents = "0B0F_8LaJGpURZmxWT1ducXBkVnc";
+
+            updateRequest.RemoveParents = previousParents;
+            file = updateRequest.Execute();
+
+            return true;
+        }
+        
     }
 }

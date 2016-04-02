@@ -29,6 +29,7 @@ namespace Guqu
     {
 
         private CommonDescriptor cd;
+        private CommonDescriptor folder;
 
 
         public MainWindow()
@@ -154,7 +155,9 @@ namespace Guqu
 
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //move this code to a 'move' button? How are we doing moves?
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            gdc.moveFile(cd, cd);
         }
 
         private async void downloadButton_Click(object sender, RoutedEventArgs e)

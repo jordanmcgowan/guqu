@@ -82,7 +82,7 @@ namespace Guqu.Models
             cd_google_Value_Dictionary = parser.retrieveValues(cd_google_Term_Dictionary, fileStreamReader);
 
             //variables to pass in
-            string fileName, fileType, fsize, lastMod, fileID;
+            string fileName, fileType, fsize, lastMod, fileID, filePath;
             DateTime lastModified;
             int fileSize;
 
@@ -93,14 +93,19 @@ namespace Guqu.Models
             {
                 //do translaion for fileType
                 fileType = "folder";
+                filePath = relativeFilePath + "\\" + fileName + "_folder.json";
+            }
+            else
+            {
+                filePath = relativeFilePath + "\\" + fileName + "_file.json";
             }
             cd_google_Value_Dictionary.TryGetValue("fileID", out fileID);
             cd_google_Value_Dictionary.TryGetValue("fileSize", out fsize);
             cd_google_Value_Dictionary.TryGetValue("lastModified", out lastMod);
             lastModified = Convert.ToDateTime(lastMod);
             Int32.TryParse(fsize, out fileSize);
-
-            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
+            
+            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, filePath, fileID, lastModified, fileSize);
 
             return cd;
         }
