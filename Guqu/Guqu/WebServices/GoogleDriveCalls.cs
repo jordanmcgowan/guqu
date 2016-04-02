@@ -8,6 +8,7 @@ using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using System.Web.Script.Serialization;
 using Guqu.Exceptions;
+using Guqu.Models.SupportClasses;
 
 namespace Guqu.WebServices
 {
@@ -237,9 +238,35 @@ namespace Guqu.WebServices
             throw new NotImplementedException();
         }
 
-        public bool uploadFile(Stream stream)
+        public bool uploadFiles(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            var _googleDriveService = InitializeAPI.googleDriveService;
+            GoogleDriveCommunicationParser gdcp = new GoogleDriveCommunicationParser();
+            FilesResource.CreateMediaUpload request;
+            string mimeType, fileName;
+
+            foreach(UploadInfo uInfo in toUpload)
+            {
+                //get the fileType using the gdcp conversion method.
+                fileName = uInfo.getFileName();
+                mimeType = gdcp.getMimeType(fileName.Substring(fileName.IndexOf('.')));
+
+                Google.Apis.Drive.v3.Data.File fileMetaData = new Google.Apis.Drive.v3.Data.File();
+                fileMetaData.Name = fileName;
+
+                //TODO: swap out following lines
+                // fileMetaData.Parents = new List<string> {folderDestination.FileID};
+                fileMetaData.Parents = new List<string> { "0B0F_8LaJGpURSGFMY2k5UzF0LTg" };
+
+                
+                request = _googleDriveService.Files.Create(fileMetaData, uInfo.getFileStream(), mimeType);
+                //request.Fields = "id";
+                request.Upload();
+                uInfo.getFileStream().Close();
+            }
+            
+            return true;
+
         }
 
         public bool deleteFile(CommonDescriptor cd)
@@ -310,7 +337,7 @@ namespace Guqu.WebServices
             file = updateRequest.Execute();
             return true;
         }
-        //Will add a parent directory to this file
+        //Following two methods are for option B in comments on line 277
         private bool addParentToFile(CommonDescriptor fileToAdd, CommonDescriptor newParentFolder)
         {
 

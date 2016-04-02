@@ -1,4 +1,5 @@
 ﻿using Guqu.Models;
+using Guqu.Models.SupportClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +18,7 @@ namespace Guqu.WebServices
 
         //returns TRUE if file upload was successful, 
         //else FALSE
-        bool uploadFile(Stream stream);
+        bool uploadFiles(List<UploadInfo> toUpload, CommonDescriptor folderDestination);
 
         //returns TRUE if file was shared successfully, 
         //else FALSE

@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Guqu.Models
 {
-    interface DownloadManager
+    interface IDownloadManager
     {
         /*
         Pulls up a file explorer window to prompt
         the user to choose a location to save their
-        files to
-        
+        files to 
         */
          Boolean downloadFile(MemoryStream stream, string fileName);
 

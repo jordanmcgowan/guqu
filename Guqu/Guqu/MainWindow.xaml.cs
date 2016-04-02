@@ -157,7 +157,9 @@ namespace Guqu
         {
             //move this code to a 'move' button? How are we doing moves?
             GoogleDriveCalls gdc = new GoogleDriveCalls();
-            gdc.copyFile(cd, cd);
+            WindowsUploadManager wum = new WindowsUploadManager();
+            List<UploadInfo> toUpload = wum.getUploadFiles();
+            gdc.uploadFiles(toUpload, cd);
         }
 
         private async void downloadButton_Click(object sender, RoutedEventArgs e)
