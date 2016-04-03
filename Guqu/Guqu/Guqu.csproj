@@ -245,6 +245,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="WebServices\OneDriveCalls.cs" />
     <Compile Include="WebServices\User.cs" />
     <Compile Include="WebServices\GoogleDriveCalls.cs" />
     <Compile Include="WebServices\ICloudCalls.cs" />

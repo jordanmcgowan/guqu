@@ -33,7 +33,7 @@ namespace Guqu.WebServices
 
         //returns TRUE if all meta data was fetched
         //else FALSE
-        bool fetchAllMetaData(MetaDataController controller, string accountName);
+        void fetchAllMetaData(MetaDataController controller, string accountName);
 
 
 

@@ -115,11 +115,12 @@ namespace Guqu.WebServices
 
         }
 
-        public bool fetchAllMetaData(MetaDataController controller, string accountName)
+        public void fetchAllMetaData(MetaDataController controller, string accountName)
         {
             fetchAllMDFiles(controller, accountName, "root");
-            return true;
+            //return true;
         }
+
         //TODO: have controller be global, or static
         private void fetchAllMDFiles(MetaDataController controller, string relativeRequestPath, string parentID)
         {

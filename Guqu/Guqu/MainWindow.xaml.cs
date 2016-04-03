@@ -167,7 +167,8 @@ namespace Guqu
         }
 
         private async void downloadButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {       
+            /*
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
@@ -191,7 +192,12 @@ namespace Guqu
                 nodesEnum.MoveNext();
                 cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
                 await gdc.downloadFile(cd);
-            }
+            }*/
+
+            OneDriveCalls odc = new OneDriveCalls();
+            MetaDataController controller = new MetaDataController("L:\\Dump");
+
+            odc.fetchAllMetaData(controller, "OneDrive");
             
         }
 
