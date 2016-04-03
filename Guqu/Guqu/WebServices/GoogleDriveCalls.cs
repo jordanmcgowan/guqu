@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Guqu.Models;
@@ -9,6 +8,9 @@ using Google.Apis.Drive.v3;
 using System.Web.Script.Serialization;
 using Guqu.Exceptions;
 using Guqu.Models.SupportClasses;
+using Google.Apis.Requests;
+using Google.Apis.Drive.v3.Data;
+using System.IO;
 
 namespace Guqu.WebServices
 {
@@ -196,7 +198,7 @@ namespace Guqu.WebServices
                 {
                     //store data for the folder
                     //recurse on the folder and do its children
-                    File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
+                    System.IO.File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
                     streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_folder.json");
                     controller.createDirectory(relativeRequestPath + "\\" + curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
@@ -209,7 +211,7 @@ namespace Guqu.WebServices
                 else
                 {
                     //store data for this file
-                        File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
+                        System.IO.File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
                         streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_file.json");
                         curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
                         streamReader.Close();
@@ -228,18 +230,74 @@ namespace Guqu.WebServices
             return getRequest;
         }
 
-        public bool shareFile(MemoryStream stream)
+        public bool shareFile(CommonDescriptor fileToShare)
         {
-            throw new NotImplementedException();
+            try {
+                Console.WriteLine("STARTED SHARING");
+                var _googleDriveService = InitializeAPI.googleDriveService;
+                var batch = new BatchRequest(_googleDriveService);
+                BatchRequest.OnResponse<Permission> callback = delegate (
+                    Permission permission,
+                    RequestError error,
+                    int index,
+                    System.Net.Http.HttpResponseMessage message)
+                {
+                    if (error != null)
+                    {
+                    // Handle error
+                    Console.WriteLine(error.Message);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Permission ID: " + permission.Id);
+                    }
+
+                };
+
+                //TODO: launch the share window view, get the email address
+                //shareWindow window = new shareWindow();
+                //window.Show();
+                //get the informaiton
+
+
+                //TODO: replace these permissions with the permissions entered on the shareWindow
+                Permission userPermission = new Permission();
+                userPermission.Type = "user";
+                userPermission.Role = "writer";
+                userPermission.EmailAddress = "njain9@wisc.edu";
+
+                //TOOD: replace the following two lines
+                //var request = _googleDriveService.Permissions.Create(userPermission, fileToShare.FileID);
+                var request = _googleDriveService.Permissions.Create(userPermission, "0B0F_8LaJGpURSGFMY2k5UzF0LTg");
+                request.Fields = "id";
+                request.EmailMessage = "If you are seeing this, the matrix is real";
+                batch.Queue(request, callback);
+                /*
+                Permission domainPermission = new Permission();
+                domainPermission.Type = "domain";
+                domainPermission.Role = "reader";
+                domainPermission.Domain = "appsrocks.com";
+                request = _googleDriveService.Permissions.Create(domainPermission, fileId);
+                request.Fields = "id";
+                batch.Queue(request, callback);
+                var task = batch.ExecuteAsync();
+                */
+
+                var task = batch.ExecuteAsync();
+            }
+            catch(Exception e)
+            {
+                //caught a bug
+                Console.WriteLine(e.Message);
+            }
+
+
+            return true;
         }
 
-        public bool shareFile(Stream stream)
+        public List<string> uploadFiles(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool uploadFiles(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
-        {
+            List<string> newFileIDs = new List<string>();
             var _googleDriveService = InitializeAPI.googleDriveService;
             GoogleDriveCommunicationParser gdcp = new GoogleDriveCommunicationParser();
             FilesResource.CreateMediaUpload request;
@@ -260,12 +318,13 @@ namespace Guqu.WebServices
 
                 
                 request = _googleDriveService.Files.Create(fileMetaData, uInfo.getFileStream(), mimeType);
-                //request.Fields = "id";
+                request.Fields = "id";
                 request.Upload();
                 uInfo.getFileStream().Close();
+                newFileIDs.Add(request.ResponseBody.Id);
             }
             
-            return true;
+            return newFileIDs;
 
         }
 

@@ -159,7 +159,11 @@ namespace Guqu
             GoogleDriveCalls gdc = new GoogleDriveCalls();
             WindowsUploadManager wum = new WindowsUploadManager();
             List<UploadInfo> toUpload = wum.getUploadFiles();
-            gdc.uploadFiles(toUpload, cd);
+            List<string> fileIDs = gdc.uploadFiles(toUpload, cd);
+            //using the ID's returned from uploading the files, fetch the new metaData files and save them.
+
+            //Update the display to account for this.
+
         }
 
         private async void downloadButton_Click(object sender, RoutedEventArgs e)
@@ -197,6 +201,8 @@ namespace Guqu
         {
             shareWindow shareWin = new shareWindow();
             shareWin.Show();
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            gdc.shareFile(cd);
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)

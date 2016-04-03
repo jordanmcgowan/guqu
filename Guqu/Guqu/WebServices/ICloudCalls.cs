@@ -18,12 +18,12 @@ namespace Guqu.WebServices
 
         //returns TRUE if file upload was successful, 
         //else FALSE
-        bool uploadFiles(List<UploadInfo> toUpload, CommonDescriptor folderDestination);
+        List<String> uploadFiles(List<UploadInfo> toUpload, CommonDescriptor folderDestination);
 
         //returns TRUE if file was shared successfully, 
         //else FALSE
-        bool shareFile(Stream stream);
-        bool shareFile(MemoryStream stream);
+        //TODO: pass in the list of emails to share with, AND the type of permission they should have
+        bool shareFile(CommonDescriptor fileToShare);
 
         bool deleteFile(CommonDescriptor cd);
 
