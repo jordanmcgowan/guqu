@@ -62,6 +62,7 @@ namespace Guqu.Models
             extension_mimeType_Dictionary.Add(".svg", "image/svg+xml");
             extension_mimeType_Dictionary.Add(".ppt", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
             extension_mimeType_Dictionary.Add(".JSON", "application/vnd.google-apps.script+json");
+            extension_mimeType_Dictionary.Add(".zip", "application/zip");
 
             //defaults, TODO: let user define these? Prompt the user for them?
             //Found from https://developers.google.com/drive/v3/web/mime-types
@@ -70,6 +71,8 @@ namespace Guqu.Models
             convert_extension_Dictionary.Add("application/vnd.google-apps.document", ".doc");
             convert_extension_Dictionary.Add("application/vnd.google-apps.drawing", ".jpg");
             convert_extension_Dictionary.Add("application/vnd.google-apps.spreadsheet", ".xlsx");
+            convert_extension_Dictionary.Add("application/vnd.google-apps.folder", ".zip");
+            convert_extension_Dictionary.Add("folder", ".zip");
             
 
         }

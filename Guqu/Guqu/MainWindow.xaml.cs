@@ -189,10 +189,8 @@ namespace Guqu
                 nodesEnum.MoveNext();
                 nodesEnum.MoveNext();
                 nodesEnum.MoveNext();
-                nodesEnum.MoveNext();
-                nodesEnum.MoveNext();
                 cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
-                //await gdc.downloadFile(cd);
+                await gdc.downloadFile(cd);
             }
             
         }
