@@ -203,8 +203,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Exceptions\ExtensionNotFoundException.cs" />
+    <Compile Include="Models\IUploadManager.cs" />
     <Compile Include="Models\SettingsController.cs" />
     <Compile Include="Models\SupportClasses\SettingsFile.cs" />
+    <Compile Include="Models\SupportClasses\UploadInfo.cs" />
+    <Compile Include="Models\WindowsUploadManager.cs" />
     <Compile Include="Views\changePathWindow.xaml.cs">
       <DependentUpon>changePathWindow.xaml</DependentUpon>
     </Compile>
@@ -223,7 +227,7 @@
     <Compile Include="Models\BoxCommunicationParser.cs" />
     <Compile Include="Models\CommonDescriptor.cs" />
     <Compile Include="Models\ICommunicationParser.cs" />
-    <Compile Include="Models\DownloadManager.cs" />
+    <Compile Include="Models\IDownloadManager.cs" />
     <Compile Include="Models\GoogleDriveCommunicationParser.cs" />
     <Compile Include="Models\JsonFileParser.cs" />
     <Compile Include="Models\MetaDataController.cs" />

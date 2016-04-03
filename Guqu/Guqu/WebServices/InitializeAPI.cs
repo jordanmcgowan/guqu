@@ -82,7 +82,7 @@ namespace Guqu.WebServices
 
             // If modifying these scopes, delete your previously saved credentials
             // at ~/.credentials/drive-dotnet-quickstart.json
-            string[] Scopes = { DriveService.Scope.DriveReadonly };
+            string[] Scopes = { DriveService.Scope.Drive };
 
 
             

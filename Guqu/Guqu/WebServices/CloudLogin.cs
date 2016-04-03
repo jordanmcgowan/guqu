@@ -37,8 +37,6 @@ namespace Guqu.WebServices
 
             InitializeAPI.googleDriveService = _googleDriveService;
 
-
-
             /*
             ****************************************
            THIS BLOCK NEEDED FOR TESTING

@@ -22,5 +22,12 @@ namespace Guqu.Models
         */
         string createUploadBody(ServiceDescriptor descriptor);
 
+        /*
+        *Return a string to represent the extension to be used for downloading.
+        *Input parameter is the Type of the file in question
+        *For example, the method will return ".xcel",".pdf", etc etc
+        
+        string get(string fileType);
+        */
     }
 }

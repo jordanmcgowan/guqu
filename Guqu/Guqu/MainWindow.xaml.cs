@@ -29,6 +29,7 @@ namespace Guqu
     {
 
         private CommonDescriptor cd;
+        private CommonDescriptor folder;
 
 
         public MainWindow()
@@ -154,11 +155,19 @@ namespace Guqu
 
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
+            //move this code to a 'move' button? How are we doing moves?
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            WindowsUploadManager wum = new WindowsUploadManager();
+            List<UploadInfo> toUpload = wum.getUploadFiles();
+            List<string> fileIDs = gdc.uploadFiles(toUpload, cd);
+            //using the ID's returned from uploading the files, fetch the new metaData files and save them.
+
+            //Update the display to account for this.
 
         }
 
-        private void downloadButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void downloadButton_Click(object sender, RoutedEventArgs e)
+        {            
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
@@ -170,25 +179,51 @@ namespace Guqu
                 GoogleDriveCalls gdc = new GoogleDriveCalls();
                 gdc.fetchAllMetaData(mdc, "Google Drive");
 
-                Guqu.Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
                 MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
                 root = populateMenuItem(root, rootnode);
                 fileTreeMenu.Items.Add(root);
+
+                LinkedList<Models.SupportClasses.TreeNode> nodes = rootnode.getChildren();
+                IEnumerator<Models.SupportClasses.TreeNode> nodesEnum = nodes.GetEnumerator();
+                nodesEnum.MoveNext();
+                nodesEnum.MoveNext();
+                nodesEnum.MoveNext();
+                cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
+                await gdc.downloadFile(cd);
             }
-
-
-            //TreeNode rootNode = mdc.getRoot("test");
+            
         }
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
             shareWindow shareWin = new shareWindow();
             shareWin.Show();
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            gdc.shareFile(cd);
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            bool result = gdc.deleteFile(cd);
+            if (result)
+            {
+                //delete happened
+                //update the view
 
+                MetaDataController mdc = new MetaDataController("E:\\GuquTestFolder");
+                gdc.fetchAllMetaData(mdc, "Google Drive");
+
+                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
+                root = populateMenuItem(root, rootnode);
+                //TODO: don't remove the 0th, but rather what was updated. Should have that info from what is selected to be deleted.
+                //fileTreeMenu.Items.RemoveAt(0);
+                //updating the root like this is kinda slow. 
+                fileTreeMenu.Items.Add(root);
+
+            }
         }
         private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {
