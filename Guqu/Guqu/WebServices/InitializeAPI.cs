@@ -69,9 +69,7 @@ namespace Guqu.WebServices
 
         public InitializeAPI()
         {
-            initGoogleDriveAPI();
-            //initBoxAPI();
-            initOneDriveAPI();
+            
         }
 
         /*
@@ -79,12 +77,12 @@ namespace Guqu.WebServices
         From https://developers.google.com/drive/v3/web/quickstart/dotnet
                     
             */
-        private static void initGoogleDriveAPI()
+        public void initGoogleDriveAPI()
         {
 
             // If modifying these scopes, delete your previously saved credentials
             // at ~/.credentials/drive-dotnet-quickstart.json
-            string[] Scopes = { DriveService.Scope.DriveReadonly };
+            string[] Scopes = { DriveService.Scope.Drive };
 
 
             
@@ -146,7 +144,7 @@ namespace Guqu.WebServices
             
             
             */
-        private static async void initBoxAPI()
+        public async void initBoxAPI()
         {
             /*
             box_redirect_uri = null;
@@ -219,7 +217,7 @@ namespace Guqu.WebServices
         One Drive Initialization - Uses the Web Forms Authenticator
 
         */
-        private static async void initOneDriveAPI() {
+        public async void initOneDriveAPI() {
 
                 oneDriveClient = OneDriveClient.GetMicrosoftAccountClient(
                 onedrive_client_id,
