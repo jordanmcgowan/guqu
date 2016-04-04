@@ -11,20 +11,17 @@
 
     <Grid>
         <Menu x:Name="menu1" Height="20" Width="1024"  HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
-            <MenuItem Header="File" Height="20" Width="40" >
-                <MenuItem Header="_Log out" Click="logoutClicked" />
-                <MenuItem Header="_Exit" Click="exitClicked"/>
+            <MenuItem Header="Settings" Height="20" Width="60" >
+                
                 <MenuItem Header="_Check for updates" Click="checkForUpdatesClicked"/>
-            </MenuItem>
-            <MenuItem Header="Edit" Height="20" Width="40" >
                 <MenuItem Header="_Manage Accounts" Click="manageAccountsClicked"/>
                 <MenuItem Header="_Change Password" Click="changePasswordClicked"/>
                 <MenuItem Header="_Change Local Download Path" Click="changePathClicked"/>
-            </MenuItem>
-            <MenuItem Header="Help" Height="20" Width="40" >
-                <Hyperlink NavigateUri = "http://www.google.com">
+                <Hyperlink NavigateUri = "https://github.com/jordanmcgowan/guqu/wiki">
                     <MenuItem Header="_Wiki" Click="wikiClicked"/>
                 </Hyperlink>
+                <MenuItem Header="_Log out" Click="logoutClicked" />
+                <MenuItem Header="_Exit" Click="exitClicked"/>
             </MenuItem>
         </Menu>
 
