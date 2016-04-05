@@ -6,15 +6,40 @@ using System.Threading.Tasks;
 
 using Microsoft.OneDrive.Sdk;
 using Guqu.Models;
+using System.IO;
 
 namespace Guqu.WebServices
 {
     class OneDriveCalls : ICloudCalls
     {
 
-        public Task<bool> downloadFile(CommonDescriptor cd)
+        public async Task<bool> downloadFile(CommonDescriptor cd)
         {
-            throw new NotImplementedException();
+            OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
+            WindowsDownloadManager wdm = new WindowsDownloadManager();
+            var _oneDriveClient = InitializeAPI.oneDriveClient;
+            var fileId = cd.FileID;
+
+           
+
+
+            string extension = odcp.getExtension(cd.FileType);
+            try {
+                var contentStream = await _oneDriveClient.Drive.Items[fileId].Content.Request().GetAsync();
+                wdm.downloadFile((MemoryStream)contentStream, cd.FileName + extension);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+            return true;
+
+
+
+
+
         }
 
         public List<string> uploadFiles(List<Models.SupportClasses.UploadInfo> toUpload, CommonDescriptor folderDestination)
@@ -74,56 +99,30 @@ namespace Guqu.WebServices
 
             foreach (var child in allChildren)
             {
-                //do fancy manipulation
-                
+                CommonDescriptor cd = new CommonDescriptor();
+                cd.FileID = child.Id;
+                cd.FileName = child.Name;                
+                cd.FilePath = relativeRequestPath;
+                cd.FileSize = (long) child.Size;
+                cd.LastModified = child.LastModifiedDateTime.Value.LocalDateTime;
+               
+               
 
-
-            }
-
-
-            // }
-            // catch (Exception e)
-            // {
-            //     Console.WriteLine(e.StackTrace);
-            // }
-
-            int x = 0;
-
-            List<String> names = new List<String>();
-            foreach (var child in allChildren)
-            {
-
-                if (child.File != null) //for files
+                //need special case for folders vs. files
+                if(child.File != null)
+                    cd.FileType = child.File.MimeType;
+                if (child.Folder != null)
                 {
+                    cd.FileType = "folder";
 
-
-
-
-                }
-                else //for folders
-                {
-                    var rar = child.Folder;
-
-                    if (rar.ChildCount != null)
-                    {
-                        var id = child.Id;
-
-
-
-                    }
-                    //do thing for child.Folder
-
+                    if(child.Folder.ChildCount > 0)
+                        fetchAllMDFiles(controller, "//"+child.Name, child.Id);
                 }
 
-
-
-
+                controller.addCommonDescriptorFile(cd);
 
             }
-
-
-
-
+            
         }
     }
 }
