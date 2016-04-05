@@ -52,13 +52,43 @@ namespace Guqu.WebServices
             throw new NotImplementedException();
         }
 
-        public bool deleteFile(CommonDescriptor cd)
+        public async Task<bool> deleteFile(CommonDescriptor cd)
         {
-            throw new NotImplementedException();
+            OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
+            var _oneDriveClient = InitializeAPI.oneDriveClient;
+            var fileId = cd.FileID;
+            
+            try
+            {
+                await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+            return true;
+
+            //throw new NotImplementedException();
         }
 
-        public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        public async Task<bool> moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
+            OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
+            var _oneDriveClient = InitializeAPI.oneDriveClient;
+
+            //Move within 1D
+            //Need to retrieve new location, so this is wrong
+            var newParentId = "6AD"; 
+            var updateItem = new Item { ParentReference = new ItemReference { Id = newParentId } };
+            var itemWithUpdates = await _oneDriveClient
+                                            .Drive
+                                            .Items[fileToMove.FileID]
+                                            .Request()
+                                            .UpdateAsync(updateItem);
+
+            //Move to Google Drive location
             throw new NotImplementedException();
         }
 
