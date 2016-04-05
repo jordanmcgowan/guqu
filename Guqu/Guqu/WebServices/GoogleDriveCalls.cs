@@ -23,6 +23,11 @@ namespace Guqu.WebServices
             googleCommParser = new GoogleDriveCommunicationParser();
         }
 
+        public async Task<List<string>> uploadFilesAsync(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
+        {
+            return null;
+        }
+
         public async Task<bool> downloadFile(CommonDescriptor cd)
         {
 

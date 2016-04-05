@@ -35,6 +35,8 @@ namespace Guqu.WebServices
         //else FALSE
         void fetchAllMetaData(MetaDataController controller, string accountName);
 
+        Task<List<string>> uploadFilesAsync(List<UploadInfo> toUpload, CommonDescriptor folderDestination);
+
 
 
 
