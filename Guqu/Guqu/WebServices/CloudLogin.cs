@@ -52,24 +52,20 @@ namespace Guqu.WebServices
 
             if (! _oneDriveClient.IsAuthenticated)
             {
-                try
-                {
+                
                     await _oneDriveClient.AuthenticateAsync();
                     var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+
                     Console.WriteLine("This succedded and Jordan is a bitch");
                     
                     InitializeAPI.oneDriveClient = _oneDriveClient;
                                
                 }
-                catch (OneDriveException e)
-                {
-                    Console.WriteLine(e);
-
-                }
+                
 
 
                 
-            }
+            
 
             /*
             *******************

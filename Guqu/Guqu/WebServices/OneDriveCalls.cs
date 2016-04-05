@@ -45,44 +45,47 @@ namespace Guqu.WebServices
         public async void fetchAllMetaData(MetaDataController controller, string accountName)
         {
             string rootId = "root";
-            fetchAllMDFiles(controller, accountName, rootId);           
+            fetchAllMDFiles(controller, accountName, rootId);
         }
 
         private async void fetchAllMDFiles(MetaDataController controller, string relativeRequestPath, string parentID)
         {
-            var _oneDriveClient = InitializeAPI.oneDriveClient;
-            await _oneDriveClient.AuthenticateAsync();
-            var parent = _oneDriveClient.Drive.Items[parentID];
-
+            var _oneDriveClient = InitializeAPI.oneDriveClient;            
             bool t = _oneDriveClient.IsAuthenticated;
-            bool moreItemsExist = true;
-
+            var parent = _oneDriveClient.Drive.Items[parentID];
+            
             List<Item> allChildren = new List<Item>();
             IChildrenCollectionPage children;
 
-            //try
-            //{
-                while (moreItemsExist)
-                {
-                    children = await parent.Children.Request().Top(2).GetAsync();
-                    allChildren.AddRange(children);
+            children = await _oneDriveClient.Drive.Items[parentID].Children.Request().GetAsync();
+            allChildren.AddRange(children);
+            
 
-                    if (children.NextPageRequest == null)
-                    {
-                        moreItemsExist = false;
-                    }
-                    else
-                    {
+            while (children.NextPageRequest != null)
+            {
 
-                        children.InitializeNextPageRequest(_oneDriveClient, children.NextPageRequest.GetHttpRequestMessage().RequestUri.ToString());
-                    }
 
-                }
-           // }
-           // catch (Exception e)
-           // {
-           //     Console.WriteLine(e.StackTrace);
-           // }
+                string nextPageLinkString = children.NextPageRequest.GetHttpRequestMessage().RequestUri.ToString(); //this gives URL with next page token
+
+                children.InitializeNextPageRequest(_oneDriveClient, nextPageLinkString);
+                children = await children.NextPageRequest.GetAsync();
+                allChildren.AddRange(children);
+            }
+
+            foreach (var child in allChildren)
+            {
+                //do fancy manipulation
+                
+
+
+            }
+
+
+            // }
+            // catch (Exception e)
+            // {
+            //     Console.WriteLine(e.StackTrace);
+            // }
 
             int x = 0;
 
@@ -92,7 +95,7 @@ namespace Guqu.WebServices
 
                 if (child.File != null) //for files
                 {
-                    
+
 
 
 
@@ -119,7 +122,7 @@ namespace Guqu.WebServices
             }
 
 
-            
+
 
         }
     }
