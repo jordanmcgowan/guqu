@@ -37,10 +37,19 @@
 
             <ListView.View>
                 <GridView>
+                    <GridViewColumn   Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="-4,0,-4,0" IsChecked="{Binding Checked}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Name" Width="110" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Type" Width="110" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="Size" Width="110" DisplayMemberBinding="{Binding Size}" />
-                    <GridViewColumn Header="DateModified" Width="110" DisplayMemberBinding="{Binding DateModified}" />
+                    <GridViewColumn Header="Dates Modified" Width="110" DisplayMemberBinding="{Binding DateModified}" />
+                    <GridViewColumn Header="Owner(s)" Width="110" DisplayMemberBinding="{Binding Owners}" />
+                    
                 </GridView>
             </ListView.View>
         </ListView>

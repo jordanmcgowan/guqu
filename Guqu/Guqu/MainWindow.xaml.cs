@@ -45,19 +45,9 @@ namespace Guqu
             this.folderView.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 200;
 
 
-
-
-
-            List<string> accountServices = new List<String>();
-            accountServices.Add("driveDrive");
-            accountServices.Add("boxBook");
-            accountServices.Add("cloudFace");
-
-            List<string> accountNames = new List<String>();
-            accountNames.Add("myUsername");
-            accountNames.Add("myOtherUsername");
-            accountNames.Add("myOtherOtherUsername");
-
+            List<fileOrFolder> items = new List<fileOrFolder>();
+            items.Add(new fileOrFolder() { Name = "myFile1", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11", Owners ="Person", Checked=false});
+            folderView.ItemsSource = items;
             /*
             MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
             TreeNode rootnode = mdc.getRoot("test");
@@ -88,6 +78,15 @@ namespace Guqu
 
 
         }
+
+        private void populateListView(List<CommonDescriptor> files)
+        {
+            foreach (CommonDescriptor file in files)
+            {
+           // create new fileOrFolder Object with Checked = false but everything else from common descriptor     (new fileOrFolder() { Name = "myFile1", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11", Owners = "Person", Checked = false });
+            }
+        }
+
         private MenuItem populateMenuItem(MenuItem root, Guqu.Models.SupportClasses.TreeNode node)
         {
             MenuItem newFolder;
@@ -231,6 +230,10 @@ namespace Guqu
         public string Size { get; set; }
 
         public string DateModified { get; set; }
+
+        public string Owners { get; set; }
+
+        public bool Checked { get; set; }
 
     }
 
