@@ -28,7 +28,7 @@ namespace Guqu.WebServices
             return null;
         }
 
-        public async Task<bool> downloadFile(CommonDescriptor cd)
+        public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
 
             var _googleDriveService = InitializeAPI.googleDriveService;
@@ -411,6 +411,29 @@ namespace Guqu.WebServices
         private bool removeParentToFile(CommonDescriptor fileToRemove, CommonDescriptor parentFolderToRemove)
         {
             return true;
+        }
+
+
+
+
+        public Task<bool> shareFileAsync(CommonDescriptor fileToShare)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> deleteFileAsync(CommonDescriptor cd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> moveFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> copyFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
         }
     }
 }

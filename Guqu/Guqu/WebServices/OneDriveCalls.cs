@@ -13,7 +13,7 @@ namespace Guqu.WebServices
     class OneDriveCalls : ICloudCalls
     {
 
-        public async Task<bool> downloadFile(CommonDescriptor cd)
+        public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
@@ -84,15 +84,16 @@ namespace Guqu.WebServices
             throw new NotImplementedException();
         }
 
-        public async Task<bool> deleteFile(CommonDescriptor cd)
+        public async Task<bool> deleteFileAsync(CommonDescriptor cd)
         {
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             var fileId = cd.FileID;
+            var fileId2 = "8FA41A1E5CF18E2B!1134";
             
             try
             {
-                await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
+                await _oneDriveClient.Drive.Items[fileId2].Request().DeleteAsync();
             }
             catch (Exception e)
             {
@@ -105,7 +106,7 @@ namespace Guqu.WebServices
             //throw new NotImplementedException();
         }
 
-        public async Task<bool> moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        public async Task<bool> moveFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
@@ -185,6 +186,26 @@ namespace Guqu.WebServices
 
             }
 
+        }
+
+        public Task<bool> shareFileAsync(CommonDescriptor fileToShare)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> copyFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool deleteFile(CommonDescriptor cd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
         }
     }
 }
