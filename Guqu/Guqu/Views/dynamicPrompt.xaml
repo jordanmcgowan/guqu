@@ -1,0 +1,18 @@
+﻿<Window x:Class="Guqu.dynamicPrompt"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Guqu"
+        mc:Ignorable="d"
+        Title="dynamicPrompt" Height="300" Width="300"
+        ResizeMode="NoResize">
+    <Grid>
+
+        <TextBlock TextAlignment="Center" x:Name="question" Height="30" Margin="10,24,10,217"/>
+        <ListView x:Name="list" Margin="10,60,10,45" HorizontalContentAlignment="Center">
+        </ListView>
+
+        <Button Width="100" Margin="97,231,97,3" Content="Accept" Click="acceptClick"/>
+    </Grid>
+</Window>
