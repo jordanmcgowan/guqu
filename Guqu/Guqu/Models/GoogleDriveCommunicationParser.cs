@@ -78,14 +78,14 @@ namespace Guqu.Models
         }
 
         //Required by interface
-        public CommonDescriptor createCommonDescriptor(StreamReader fileStreamReader, string relativeFilePath)
+        public CommonDescriptor createCommonDescriptor(string relativeFilePath, string jsonMetaDataFile)
         {
 
             JsonFileParser parser = new JsonFileParser();
-            cd_google_Value_Dictionary = parser.retrieveValues(cd_google_Term_Dictionary, fileStreamReader);
+            cd_google_Value_Dictionary = parser.retrieveValues(cd_google_Term_Dictionary, jsonMetaDataFile);
 
             //variables to pass in
-            string fileName, fileType, fsize, lastMod, fileID, filePath;
+            string fileName, fileType, fsize, lastMod, fileID;
             DateTime lastModified;
             int fileSize;
 
@@ -96,11 +96,6 @@ namespace Guqu.Models
             {
                 //do translaion for fileType
                 fileType = "folder";
-                filePath = relativeFilePath + "\\" + fileName + "_folder.json";
-            }
-            else
-            {
-                filePath = relativeFilePath + "\\" + fileName + "_file.json";
             }
             cd_google_Value_Dictionary.TryGetValue("fileID", out fileID);
             cd_google_Value_Dictionary.TryGetValue("fileSize", out fsize);
@@ -108,45 +103,11 @@ namespace Guqu.Models
             lastModified = Convert.ToDateTime(lastMod);
             Int32.TryParse(fsize, out fileSize);
             
-            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, filePath, fileID, lastModified, fileSize);
+            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
 
             return cd;
         }
-        //Required by interface
-        public string createUploadBody(ServiceDescriptor descriptor)
-        {
-            //todo itr2
-
-            StringBuilder builder = new StringBuilder("");
-            builder.AppendLine("POST /upload/drive/v3/files?uploadType=multipart HTTP/1.1");
-            builder.AppendLine("Host: www.googleapis.com");
-            builder.Append("Authorization: Bearer ");
-            //TODO: ensure this is the correct file location of the keys.
-            //TODO: put these files with the metaData?
-            //TODO: create a 'keys' controller that can give the absolute path of a file for something like that.
-            string google_auth_token = File.ReadAllText("..\\keys\\guqu_drive_client_id.json");
-            builder.AppendLine(google_auth_token);
-
-            //TODO: use a unique string to act as the boundary calls for all uploads? For google, for everything?
-            string boundary = "BOUNDARYSTRING";
-            builder.AppendLine("Content-Type: multipart/related; boundary=" + boundary);
-
-            //Dictionary<string, string> dict = descriptor.getRequestHeaders();
-            CommonDescriptor cd = descriptor.getCommonDescriptor();
-            
-            builder.AppendLine("Content-Length: " + cd.FileSize + "\n");
-            builder.AppendLine("--" + boundary);
-            builder.AppendLine("Content-Type: application/json; charset=UTF-8\n");
-            builder.AppendLine("{ name: " + cd.FileName + " }");
-            builder.AppendLine("--" + boundary);
-            builder.AppendLine("Content-Type: " + cd.FileType);
-
-            //TODO: then you add the data to this, and terminate with another boundary string.
-
-
-            return builder.ToString();
-        }
-
+       
         public string convertExtension(string oldExtension)
         {
             //Convert between the mimetype and the extension it is linked to.

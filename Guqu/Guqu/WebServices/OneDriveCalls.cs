@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.OneDrive.Sdk;
 using Guqu.Models;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace Guqu.WebServices
 {
     class OneDriveCalls : ICloudCalls
     {
+        OneDriveCommunicationParser oneDriveCommParser;
+        public OneDriveCalls()
+        {
+            oneDriveCommParser = new OneDriveCommunicationParser();
+        }
 
         public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
@@ -130,59 +133,68 @@ namespace Guqu.WebServices
 
 
 
-        public async void fetchAllMetaData(MetaDataController controller, string accountName)
+        public async Task<bool> fetchAllMetaData(MetaDataController controller, string accountName)
         {
             string rootId = "root";
-            fetchAllMDFiles(controller, accountName, rootId);
+            try {
+                await fetchAllMDFiles(controller, accountName, rootId);   
+                return true;
+            }
+            catch(Exception e)
+            {
+                //TODO: what do we do with errors?
+                Console.WriteLine(e.StackTrace);
+            }
+            return false;
         }
 
-        private async void fetchAllMDFiles(MetaDataController controller, string relativeRequestPath, string parentID)
+        private async Task fetchAllMDFiles(MetaDataController controller, string relativeRequestPath, string parentID)
         {
             var _oneDriveClient = InitializeAPI.oneDriveClient;
-            bool t = _oneDriveClient.IsAuthenticated;
-            var parent = _oneDriveClient.Drive.Items[parentID];
 
+            //will hold all of the children from this directory (parentID)
             List<Item> allChildren = new List<Item>();
-            IChildrenCollectionPage children;
 
-            children = await _oneDriveClient.Drive.Items[parentID].Children.Request().GetAsync();
-            allChildren.AddRange(children);
+            //will hold the current children gathered from an iteration, oneDrive returns 200 children by default
+            IChildrenCollectionPage curChildren;
+            curChildren = await _oneDriveClient.Drive.Items[parentID].Children.Request().GetAsync();
 
 
-            while (children.NextPageRequest != null)
+            allChildren.AddRange(curChildren);
+            //NextPageRequest is not null iff there are more children to fetch
+            while (curChildren.NextPageRequest != null)
             {
-
-
-                string nextPageLinkString = children.NextPageRequest.GetHttpRequestMessage().RequestUri.ToString(); //this gives URL with next page token
-
-                children.InitializeNextPageRequest(_oneDriveClient, nextPageLinkString);
-                children = await children.NextPageRequest.GetAsync();
-                allChildren.AddRange(children);
+                //Get the nextPageRequest, will be null if there isn't anymore.
+                string nextPageLinkString = curChildren.NextPageRequest.GetHttpRequestMessage().RequestUri.ToString();
+                curChildren.InitializeNextPageRequest(_oneDriveClient, nextPageLinkString);
+                curChildren = await curChildren.NextPageRequest.GetAsync();
+                allChildren.AddRange(curChildren);
             }
+
+            //Have all of the children, now iterate through them
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            CommonDescriptor curCD;
+            string curFileSerialized;
 
             foreach (var child in allChildren)
             {
-                CommonDescriptor cd = new CommonDescriptor();
-                cd.FileID = child.Id;
-                cd.FileName = child.Name;
-                cd.FilePath = relativeRequestPath;
-                cd.FileSize = (long)child.Size;
-                cd.LastModified = child.LastModifiedDateTime.Value.LocalDateTime;
-
-
-
-                //need special case for folders vs. files
-                if (child.File != null)
-                    cd.FileType = child.File.MimeType;
-                if (child.Folder != null)
+                curFileSerialized = serializer.Serialize(child);
+                if(child.File == null) //folder
                 {
-                    cd.FileType = "folder";
-
-                    if (child.Folder.ChildCount > 0)
-                        fetchAllMDFiles(controller, "//" + child.Name, child.Id);
+                    //For each folder add the metaDataFolder, the CD, and then recurse.
+                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, child.Name);
+                    curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
+                    controller.addCommonDescriptorFile(curCD);
+                    await fetchAllMDFiles(controller, relativeRequestPath + "\\" + child.Name, child.Id);
                 }
+                else  //file
+                {
+                    //For each file add the metadatafile, and the CD.
+                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, child.Name);
+                    curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
+                    controller.addCommonDescriptorFile(curCD);
 
-                controller.addCommonDescriptorFile(cd);
+                }
 
             }
 
