@@ -412,9 +412,7 @@ namespace Guqu.WebServices
         {
             return true;
         }
-
-
-
+        
 
         public Task<bool> shareFileAsync(CommonDescriptor fileToShare)
         {

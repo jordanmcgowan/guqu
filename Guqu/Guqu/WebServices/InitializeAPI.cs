@@ -89,7 +89,9 @@ namespace Guqu.WebServices
             using (var stream =
                     new FileStream("../../WebServices/guqu_drive_client_id.json", FileMode.Open, FileAccess.Read))
                 {
-                    string credPath = System.Environment.GetFolderPath(
+
+                //TODO: saving as suth token in folder that ends with .json
+                string credPath = System.Environment.GetFolderPath(
                         System.Environment.SpecialFolder.LocalApplicationData);
                     credPath = Path.Combine(credPath, "Guqu/.credentials/guqu_gdrive_creds.json");
 
@@ -104,38 +106,7 @@ namespace Guqu.WebServices
                         new FileDataStore(credPath, true)).Result;
                     Console.WriteLine("Credential file saved to: " + credPath);
                 }
-
-
-
-            
-         /*
-            // Define parameters of request.
-            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
-            listRequest.PageSize = 10;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-
-
-            /*
-            // List files.
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
-            Console.WriteLine("Files:");
-            if (files != null && files.Count > 0)
-            {
-                foreach (var file in files)
-                {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No files found.");
-            }
-            Console.Read();
-            */ 
-
-
-
+              
         }//end init google drive
 
 
@@ -228,6 +199,32 @@ namespace Guqu.WebServices
                 );
 
             
+       }
+
+
+
+        //THIS SHIT DOESNT WORK
+        public static async Task<IOneDriveClient> getOneDriveClient()
+        {
+            var token = oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken;
+
+            //trys this sneak silent authenticator
+            try {
+                await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
+                    onedrive_client_id,
+                    onedrive_redirect_uri,
+                    onedrive_scope,
+                    onedrive_client_secret,
+                    token);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+            
+            return oneDriveClient; 
+                
        }
 
     }

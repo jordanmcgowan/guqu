@@ -18,16 +18,19 @@ namespace Guqu.WebServices
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
-            var fileId = cd.FileID;
+            _oneDriveClient.AuthenticateAsync();
+
+            //var fileId = cd.FileID;
+            var fileId = "8FA41A1E5CF18E2B!114";
 
 
 
 
-            string extension = odcp.getExtension(cd.FileType); //TODO: ensure OneDriveComParser returns the proper extension
+            //string extension = odcp.getExtension(cd.FileType); //TODO: ensure OneDriveComParser returns the proper extension
             try
             {
                 var contentStream = await _oneDriveClient.Drive.Items[fileId].Content.Request().GetAsync();
-                wdm.downloadFile((MemoryStream)contentStream, cd.FileName + extension);
+                wdm.downloadFile((MemoryStream)contentStream, "Poop" + ".xlsx");
             }
             catch (Exception e)
             {
@@ -42,9 +45,7 @@ namespace Guqu.WebServices
 
         public List<string> uploadFiles(List<Models.SupportClasses.UploadInfo> toUpload, CommonDescriptor folderDestination)
         {
-            List<string> newFileIDs = new List<string>();
-
-            return newFileIDs;
+            throw new NotImplementedException();
         }
 
         public async Task<List<string>> uploadFilesAsync(List<Models.SupportClasses.UploadInfo> toUpload, CommonDescriptor folderDestination)
@@ -86,9 +87,11 @@ namespace Guqu.WebServices
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             var fileId = cd.FileID;
 
+            string file2 = "8FA41A1E5CF18E2B!1136";
+
             try
             {
-                await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
+                await _oneDriveClient.Drive.Items[file2].Request().DeleteAsync();
             }
             catch (Exception e)
             {
@@ -106,18 +109,23 @@ namespace Guqu.WebServices
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
 
+
+            
+            
             //Move within 1D
-            //Need to retrieve new location, so this is wrong
-            var newParentId = "6AD";
+            
+            var newParentId = folderDestination.FileID;
+            var fileId = fileToMove.FileID;
             var updateItem = new Item { ParentReference = new ItemReference { Id = newParentId } };
             var itemWithUpdates = await _oneDriveClient
                                             .Drive
-                                            .Items[fileToMove.FileID]
+                                            .Items[fileId]
                                             .Request()
                                             .UpdateAsync(updateItem);
 
             //Move to Google Drive location
             throw new NotImplementedException();
+            
         }
 
 

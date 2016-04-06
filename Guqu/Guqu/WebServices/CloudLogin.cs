@@ -59,22 +59,28 @@ namespace Guqu.WebServices
 
             //these are also login params, should move to login class
 
+            //checks to see if the client is authenticated
             if (!_oneDriveClient.IsAuthenticated)
             {
+                //checks for active session
                 if (accountSession != null)
                 {
                     var token = accountSession.RefreshToken;
 
+                    //trys this sneak silent authenticator
                     await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
                         onedrive_client_id,
                         onedrive_redirect_uri,
                         onedrive_scope,
                         token);
                 }
-                else {
+                else{
+
+                    //prompt to sign in or click yes
                     await _oneDriveClient.AuthenticateAsync();
                     accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
                 }
+
 
                 Console.WriteLine("This succedded");
 
