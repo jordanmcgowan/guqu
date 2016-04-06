@@ -117,6 +117,7 @@ namespace Guqu
                         else
                         {
                             //NEW MCG WORK: Adds in salt and key (password) 
+                            //http://stackoverflow.com/questions/5431354/is-this-the-way-to-salt-and-store-a-password-in-db
                             byte[] salt, key;
                             string encodedSalt, encodedKey;
                             // specify that we want to randomly generate a 20-byte salt
