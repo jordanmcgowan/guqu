@@ -28,7 +28,9 @@ namespace Guqu
     public partial class MainWindow : Window
     {
 
-        private CommonDescriptor cd;
+        //private CommonDescriptor cd;
+        private List<Models.SupportClasses.TreeNode> roots = new List<Models.SupportClasses.TreeNode>();
+        
         ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
 
 
@@ -45,15 +47,17 @@ namespace Guqu
             this.folderView.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 193;
             this.folderView.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 200;
 
+            dynamicPrompt dp = new dynamicPrompt(new String[] { "here","there","where","hi3ed3edd3d3d3d3d3ed3d3d3d3edxedxdxexexeddexexexeexexedxed"});
+            dp.Show();
 
             //how to add to the folder view
-            for (int i = 0; i < 10; i++)
+            /*for (int i = 0; i < 10; i++)
             {
                 dF.Add(new dispFolder() { Name = "File", Type = ".pdf", Size = "11", DateModified = "1/11/11", Owners = "Bill", Checked = false });
             }
 
             folderView.ItemsSource = dF;
-
+            */
 
 
 
@@ -108,6 +112,8 @@ namespace Guqu
                 if (ele.getCommonDescriptor().FileType.Equals("folder"))
                 {
                     newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName };
+                    roots.Add(ele);
+                    newFolder.Click = new RoutedEventHandler(item_Click);
                     root.Items.Add(populateMenuItem(newFolder, ele));
                 }
                 else
@@ -116,6 +122,18 @@ namespace Guqu
                 }
             }
             return root;
+        }
+        public void item_Click(object sender, RoutedEventArgs e)
+        {
+            dF = new ObservableCollection<dispFolder>();
+            //MenuItem name = e.OriginalSource as MenuItem;
+            TextBlock name = e.OriginalSource as TextBlock;
+            String tmp = name.Text;
+
+            foreach(var root in roots)
+            {
+                folderDisplay(root, tmp); 
+            }
         }
 
 
@@ -180,7 +198,6 @@ namespace Guqu
 
         }
 
-
         
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
@@ -223,14 +240,54 @@ namespace Guqu
                 GoogleDriveCalls gdc = new GoogleDriveCalls();
                 gdc.fetchAllMetaData(mdc, "Google Drive");
 
-                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive//CS564");
+                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
                 MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
                 root = populateMenuItem(root, rootnode);
+                roots.Add(rootnode);
                 fileTreeMenu.Items.Add(root);
             }
+            /*foreach (var hi in roots)
+            {
+                folderDisplay(hi, "CS564");
+            }
+            */
 
 
             //TreeNode rootNode = mdc.getRoot("test");
+        }
+
+
+        //call when a click is detected on the file hierarchy
+        private void folderDisplay(Models.SupportClasses.TreeNode node, String FileName)
+        {
+            if (node.getCommonDescriptor() != null)
+            {
+                if (node.getCommonDescriptor().FileName.Equals(FileName))
+                {
+                    //get list of children nodes convert to a list of common discriptors and populate listView
+                    LinkedList<Models.SupportClasses.TreeNode> children = node.getChildren();
+                    List<CommonDescriptor> disp = new List<CommonDescriptor>();
+                    foreach (var item in children)
+                    {
+                        //if (!(item.getCommonDescriptor().FileType.Equals("folder")))
+                        //{
+                            disp.Add(item.getCommonDescriptor());
+                        //}
+                    }
+                    populateListView(disp);
+                }
+                /*
+                else {
+                    foreach (var ele in node.getChildren())
+                    {
+                        if (ele.getCommonDescriptor().FileType.Equals("folder"))
+                        {
+                            folderDisplay(ele, FileName);
+                        }
+                    }
+                }
+                */
+            }
         }
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
@@ -302,6 +359,7 @@ namespace Guqu
         public string Title { get; set; }
 
         public ObservableCollection<MenuItem> Items { get; set; }
+        public RoutedEventHandler Click { get; internal set; }
     }
 
     public class fileOrFolder

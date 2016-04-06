@@ -223,6 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="dispFolder.cs" />
     <Compile Include="Models\SettingsController.cs" />
     <Compile Include="Models\SupportClasses\SettingsFile.cs" />
     <Compile Include="Views\changePathWindow.xaml.cs">
@@ -251,8 +252,8 @@
     <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="Models\WindowsDownloadManager.cs" />
-    <Compile Include="Views\errorManagerWindow.xaml.cs">
-      <DependentUpon>errorManagerWindow.xaml</DependentUpon>
+    <Compile Include="Views\dynamicPrompt.xaml.cs">
+      <DependentUpon>dynamicPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\shareWindow.xaml.cs">
       <DependentUpon>shareWindow.xaml</DependentUpon>
@@ -284,9 +285,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\errorManagerWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\dynamicPrompt.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\logInWindow.xaml">
       <SubType>Designer</SubType>

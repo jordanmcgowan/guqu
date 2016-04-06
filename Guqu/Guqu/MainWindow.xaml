@@ -25,10 +25,10 @@
             </MenuItem>
         </Menu>
 
-        <TreeView x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
+        <TreeView   x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" />
+                <HierarchicalDataTemplate  DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Title}" MouseDown="item_Click"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <ScrollViewer Height="100" Width="100"/>
@@ -45,9 +45,9 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Name" Width="110" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Type" Width="110" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Type" Width="220" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="Size" Width="110" DisplayMemberBinding="{Binding Size}" />
-                    <GridViewColumn Header="Dates Modified" Width="110" DisplayMemberBinding="{Binding DateModified}" />
+                    <GridViewColumn Header="Dates Modified" Width="220" DisplayMemberBinding="{Binding DateModified}" />
                     <GridViewColumn Header="Owner(s)" Width="110" DisplayMemberBinding="{Binding Owners}" />
 
                     
