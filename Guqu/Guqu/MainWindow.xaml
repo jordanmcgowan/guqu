@@ -49,6 +49,7 @@
                     <GridViewColumn Header="Size" Width="110" DisplayMemberBinding="{Binding Size}" />
                     <GridViewColumn Header="Dates Modified" Width="110" DisplayMemberBinding="{Binding DateModified}" />
                     <GridViewColumn Header="Owner(s)" Width="110" DisplayMemberBinding="{Binding Owners}" />
+
                     
                 </GridView>
             </ListView.View>

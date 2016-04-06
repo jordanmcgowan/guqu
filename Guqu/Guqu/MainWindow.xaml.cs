@@ -29,6 +29,7 @@ namespace Guqu
     {
 
         private CommonDescriptor cd;
+        ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
 
 
         public MainWindow()
@@ -45,9 +46,17 @@ namespace Guqu
             this.folderView.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 200;
 
 
-            List<fileOrFolder> items = new List<fileOrFolder>();
-            items.Add(new fileOrFolder() { Name = "myFile1", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11", Owners ="Person", Checked=false});
-            folderView.ItemsSource = items;
+            //how to add to the folder view
+            for (int i = 0; i < 10; i++)
+            {
+                dF.Add(new dispFolder() { Name = "File", Type = ".pdf", Size = "11", DateModified = "1/11/11", Owners = "Bill", Checked = false });
+            }
+
+            folderView.ItemsSource = dF;
+
+
+
+
             /*
             MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
             TreeNode rootnode = mdc.getRoot("test");
@@ -71,21 +80,25 @@ namespace Guqu
             */
             //fileTreeMenu.Items.Add(root);
 
+
+            //populateListView();//pass the list of common descriptors
             //Dummy data to display path
-            List<string> mylist = new List<string>(new string[] { "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element1", "element2", "element3", "element1", "element2", "element3", "element1", "element2", "element3", });
+            List<string> mylist = new List<string>(new string[] { "element2", "element3", "element1", "element2", "element3", });
             String path = generatePath(mylist);
             pathBox.Text = path;
-
-
         }
 
+        //implement this when a file/folder is clicked in services view
         private void populateListView(List<CommonDescriptor> files)
         {
             foreach (CommonDescriptor file in files)
             {
-           // create new fileOrFolder Object with Checked = false but everything else from common descriptor     (new fileOrFolder() { Name = "myFile1", Type = ".pdf", Size = "11 kb", DateModified = "1/1/11", Owners = "Person", Checked = false });
+                // create new fileOrFolder Object with Checked = false but everything else from common descriptor may need to change for date and size
+                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID });
             }
+            folderView.ItemsSource = dF;
         }
+
 
         private MenuItem populateMenuItem(MenuItem root, Guqu.Models.SupportClasses.TreeNode node)
         {
@@ -99,11 +112,12 @@ namespace Guqu
                 }
                 else
                 {
-                    root.Items.Add(new MenuItem() { Title = ele.getCommonDescriptor().FileName });
+                    //root.Items.Add(new MenuItem() { Title = ele.getCommonDescriptor().FileName });
                 }
             }
             return root;
         }
+
 
         private void logoutClicked(object sender, RoutedEventArgs e)
         {
@@ -112,34 +126,49 @@ namespace Guqu
             logInWin.Show();
             this.Close();
         }
+
+
         private void exitClicked(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+
         private void checkForUpdatesClicked(object sender, RoutedEventArgs e)
         {
             //TODO call the function that makes sure things are up to date and redraws
+
         }
+
+
         private void manageAccountsClicked(object sender, RoutedEventArgs e)
         {
             manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow();
             manageAccountsWin.Show();
         }
+
+
         private void changePasswordClicked(object sender, RoutedEventArgs e)
         {
             /*changePasswordWindow changePassWin = new changePasswordWindow();
             changePassWin.Show();*/
         }
+
+
         private void changePathClicked(object sender, RoutedEventArgs e)
         {
             changePathWindow changePathWin = new changePathWindow();
             changePathWin.Show();
         }
+
+
         //TODO Make actual wiki and update link 
         private void wikiClicked(object sender, RoutedEventArgs e)
         {
             Process.Start("http://www.google.com");
         }
+
+
         private String generatePath(List<String> hierarchy)
         {
             String path = "";
@@ -151,6 +180,8 @@ namespace Guqu
 
         }
 
+
+        
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -158,7 +189,30 @@ namespace Guqu
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            /*
+            if (dF.Count > 0)
+            {
+                List<dispFolder> itemsToDownload = new List<dispFolder>();
+
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToDownload.Add(file);
+                    }
+                }
+                foreach (dispFolder file in itemsToDownload)
+                {
+                    //add download logic here using file.FileID
+
+
+                }
+            }
+            */
+
+
+
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
             string selectedFolderPath;
@@ -169,7 +223,7 @@ namespace Guqu
                 GoogleDriveCalls gdc = new GoogleDriveCalls();
                 gdc.fetchAllMetaData(mdc, "Google Drive");
 
-                Guqu.Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive//CS564");
                 MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
                 root = populateMenuItem(root, rootnode);
                 fileTreeMenu.Items.Add(root);
@@ -181,14 +235,43 @@ namespace Guqu
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
+
             shareWindow shareWin = new shareWindow();
             shareWin.Show();
         }
 
+
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+            if (dF.Count > 0)
+            {
+                List<dispFolder> itemsToRemove = new List<dispFolder>();
 
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToRemove.Add(file);
+                    }
+                }
+                foreach (dispFolder file in itemsToRemove)
+                {
+                    //add delete call to actual web service
+                    dF.Remove(file);
+                    
+                }
+
+            }
+            else
+            {
+                System.Console.WriteLine("nothing in list");
+            }
         }
+
+
+
+
+
         private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {
             xamlRoot = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
