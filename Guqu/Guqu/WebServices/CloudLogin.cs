@@ -46,7 +46,8 @@ namespace Guqu.WebServices
 
             InitializeAPI.googleDriveService = _googleDriveService;
 
-            
+
+
 
         }
 
@@ -55,13 +56,11 @@ namespace Guqu.WebServices
 
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             //Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
-            
+
             //these are also login params, should move to login class
 
-            if (! _oneDriveClient.IsAuthenticated)
+            if (!_oneDriveClient.IsAuthenticated)
             {
-                
-               
                 if (accountSession != null)
                 {
                     var token = accountSession.RefreshToken;
@@ -72,63 +71,17 @@ namespace Guqu.WebServices
                         onedrive_scope,
                         token);
                 }
-                else{
+                else {
                     await _oneDriveClient.AuthenticateAsync();
                     accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
                 }
-                
 
+                Console.WriteLine("This succedded");
 
+                InitializeAPI.oneDriveClient = _oneDriveClient;
 
-                Console.WriteLine("This succedded and Jordan is a bitch");
-                    
-                    InitializeAPI.oneDriveClient = _oneDriveClient;
-                               
-                }
-                
+            }
 
-
-                
-            
-
-            /*
-            *******************
-            This is all for testing how to download
-            It is not actually needed for instantiating One Drive
-            *******************
-
-
-             try {
-                 var root = await _oneDriveClient.Drive.Root.Request().Expand("children").GetAsync();
-                 Console.WriteLine(root.Id);
-
-                Stream cStream = await _oneDriveClient.Drive.Items[root.Id].Content.Request().GetAsync();
-                 Console.WriteLine(cStream.ToString());
-
-
-
-
-
-
-
-
-
-             }
-             catch(Exception e)
-             {
-                 Console.WriteLine(e);
-
-             }
-
-
-         }
-
-         private static bool boxLogin()
-         {
-
-             return false;
-         }
-         */
 
 
         }
