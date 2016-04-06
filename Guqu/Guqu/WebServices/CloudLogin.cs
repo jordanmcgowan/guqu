@@ -17,6 +17,14 @@ namespace Guqu.WebServices
     class CloudLogin
     {
 
+
+        static AccountSession accountSession;
+        private const string onedrive_client_id = "000000004018A88F";
+        private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
+        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
+        private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
+
+
         public CloudLogin()
         {
             //empty constructor 
@@ -53,10 +61,26 @@ namespace Guqu.WebServices
             if (! _oneDriveClient.IsAuthenticated)
             {
                 
-                    await _oneDriveClient.AuthenticateAsync();
-                    var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+               
+                if (accountSession != null)
+                {
+                    var token = accountSession.RefreshToken;
 
-                    Console.WriteLine("This succedded and Jordan is a bitch");
+                    await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
+                        onedrive_client_id,
+                        onedrive_redirect_uri,
+                        onedrive_scope,
+                        token);
+                }
+                else{
+                    await _oneDriveClient.AuthenticateAsync();
+                    accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                }
+                
+
+
+
+                Console.WriteLine("This succedded and Jordan is a bitch");
                     
                     InitializeAPI.oneDriveClient = _oneDriveClient;
                                

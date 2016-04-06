@@ -60,11 +60,7 @@ namespace Guqu.WebServices
             {
                 FileStream fileStream = (FileStream)ui.getFileStream();
 
-                fileName = ui.getFileName();
-                //fileName = fileName + ".docx";
-                //string path = folderDestination.FilePath;
-
-
+                fileName = ui.getFileName();               
                 string fullPath = folderDestination.FilePath + fileName;
                 
 
@@ -89,11 +85,10 @@ namespace Guqu.WebServices
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             var fileId = cd.FileID;
-            var fileId2 = "8FA41A1E5CF18E2B!1134";
             
             try
             {
-                await _oneDriveClient.Drive.Items[fileId2].Request().DeleteAsync();
+                await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
             }
             catch (Exception e)
             {
