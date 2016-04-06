@@ -36,7 +36,7 @@ namespace Guqu.WebServices
             }
 
             return true;
-           
+
 
         }
 
@@ -60,9 +60,9 @@ namespace Guqu.WebServices
             {
                 FileStream fileStream = (FileStream)ui.getFileStream();
 
-                fileName = ui.getFileName();               
+                fileName = ui.getFileName();
                 string fullPath = folderDestination.FilePath + fileName;
-                
+
 
                 //need file path
                 var uploadedItem = await _oneDriveClient.Drive.Root.ItemWithPath(fullPath).Content.Request().PutAsync<Item>(fileStream);
@@ -85,7 +85,7 @@ namespace Guqu.WebServices
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             var fileId = cd.FileID;
-            
+
             try
             {
                 await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
@@ -108,7 +108,7 @@ namespace Guqu.WebServices
 
             //Move within 1D
             //Need to retrieve new location, so this is wrong
-            var newParentId = "6AD"; 
+            var newParentId = "6AD";
             var updateItem = new Item { ParentReference = new ItemReference { Id = newParentId } };
             var itemWithUpdates = await _oneDriveClient
                                             .Drive
@@ -120,10 +120,7 @@ namespace Guqu.WebServices
             throw new NotImplementedException();
         }
 
-        public bool copyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async void fetchAllMetaData(MetaDataController controller, string accountName)
         {
@@ -188,9 +185,35 @@ namespace Guqu.WebServices
             throw new NotImplementedException();
         }
 
-        public Task<bool> copyFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        public async Task<bool> copyFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            var _oneDriveClient = InitializeAPI.oneDriveClient;
+            
+            var newItemName = fileToMove.FileName;
+            var itemId = fileToMove.FileID;
+            var copyLocationId = folderDestination.FileID;
+            
+
+            /* Hard coded snippet = worked with testing!!
+            var newItemName = "Copied File.docx";
+            var itemId = "8FA41A1E5CF18E2B!1130";
+            var copyLocationId = "8FA41A1E5CF18E2B!118";
+            */
+
+            try
+            {
+                var request = await _oneDriveClient.Drive.
+                    Items[itemId]
+                    .Copy(newItemName, new ItemReference { Id = copyLocationId }).Request().PostAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+            return true;
+
         }
 
         public bool deleteFile(CommonDescriptor cd)
@@ -199,6 +222,10 @@ namespace Guqu.WebServices
         }
 
         public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
+        }
+        public bool copyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
             throw new NotImplementedException();
         }
