@@ -85,5 +85,15 @@ namespace Guqu.Models
             TemporaryFileInformation curFile = new TemporaryFileInformation(DateTime.Now, absoluteFilePath);
             cachedFiles.Add(id, curFile);
         }
+        /*
+        Clears the cache and clears all the files on disk
+        */
+        public void clearCache()
+        {
+            foreach(KeyValuePair<string, TemporaryFileInformation> kvp in cachedFiles){
+                File.Delete(kvp.Value.AbsoluteFilePath);
+            }
+            cachedFiles.Clear();
+        }
     }
 }
