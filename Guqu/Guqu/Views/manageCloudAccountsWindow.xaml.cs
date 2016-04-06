@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guqu.WebServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +20,12 @@ namespace Guqu
     /// </summary>
     public partial class manageCloudAccountsWindow : Window
     {
-        public manageCloudAccountsWindow()
+        public User user { get; set; }
+
+        public manageCloudAccountsWindow(User user)
         {
-            
-            
-
-            
             InitializeComponent();
-
+            this.user = user;
             //basic skelly of accounts
             //loop to add accounts to listView
             for (int i = 0; i < 5; i++)
@@ -87,7 +86,7 @@ namespace Guqu
 
         private void add_click(object sender, RoutedEventArgs e)
         {
-            cloudPicker cloudPick = new cloudPicker();
+            cloudPicker cloudPick = new cloudPicker(user);
             cloudPick.Show();
             this.Close();
         }

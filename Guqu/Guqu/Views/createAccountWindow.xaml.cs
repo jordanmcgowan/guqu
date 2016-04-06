@@ -21,9 +21,14 @@ namespace Guqu
     /// </summary>
     public partial class createAccountWindow : Window
     {
+        ServerCommunicationController db;
+
         public createAccountWindow()
         {
             InitializeComponent();
+
+            //Create DB connection if email is valid
+            db = new ServerCommunicationController();
         }
 
         private void createAccountClick(object sender, RoutedEventArgs e)
@@ -40,7 +45,8 @@ namespace Guqu
             if (validInput(email, emailConfirm, password, passwordConfirm))
             {
                 //create account
-                cloudPicker cPick = new cloudPicker();
+                User user = db.SelectUser(email);
+                cloudPicker cPick = new cloudPicker(user);
                 cPick.Show();
                 this.Close();
             }
@@ -93,8 +99,6 @@ namespace Guqu
                 }
                 else
                 {
-                    //Create DB connection if email is valid
-                    ServerCommunicationController db = new ServerCommunicationController();
 
                     if (!db.emailExists(email))
                     {

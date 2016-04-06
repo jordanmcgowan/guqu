@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using Guqu.WebServices;
+using GuquMysql;
 
 namespace Guqu
 {
@@ -22,9 +23,12 @@ namespace Guqu
     public partial class cloudPicker : Window
     {
         InitializeAPI api;
-        public cloudPicker()
+        public User user { get; set; }
+
+        public cloudPicker(User user)
         {
             InitializeComponent();
+            this.user = user;
             api = new InitializeAPI();
         }
 
@@ -47,7 +51,18 @@ namespace Guqu
         }
         private void googleDriveClick(object sender, RoutedEventArgs e)
         {
-            api.initGoogleDriveAPI();
+            string token = api.initGoogleDriveAPI(); //TODO: try catch
+            Console.WriteLine("googledrive token: " + token);
+            
+            if (registerUserCloud(token))
+            {
+                Console.WriteLine("registration succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("registration failed.");
+            }
+            
             CloudLogin.googleDriveLogin();
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
             //cloudLogWin.Show();
@@ -61,11 +76,20 @@ namespace Guqu
                 }
                 else
                 {
-                    MainWindow mainWindow = new MainWindow();
+                    MainWindow mainWindow = new MainWindow(user);
                     mainWindow.Show();
                 }
             }
             this.Close();
+        }
+
+        private Boolean registerUserCloud(string token)
+        {
+            ServerCommunicationController db = new ServerCommunicationController();
+            int cloudId = 2; //Google Drive cloudId is 2
+            db.InsertNewUserCloud(user.User_id, token, cloudId);
+
+            return true; //TODO: refine it
         }
     }
     

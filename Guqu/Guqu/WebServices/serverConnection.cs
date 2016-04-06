@@ -104,6 +104,88 @@ namespace GuquMysql
                 this.CloseConnection();
             }
         }
+
+        //public void InsertNewUserCloud(int userId, string cloudUsername, string token, int cloudId)
+        public void InsertNewUserCloud(int userId, string token, int cloudId)
+        {
+            if (doesUserCloudExist(userId, token))
+            {
+                Console.WriteLine("Your user_cloud already registered in DB.");
+            }
+            else
+            {
+                //prompt window asking user_cloud's customized name
+                string query = "INSERT INTO user_clouds (user_id, cloud_id, cloud_token, custom_cloud_name) "
+                    + "VALUES (" + userId + ", " + cloudId + ", '" + token + "', 'testname')";
+
+                //open connection
+                if (this.OpenConnection() == true)
+                {
+                    //create command and assign the query and connection from the constructor
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+
+                    //close connection
+                    this.CloseConnection();
+                    Console.WriteLine("new user_cloud inserted.");
+                }
+            }
+
+        }
+
+
+        public Boolean doesUserCloudExist(int userId, string token)
+        {
+            string query = "SELECT COUNT(*) AS user_cloud_count FROM user_clouds WHERE user_id = " + userId + " AND cloud_token = '" + token + "';";
+            //Open Connection
+            if (this.OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                int doesExist = -1;
+
+                //Read the data and store them in the list
+                while (dataReader.Read())
+                {
+                    doesExist = Int32.Parse(dataReader["user_cloud_count"] + "");
+
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                if (doesExist == 1)
+                {
+                    Console.WriteLine("EXISTS!!!!!!!!!!!!!!!!!!!");
+                    return true;
+                }
+                else if (doesExist == 0)
+                {
+                    Console.WriteLine("DOESN'T EXIST!!!!!!!!!!!!!!!!!!!");
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("ERROR: Verification failed.");
+                    return false;
+                }
+
+
+            }
+            else
+            {
+                Console.WriteLine("ERROR!!");
+                return false;
+            }
+
+        }
         /*
         //Update statement
         public void Update()
@@ -163,35 +245,15 @@ namespace GuquMysql
                 //Read the data and store them in the list
                 while (dataReader.Read())
                 {
-                    user.User_id = dataReader["user_id"] + "";
+                    user.User_id = Int32.Parse(dataReader["user_id"] + "");
                     user.Email = dataReader["email"] + "";
                     user.Sign_up_date = dataReader["sign_up_date"] + "";
                     user.Last_login = dataReader["last_login"] + "";
                     user.Pass_hash = dataReader["pass_hash"] + "";
                     user.Pass_salt = dataReader["pass_salt"] + "";
-                    user.Failed_pass_attempts = dataReader["failed_pass_attempts"] + "";
+                    user.Failed_pass_attempts = Int32.Parse(dataReader["failed_pass_attempts"] + "");
                     user.Failed_pass_date = dataReader["failed_pass_date"] + "";
-
-                    /*
-                    list.Add(new KeyValuePair<string, string>("user_id", dataReader["user_id"] + ""));
-                    list.Add(new KeyValuePair<string, string>("email", dataReader["email"] + ""));
-                    list.Add(new KeyValuePair<string, string>("sign_up_date", dataReader["sign_up_date"] + ""));
-                    list.Add(new KeyValuePair<string, string>("last_login", dataReader["last_login"] + ""));
-                    list.Add(new KeyValuePair<string, string>("pass_hash", dataReader["pass_hash"] + ""));
-                    list.Add(new KeyValuePair<string, string>("pass_salt", dataReader["pass_salt"] + ""));
-                    list.Add(new KeyValuePair<string, string>("failed_pass_attempts", dataReader["failed_pass_attempts"] + ""));
-                    list.Add(new KeyValuePair<string, string>("failed_pass_date", dataReader["failed_pass_date"] + ""));
-
-                    
-                    list.Add(dataReader["user_id"] + "");
-                    list.Add(dataReader["email"] + "");
-                    list.Add(dataReader["sign_up_date"] + "");
-                    list.Add(dataReader["last_login"] + "");
-                    list.Add(dataReader["pass_hash"] + "");
-                    list.Add(dataReader["pass_salt"] + "");
-                    list.Add(dataReader["failed_pass_attempts"] + "");
-                    list.Add(dataReader["failed_pass_date"] + "");
-                    */
+                    user.Failed_pass_date = dataReader["failed_pass_date"] + "";
                 }
 
                 //close Data Reader
@@ -216,6 +278,57 @@ namespace GuquMysql
             {
                 Console.WriteLine("Conn not open");
                 return user;
+            }
+        }
+
+        public List<UserCloud> SelectUserClouds(int userId)
+        {
+            string query = "SELECT * FROM user_clouds WHERE user_id = " + userId + ";";
+            Console.WriteLine(query);
+
+            List<UserCloud> list = new List<UserCloud>();
+
+            //Create Command
+            if (this.OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                
+                //Read the data and store them in the list
+                while (dataReader.Read()) //TODO: gives only one row? or entire list?
+                {
+                    UserCloud userCloud = new UserCloud();
+
+                    userCloud.User_id = Int32.Parse(dataReader["user_id"] + "");
+                    userCloud.Cloud_id = Int32.Parse(dataReader["cloud_id"] + "");
+                    //TODO: finish this loop
+
+                    list.Add(userCloud);
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return list to be displayed
+                if (list.Count != 0)
+                {
+                    //Console.WriteLine("");
+                    return list;
+                }
+                else
+                {
+                    Console.WriteLine("No userCloud found");
+                    return list;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Conn not open");
+                return list;
             }
         }
         /*

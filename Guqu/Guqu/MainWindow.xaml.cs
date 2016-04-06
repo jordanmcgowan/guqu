@@ -27,14 +27,13 @@ namespace Guqu
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        public User user { get; set; }
         private CommonDescriptor cd;
         private CommonDescriptor folder;
-
-
-        public MainWindow()
+        
+        public MainWindow(User user)
         {
-
+            this.user = user;
             InitializeComponent();
             this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight);
             this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
@@ -124,7 +123,7 @@ namespace Guqu
         }
         private void manageAccountsClicked(object sender, RoutedEventArgs e)
         {
-            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow();
+            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(user);
             manageAccountsWin.Show();
         }
         private void changePasswordClicked(object sender, RoutedEventArgs e)

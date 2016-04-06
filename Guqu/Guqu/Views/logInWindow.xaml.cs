@@ -65,7 +65,7 @@ namespace Guqu
 
                     if (user.Pass_hash == pass) //TODO: Iteration 2: add hasing & salting
                     {
-                        MainWindow mainWin = new MainWindow();
+                        MainWindow mainWin = new MainWindow(user);
                         mainWin.Show();
                         this.Close();
                     }
