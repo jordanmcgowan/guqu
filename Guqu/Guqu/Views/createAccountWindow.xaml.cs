@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GuquMysql;
 using Guqu.WebServices;
+using System.Security.Cryptography;
 
 namespace Guqu
 {
@@ -115,8 +116,23 @@ namespace Guqu
                         }
                         else
                         {
+                            //NEW MCG WORK: Adds in salt and key (password) 
+                            byte[] salt, key;
+                            string encodedSalt, encodedKey;
+                            // specify that we want to randomly generate a 20-byte salt
+                            using (var deriveBytes = new Rfc2898DeriveBytes(password, 20))
+                            {
+                                salt = deriveBytes.Salt;
+                                key = deriveBytes.GetBytes(20);  // derive a 20-byte key
+
+                                encodedSalt = Convert.ToBase64String(salt);
+                                encodedKey = Convert.ToBase64String(key);
+                                Console.WriteLine((encodedSalt) + " --- " + (encodedKey));
+                            }
+
+
                             //DB INSERT
-                            db.Insert("users", email, password, "salt"); //TODO: Iteration 2: add hasing & salting
+                            db.Insert("users", email, encodedKey, encodedSalt);
                             Console.WriteLine(email + " has been added successfully.");
                             return true;
                         }
