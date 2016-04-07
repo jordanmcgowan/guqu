@@ -380,9 +380,9 @@ namespace Guqu.WebServices
             var updateRequest = _googleDriveService.Files.Update(temp, fileToMove.FileID);
             updateRequest.Fields = "id, parents";
 
-            //TODO: switch out commented lines
-            //updateRequest.AddParents = folderDestination.FileID;
-            updateRequest.AddParents = "0B0F_8LaJGpURSGFMY2k5UzF0LTg";
+            
+            updateRequest.AddParents = folderDestination.FileID;
+            
 
             if (destructive)
             {

@@ -70,7 +70,9 @@ namespace Guqu
                 if (ele.getCommonDescriptor().FileType.Equals("folder"))
                 {
                     newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName , ID = ele.getCommonDescriptor().FileID};
-                    roots.Add(ele);
+
+                        roots.Add(ele);
+
                     newFolder.Click = new RoutedEventHandler(item_Click);
                     root.Items.Add(populateMenuItem(newFolder, ele));
                 }
@@ -80,6 +82,25 @@ namespace Guqu
                 }
             }
             return root;
+        }
+
+        private void hierarchyAdd(Models.SupportClasses.TreeNode newRoot)
+        {
+            MenuItem root = new MenuItem() { Title = newRoot.getCommonDescriptor().FileName, ID = newRoot.getCommonDescriptor().FileID }; //label as the account name
+            roots.Add(newRoot);
+            root = populateMenuItem(root, newRoot);
+            fileTreeMenu.Items.Add(root);
+        }
+        private void hierarchyDelete(Models.SupportClasses.TreeNode root)
+        {
+            foreach(var item in fileTreeMenu.Items)
+            {
+                MenuItem newItem = (MenuItem)item;
+                    if (newItem.ID.Equals(root.getCommonDescriptor().FileID))
+                {
+                    fileTreeMenu.Items.Remove(item);
+                }
+            }
         }
         public void item_Click(object sender, RoutedEventArgs e)
         {
@@ -241,9 +262,8 @@ namespace Guqu
             roots.Remove(rootNode);
             roots.Add(remadeRootNode);
             temp = populateMenuItem(temp, remadeRootNode);
-            fileTreeMenu.Items.Remove(rootNode);
-            fileTreeMenu.Items.Add(remadeRootNode);
-
+            hierarchyDelete(rootNode);
+            hierarchyAdd(remadeRootNode);
         }
 
 
@@ -277,7 +297,8 @@ namespace Guqu
                 gdc.fetchAllMetaData(metaDataController, "Google Drive");
 
                 Models.SupportClasses.TreeNode rootnode = metaDataController.getRoot("Google Drive", "root", "Google Drive");
-                MenuItem root = new MenuItem() { Title = "Google Drive", ID = "root"}; //label as the account name
+
+            /*MenuItem root = new MenuItem() { Title = "Google Drive", ID = "root"}; //label as the account name
                 root.ID = "root";
                 roots.Add(rootnode);
                 root = populateMenuItem(root, rootnode);
@@ -285,6 +306,8 @@ namespace Guqu
                 
 
                 fileTreeMenu.Items.Add(root);
+            */
+            hierarchyAdd(rootnode);
            // }
             /*foreach (var hi in roots)
             {
