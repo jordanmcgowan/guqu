@@ -32,8 +32,6 @@ namespace Guqu
         ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
 
         public User user { get; set; }
-        private CommonDescriptor cd;
-        private CommonDescriptor folder;
         
         public MainWindow(User user)
         {

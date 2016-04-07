@@ -107,17 +107,8 @@ namespace Guqu.WebServices
                     Console.WriteLine("Credential file saved to: " + credPath);
 
 
-                /*
-                string text;
-                using (var streamReader = new StreamReader(@"C:\Users\MJ\AppData\Local\Guqu\.credentials\guqu_gdrive_creds.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", Encoding.UTF8))
-                {
-                    text = streamReader.ReadToEnd();
-                }
-                //Console.WriteLine("entire token file: " + text);
-                */
 
-                /* useful!!*/
-                using (FileStream fs = new FileStream(@"C:\Users\MJ\AppData\Local\Guqu\.credentials\guqu_gdrive_creds.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", FileMode.Open, FileAccess.Read))
+                using (FileStream fs = new FileStream(credPath + "\\Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", FileMode.Open, FileAccess.Read))
                 using (StreamReader sr = new StreamReader(fs))
                 using (JsonTextReader reader = new JsonTextReader(sr))
                 {

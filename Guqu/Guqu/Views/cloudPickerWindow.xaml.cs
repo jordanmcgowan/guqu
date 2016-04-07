@@ -20,6 +20,9 @@ namespace Guqu
     /// <summary>
     /// Interaction logic for cloudPicker.xaml
     /// </summary>
+    /// 
+    
+
     public partial class cloudPicker : Window
     {
         InitializeAPI api;
@@ -61,7 +64,7 @@ namespace Guqu
                 if (main == false)
                 {
                     //only if this was on new guqu account
-                    MainWindow mainWindow = new MainWindow();
+                    MainWindow mainWindow = new MainWindow(user);
                     mainWindow.Show();
                 }
             }
@@ -113,7 +116,7 @@ namespace Guqu
                 if (main == false)
                 {
                     //only if this was on new guqu account
-                    MainWindow mainWindow = new MainWindow();
+                    MainWindow mainWindow = new MainWindow(user);
                     mainWindow.Show();
                 }
             }
