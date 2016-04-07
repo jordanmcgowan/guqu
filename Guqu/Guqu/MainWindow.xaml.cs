@@ -168,7 +168,7 @@ namespace Guqu
 
         private async void downloadButton_Click(object sender, RoutedEventArgs e)
         {       
-            /*
+            
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
@@ -177,27 +177,33 @@ namespace Guqu
             {
                 selectedFolderPath = fbd.SelectedPath;
                 MetaDataController mdc = new MetaDataController(selectedFolderPath);
-                GoogleDriveCalls gdc = new GoogleDriveCalls();
-                gdc.fetchAllMetaData(mdc, "Google Drive");
+                OneDriveCalls odc = new OneDriveCalls();
+                bool complete = await odc.fetchAllMetaData(mdc, "One Drive");
+                
+                if (complete)
+                {
+                    //Models.SupportClasses.TreeNode rootnode = mdc.getRoot("One Drive");
 
-                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
-                MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
-                root = populateMenuItem(root, rootnode);
-                fileTreeMenu.Items.Add(root);
+                    //MenuItem root = new MenuItem() { Title = "One Drive" }; //label as the account name
+                    //root = populateMenuItem(root, rootnode);
+                    //fileTreeMenu.Items.Add(root);
 
-                LinkedList<Models.SupportClasses.TreeNode> nodes = rootnode.getChildren();
-                IEnumerator<Models.SupportClasses.TreeNode> nodesEnum = nodes.GetEnumerator();
-                nodesEnum.MoveNext();
-                nodesEnum.MoveNext();
-                nodesEnum.MoveNext();
-                cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
-                await gdc.downloadFile(cd);
-            }*/
+                   // LinkedList<Models.SupportClasses.TreeNode> nodes = rootnode.getChildren();
+                   // IEnumerator<Models.SupportClasses.TreeNode> nodesEnum = nodes.GetEnumerator();
+                   // nodesEnum.MoveNext();
+                   // nodesEnum.MoveNext();
+                   // nodesEnum.MoveNext();
+                   // cd = nodesEnum.Current.getChildren().First().getCommonDescriptor();
+                }
+               // await gdc.downloadFile(cd);
+               
+            }
+            
 
-            OneDriveCalls odc = new OneDriveCalls();
-            MetaDataController controller = new MetaDataController("L:\\Dump");
+            //OneDriveCalls odc = new OneDriveCalls();
+            //MetaDataController controller = new MetaDataController("L:\\Dump");
 
-            odc.fetchAllMetaData(controller, "OneDrive");
+            //odc.fetchAllMetaData(controller, "OneDrive");
             
         }
 

@@ -6,7 +6,6 @@ using Guqu.Models;
 using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using System.Web.Script.Serialization;
-using Guqu.Exceptions;
 using Guqu.Models.SupportClasses;
 using Google.Apis.Requests;
 using Google.Apis.Drive.v3.Data;
@@ -23,7 +22,12 @@ namespace Guqu.WebServices
             googleCommParser = new GoogleDriveCommunicationParser();
         }
 
-        public async Task<bool> downloadFile(CommonDescriptor cd)
+        public async Task<List<string>> uploadFilesAsync(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
+        {
+            return null;
+        }
+
+        public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
 
             var _googleDriveService = InitializeAPI.googleDriveService;
@@ -115,10 +119,10 @@ namespace Guqu.WebServices
 
         }
 
-        public void fetchAllMetaData(MetaDataController controller, string accountName)
+        public async Task<bool> fetchAllMetaData(MetaDataController controller, string accountName)
         {
             fetchAllMDFiles(controller, accountName, "root");
-            //return true;
+            return true;
         }
 
         //TODO: have controller be global, or static
@@ -135,7 +139,7 @@ namespace Guqu.WebServices
             IList<Google.Apis.Drive.v3.Data.File> iterationFiles;
 
             //Execution for each iteration
-            Google.Apis.Drive.v3.Data.FileList exec;
+            FileList exec;
 
             var googleDriveService = InitializeAPI.googleDriveService;
             FilesResource.ListRequest listRequest = googleDriveService.Files.List();
@@ -180,43 +184,33 @@ namespace Guqu.WebServices
 
             //now we have all files/folders in the current directory
 
-            string pathForFile;
-            //string nextToken = listRequest.Execute().NextPageToken;
             Google.Apis.Drive.v3.Data.File curFile;
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string curFileSerialized;
             CommonDescriptor curCD;
-            StreamReader streamReader;
             
             while (allFiles.Count != 0) //while there are elements
             {
                 curFile = allFiles.First(); //get first file 
                 curFileSerialized = serializer.Serialize(curFile);
-                pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
+                //pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
           
-                if (curFile.MimeType.Equals(googleFolderName))
+                
+                if (curFile.MimeType.Equals(googleFolderName)) //folder
                 {
-                    //store data for the folder
-                    //recurse on the folder and do its children
-                    System.IO.File.WriteAllText(pathForFile + "\\" + curFile.Name + "_folder.json", curFileSerialized);
-                    streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_folder.json");
-                    controller.createDirectory(relativeRequestPath + "\\" + curFile.Name);
-                    curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
-                    streamReader.Close();
+                    //For each folder add the metaDataFolder, the CD, and then recurse.
+                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
+                    curCD = googleCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
-                    //get a stream for the file we just wrote. 
-
                     fetchAllMDFiles(controller, relativeRequestPath + "\\" + curFile.Name, curFile.Id);
                 }
-                else
+                else  //file
                 {
-                    //store data for this file
-                        System.IO.File.WriteAllText(pathForFile + "\\" + curFile.Name + "_file.json", curFileSerialized);
-                        streamReader = new StreamReader(pathForFile + "\\" + curFile.Name + "_file.json");
-                        curCD = googleCommParser.createCommonDescriptor(streamReader, relativeRequestPath);
-                        streamReader.Close();
-                        controller.addCommonDescriptorFile(curCD);
+                    //For each file add the metadatafile, and the CD.
+                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
+                    curCD = googleCommParser.createCommonDescriptor(relativeRequestPath,curFileSerialized);
+                    controller.addCommonDescriptorFile(curCD);
                     
                 }
                 allFiles.RemoveAt(0); //remove this element
@@ -406,6 +400,27 @@ namespace Guqu.WebServices
         private bool removeParentToFile(CommonDescriptor fileToRemove, CommonDescriptor parentFolderToRemove)
         {
             return true;
+        }
+        
+
+        public Task<bool> shareFileAsync(CommonDescriptor fileToShare)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> deleteFileAsync(CommonDescriptor cd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> moveFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> copyFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
+        {
+            throw new NotImplementedException();
         }
     }
 }

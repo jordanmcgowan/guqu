@@ -17,6 +17,14 @@ namespace Guqu.WebServices
     class CloudLogin
     {
 
+
+        static AccountSession accountSession;
+        private const string onedrive_client_id = "000000004018A88F";
+        private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
+        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
+        private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
+
+
         public CloudLogin()
         {
             //empty constructor 
@@ -38,78 +46,56 @@ namespace Guqu.WebServices
 
             InitializeAPI.googleDriveService = _googleDriveService;
 
-            
+
+
 
         }
 
         public async static void oneDriveLogin()
         {
-
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             //Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
-            
+
             //these are also login params, should move to login class
 
-            if (! _oneDriveClient.IsAuthenticated)
+            //checks to see if the client is authenticated
+            if (!_oneDriveClient.IsAuthenticated)
             {
-                try
+                //checks for active session
+                if (accountSession != null)
                 {
-                    await _oneDriveClient.AuthenticateAsync();
-                    var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
-                    Console.WriteLine("This succedded and Jordan is a bitch");
+                    var refreshToken = accountSession.RefreshToken;
+                    string[] secret = { onedrive_client_secret };
+
+                    //trys this sneak silent authenticator
+                    /*
+                    await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
+                        onedrive_client_id,
+                        onedrive_redirect_uri,
+                        secret,
+                        refreshToken);
+                        */
+                }
+                else{
                     
-                    InitializeAPI.oneDriveClient = _oneDriveClient;
-                               
+                    try {
+
+                        await _oneDriveClient.AuthenticateAsync();
+                        
+                        accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                        Console.WriteLine("This succedded");
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("THIS ISH FAILED");
+                    }
+                    
+                                      
                 }
-                catch (OneDriveException e)
-                {
-                    Console.WriteLine(e);
-
-                }
-
-
                 
             }
 
-            /*
-            *******************
-            This is all for testing how to download
-            It is not actually needed for instantiating One Drive
-            *******************
-
-
-             try {
-                 var root = await _oneDriveClient.Drive.Root.Request().Expand("children").GetAsync();
-                 Console.WriteLine(root.Id);
-
-                Stream cStream = await _oneDriveClient.Drive.Items[root.Id].Content.Request().GetAsync();
-                 Console.WriteLine(cStream.ToString());
-
-
-
-
-
-
-
-
-
-             }
-             catch(Exception e)
-             {
-                 Console.WriteLine(e);
-
-             }
-
-
-         }
-
-         private static bool boxLogin()
-         {
-
-             return false;
-         }
-         */
-
+            InitializeAPI.oneDriveClient = _oneDriveClient;
 
         }
     }
