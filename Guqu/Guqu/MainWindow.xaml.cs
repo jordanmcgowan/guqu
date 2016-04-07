@@ -70,7 +70,19 @@ namespace Guqu
                 if (ele.getCommonDescriptor().FileType.Equals("folder"))
                 {
                     newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName , ID = ele.getCommonDescriptor().FileID};
-                    roots.Add(ele);
+                    bool dup = false;
+                    foreach (var val in roots)
+                    {
+                        if (ele.getCommonDescriptor().FileID.Equals(val.getCommonDescriptor().FileID))
+                        {
+                            dup = true;
+                        }
+                        //roots.Add(ele);
+                    }
+                    if (!dup)
+                    {
+                        roots.Add(ele);
+                    }
                     newFolder.Click = new RoutedEventHandler(item_Click);
                     root.Items.Add(populateMenuItem(newFolder, ele));
                 }
@@ -238,30 +250,23 @@ namespace Guqu
 
             //attempt to 'refresh' the fileHierarchy view
             MenuItem temp = new MenuItem() { Title = root.FileName, ID = root.FileID }; //label as the account name
-            roots.Remove(rootNode);
-            roots.Add(remadeRootNode);
-            temp = populateMenuItem(temp, remadeRootNode);
-            fileTreeMenu.Items.Remove(rootNode);
-            fileTreeMenu.Items.Add(remadeRootNode);
+            
 
         }
 
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            //get the requested files to download
+            //get selected items to download
             List<CommonDescriptor> filesToDownload = null;
-
-            //get the requird controller
+            //get the controller
             ICloudCalls cloudCaller = null;
-
-            //download the files
+            //download
             foreach(CommonDescriptor curFile in filesToDownload)
             {
                 cloudCaller.downloadFileAsync(curFile);
             }
-            */
+
 
  
             
