@@ -33,7 +33,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Guqu.WebServices
 {
-    class InitializeAPI
+    public class InitializeAPI
     {
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/drive-dotnet-quickstart.json
@@ -77,7 +77,6 @@ namespace Guqu.WebServices
             */
 
         public List<String> initGoogleDriveAPI()
-
         {
 
             // If modifying these scopes, delete your previously saved credentials
@@ -250,7 +249,7 @@ namespace Guqu.WebServices
         One Drive Initialization - Uses the Web Forms Authenticator
         */
         public async void initOneDriveAPI() {
-            oneDriveClient =  OneDriveClient.GetMicrosoftAccountClient(
+            oneDriveClient =   OneDriveClient.GetMicrosoftAccountClient(
             onedrive_client_id,
             onedrive_redirect_uri,
             onedrive_scope,

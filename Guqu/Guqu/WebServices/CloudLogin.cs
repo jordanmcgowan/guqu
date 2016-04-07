@@ -14,7 +14,7 @@ using GuquMysql;
 
 namespace Guqu.WebServices
 {
-    class CloudLogin
+    public class CloudLogin
     {
 
 
@@ -37,7 +37,6 @@ namespace Guqu.WebServices
             var _googleDriveService = InitializeAPI.googleDriveService;
 
             // Create Drive API service & login 
-            //TODO - move this code snippet to the login section - not init
             _googleDriveService = new DriveService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = _googleDriveCredential,

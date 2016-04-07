@@ -42,6 +42,7 @@ namespace Guqu
         
         private void loginClick(object sender, RoutedEventArgs e)
         {
+
             string email = textBox.Text.ToString();
             string pass = passwordBox.Password.ToString();
 

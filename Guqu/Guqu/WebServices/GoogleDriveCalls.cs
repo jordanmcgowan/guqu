@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Guqu.WebServices
 {
-    class GoogleDriveCalls : ICloudCalls
+    public class GoogleDriveCalls : ICloudCalls
     {
 
         private GoogleDriveCommunicationParser googleCommParser;
@@ -26,7 +26,7 @@ namespace Guqu.WebServices
 
         public async Task<List<string>> uploadFilesAsync(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public async Task<bool> downloadFileAsync(CommonDescriptor cd)
