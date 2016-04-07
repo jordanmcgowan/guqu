@@ -18,6 +18,8 @@ namespace Guqu.Models
             cd_od_Term_Dictionary = new Dictionary<string, string>();
             //TODO: determine a way to get these strings from a central source.
             cd_od_Term_Dictionary.Add("fileName", "Name");
+
+            //TODO: fix  the filetype like we discussed
             cd_od_Term_Dictionary.Add("fileType", "File");
             cd_od_Term_Dictionary.Add("fileSize", "Size");
             cd_od_Term_Dictionary.Add("fileID", "Id");
@@ -43,6 +45,7 @@ namespace Guqu.Models
                 //null represents 'not a file' aka a folder
                 fileType = "folder";
             }
+
             cd_od_value_dictionary.TryGetValue("fileID", out fileID);
             cd_od_value_dictionary.TryGetValue("fileSize", out fsize);
             cd_od_value_dictionary.TryGetValue("lastModified", out lastMod);
@@ -50,6 +53,7 @@ namespace Guqu.Models
             Int32.TryParse(fsize, out fileSize);
 
             CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
+            
             return cd;
 
         }

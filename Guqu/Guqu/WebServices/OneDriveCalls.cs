@@ -194,6 +194,10 @@ namespace Guqu.WebServices
                     curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
 
+                    var s = child.File.MimeType;
+
+                    //var a = child.File.MimeType;
+
                 }
 
             }
@@ -212,6 +216,7 @@ namespace Guqu.WebServices
             var newItemName = fileToMove.FileName;
             var itemId = fileToMove.FileID;
             var copyLocationId = folderDestination.FileID;
+
             
 
             /* Hard coded snippet = worked with testing!!

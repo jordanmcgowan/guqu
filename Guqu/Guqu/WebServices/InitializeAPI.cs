@@ -55,7 +55,7 @@ namespace Guqu.WebServices
         public static IOneDriveClient oneDriveClient;
         private const string onedrive_client_id = "000000004018A88F";
         private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
-        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
+        private static string[] onedrive_scope = { "wl.signin", "wl.offline_access", "onedrive.readwrite" };
         private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
 
         private static string google_client_secret = "ecgV2ElpJNNg3FunOu1QK43x";
@@ -77,7 +77,7 @@ namespace Guqu.WebServices
         From https://developers.google.com/drive/v3/web/quickstart/dotnet
                     
             */
-        public void initGoogleDriveAPI()
+        public  void initGoogleDriveAPI()
         {
 
             // If modifying these scopes, delete your previously saved credentials
@@ -190,11 +190,12 @@ namespace Guqu.WebServices
         */
         public async void initOneDriveAPI() {
 
-                oneDriveClient = OneDriveClient.GetMicrosoftAccountClient(
-                onedrive_client_id,
-                onedrive_redirect_uri,
-                onedrive_scope,
-                webAuthenticationUi: new FormsWebAuthenticationUi()
+            
+            oneDriveClient =  OneDriveClient.GetMicrosoftAccountClient(
+            onedrive_client_id,
+            onedrive_redirect_uri,
+            onedrive_scope,
+            webAuthenticationUi: new FormsWebAuthenticationUi()
 
                 );
 
@@ -202,7 +203,7 @@ namespace Guqu.WebServices
        }
 
 
-
+        /*
         //THIS SHIT DOESNT WORK
         public static async Task<IOneDriveClient> getOneDriveClient()
         {
@@ -226,6 +227,7 @@ namespace Guqu.WebServices
             return oneDriveClient; 
                 
        }
+        */
 
     }
 }

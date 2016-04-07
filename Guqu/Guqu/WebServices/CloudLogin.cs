@@ -53,7 +53,6 @@ namespace Guqu.WebServices
 
         public async static void oneDriveLogin()
         {
-
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             //Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
 
@@ -65,30 +64,38 @@ namespace Guqu.WebServices
                 //checks for active session
                 if (accountSession != null)
                 {
-                    var token = accountSession.RefreshToken;
+                    var refreshToken = accountSession.RefreshToken;
+                    string[] secret = { onedrive_client_secret };
 
                     //trys this sneak silent authenticator
+                    /*
                     await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
                         onedrive_client_id,
                         onedrive_redirect_uri,
-                        onedrive_scope,
-                        token);
+                        secret,
+                        refreshToken);
+                        */
                 }
                 else{
+                    
+                    try {
 
-                    //prompt to sign in or click yes
-                    await _oneDriveClient.AuthenticateAsync();
-                    accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                        await _oneDriveClient.AuthenticateAsync();
+                        
+                        accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                        Console.WriteLine("This succedded");
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("THIS ISH FAILED");
+                    }
+                    
+                                      
                 }
-
-
-                Console.WriteLine("This succedded");
-
-                InitializeAPI.oneDriveClient = _oneDriveClient;
-
+                
             }
 
-
+            InitializeAPI.oneDriveClient = _oneDriveClient;
 
         }
     }
