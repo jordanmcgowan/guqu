@@ -19,6 +19,10 @@ namespace Guqu.Models.SupportClasses
             children = new LinkedList<TreeNode>();
             children.Clear();
         }
+        public void setCommonDescriptor(CommonDescriptor cD)
+        {
+            this.commonDescriptor = cD;
+        }
         public TreeNode getParent()
         {
             return parent;
