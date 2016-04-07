@@ -15,7 +15,22 @@ namespace Guqu.WebServices
 {
     class GoogleDriveCalls : ICloudCalls
     {
+        private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
+
         private GoogleDriveCommunicationParser googleCommParser;
+
+        private static string replaceProhibitedCharacters(string path)
+        {
+            foreach (char curChar in forbiddenCharacters)
+            {
+                if (path.Contains(curChar))
+                {
+                    //the character to replace the forbidden character ostensibly doesn't matter, just needs to be consistent.
+                    path = path.Replace(curChar, '_');
+                }
+            }
+            return path;
+        }
 
         public GoogleDriveCalls()
         {
@@ -164,7 +179,7 @@ namespace Guqu.WebServices
                 nextPageToken = exec.NextPageToken;
                 iterationFiles = exec.Files;
 
-                //files has first 20 items.
+                
                 foreach(var cur in iterationFiles)
                 {
                     if(cur.Trashed != true)
@@ -193,6 +208,7 @@ namespace Guqu.WebServices
             while (allFiles.Count != 0) //while there are elements
             {
                 curFile = allFiles.First(); //get first file 
+                curFile.Name = replaceProhibitedCharacters(curFile.Name);
                 curFileSerialized = serializer.Serialize(curFile);
                 //pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
           
@@ -207,7 +223,7 @@ namespace Guqu.WebServices
                 }
                 else  //file
                 {
-                    //For each file add the metadatafile, and the CD.
+                    //For each file add the metadatafile, and the CD.                    
                     controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath,curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);

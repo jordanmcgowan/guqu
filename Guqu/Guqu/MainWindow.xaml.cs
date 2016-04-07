@@ -210,7 +210,7 @@ namespace Guqu
         }
 
 
-        private void downloadButton_Click(object sender, RoutedEventArgs e)
+        private async void downloadButton_Click(object sender, RoutedEventArgs e)
         {
             /*
             if (dF.Count > 0)
@@ -245,13 +245,42 @@ namespace Guqu
                 selectedFolderPath = fbd.SelectedPath;
                 MetaDataController mdc = new MetaDataController(selectedFolderPath);
                 GoogleDriveCalls gdc = new GoogleDriveCalls();
-                gdc.fetchAllMetaData(mdc, "Google Drive");
+                OneDriveCalls odc = new OneDriveCalls();
+                try
+                {
+                   await gdc.fetchAllMetaData(mdc, "Google Drive");
+                }
+                catch(Exception g)
+                {
+                    Console.WriteLine(g);
+                }
+                finally
+                {
+                    Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
+                    MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
+                    root = populateMenuItem(root, rootnode);
+                    roots.Add(rootnode);
+                    fileTreeMenu.Items.Add(root);
+                    Console.WriteLine("FINISHED LOADING GOOGLE DRIVE");
+                }
 
-                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
-                MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
-                root = populateMenuItem(root, rootnode);
-                roots.Add(rootnode);
-                fileTreeMenu.Items.Add(root);
+                try
+                {
+                    await odc.fetchAllMetaData(mdc, "One Drive");
+                }
+                catch (Exception h)
+                {
+                    Console.WriteLine(h);
+                }
+                finally
+                {
+                    Models.SupportClasses.TreeNode rootnode = mdc.getRoot("One Drive");
+                    MenuItem root = new MenuItem() { Title = "One Drive" }; //label as the account name
+                    root = populateMenuItem(root, rootnode);
+                    roots.Add(rootnode);
+                    fileTreeMenu.Items.Add(root);
+                    Console.WriteLine("FINISHED LOADING ONE DRIVE");
+                }
             }
             /*foreach (var hi in roots)
             {

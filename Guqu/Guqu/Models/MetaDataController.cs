@@ -16,6 +16,7 @@ namespace Guqu.Models
         private readonly string COMMONDESCRIPTORPATH = "\\CommonDescriptor\\";
         private string rootStoragePath; //declares where the files are being stored
 
+      
         public MetaDataController(string rootPath)
         {
             //rootpath should be defined in settng and on creation of this module, the value is passed in.
@@ -85,14 +86,18 @@ namespace Guqu.Models
         }
         public void addMetaDataFile(string fileJsonData, string relativeFilePath, string fileName)
         {
+            //fileName = replaceProhibitedCharacters(fileName);
             string fileLocation = getAbsoluteFilePathForAddingMDFile(relativeFilePath);
             File.WriteAllText(fileLocation + "\\" + fileName + "_file.json", fileJsonData);
+            //return fileName;
         }
         public void addMetaDataFolder(string folderJsonData, string relativeFilePath, string folderName)
         {
+            //folderName = replaceProhibitedCharacters(folderName);
             string folderDirectory = getAbsoluteFilePathForAddingMDFile(relativeFilePath);
             createDirectory(relativeFilePath + "\\" + folderName);
             File.WriteAllText(folderDirectory + "\\" + folderName + "_folder.json", folderJsonData);
+            //return folderName;
         }
         /*
         Takes in a CommonDescriptor object, transforms it to a JSON file, and then saves it to the disk

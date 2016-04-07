@@ -5,16 +5,36 @@ using Microsoft.OneDrive.Sdk;
 using Guqu.Models;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Linq;
 
 namespace Guqu.WebServices
 {
     class OneDriveCalls : ICloudCalls
     {
+
+        private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
+
+        
+        private static string replaceProhibitedCharacters(string path)
+        {
+            foreach (char curChar in forbiddenCharacters)
+            {
+                if (path.Contains(curChar))
+                {
+                    //the character to replace the forbidden character ostensibly doesn't matter, just needs to be consistent.
+                    path = path.Replace(curChar, '_');
+                }
+            }
+            return path;
+        }
+
         OneDriveCommunicationParser oneDriveCommParser;
         public OneDriveCalls()
         {
             oneDriveCommParser = new OneDriveCommunicationParser();
         }
+
+        
 
         public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
@@ -25,10 +45,6 @@ namespace Guqu.WebServices
 
             var fileId = cd.FileID;
             
-
-
-
-
             string extension = odcp.getExtension(cd.FileType); 
             try
             {
@@ -90,11 +106,11 @@ namespace Guqu.WebServices
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             var fileId = cd.FileID;
 
-            string file2 = "8FA41A1E5CF18E2B!1136";
+            
 
             try
             {
-                await _oneDriveClient.Drive.Items[file2].Request().DeleteAsync();
+                await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
             }
             catch (Exception e)
             {
@@ -178,6 +194,8 @@ namespace Guqu.WebServices
 
             foreach (var child in allChildren)
             {
+
+                child.Name = replaceProhibitedCharacters(child.Name);
                 curFileSerialized = serializer.Serialize(child);
                 if(child.File == null) //folder
                 {
@@ -216,15 +234,7 @@ namespace Guqu.WebServices
             var newItemName = fileToMove.FileName;
             var itemId = fileToMove.FileID;
             var copyLocationId = folderDestination.FileID;
-
             
-
-            /* Hard coded snippet = worked with testing!!
-            var newItemName = "Copied File.docx";
-            var itemId = "8FA41A1E5CF18E2B!1130";
-            var copyLocationId = "8FA41A1E5CF18E2B!118";
-            */
-
             try
             {
                 var request = await _oneDriveClient.Drive.
