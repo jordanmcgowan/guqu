@@ -98,7 +98,7 @@ namespace Guqu
             {
                 if (ele.getCommonDescriptor().FileType.Equals("folder"))
                 {
-                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName };
+                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName , ID = ele.getCommonDescriptor().FileID};
                     roots.Add(ele);
                     newFolder.Click = new RoutedEventHandler(item_Click);
                     root.Items.Add(populateMenuItem(newFolder, ele));
@@ -115,11 +115,28 @@ namespace Guqu
             dF = new ObservableCollection<dispFolder>();
             //MenuItem name = e.OriginalSource as MenuItem;
             TextBlock name = e.OriginalSource as TextBlock;
-            String tmp = name.Text;
+            String fileClicked = name.Uid;
 
-            foreach(var root in roots)
+            //badly coded 
+            if (fileClicked.Equals("root"))
             {
-                folderDisplay(root, tmp); 
+                Models.SupportClasses.TreeNode node = roots.ElementAt(0);
+                LinkedList<Models.SupportClasses.TreeNode> children = node.getChildren();
+                List<CommonDescriptor> disp = new List<CommonDescriptor>();
+                foreach (var item in children)
+                {
+                    //if (!(item.getCommonDescriptor().FileType.Equals("folder")))
+                    //{
+                    disp.Add(item.getCommonDescriptor());
+                    //}
+                }
+                populateListView(disp);
+            }
+            else {
+                foreach (var r in roots)
+                {
+                    folderDisplay(r, fileClicked);
+                }
             }
         }
 
@@ -248,9 +265,13 @@ namespace Guqu
                 gdc.fetchAllMetaData(mdc, "Google Drive");
 
                 Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
-                MenuItem root = new MenuItem() { Title = "Google Drive" }; //label as the account name
-                root = populateMenuItem(root, rootnode);
+                MenuItem root = new MenuItem() { Title = "Google Drive", ID = "root"}; //label as the account name
+                root.ID = "root";
                 roots.Add(rootnode);
+                root = populateMenuItem(root, rootnode);
+                
+                
+
                 fileTreeMenu.Items.Add(root);
             }
             /*foreach (var hi in roots)
@@ -266,7 +287,8 @@ namespace Guqu
         {
             if (node.getCommonDescriptor() != null)
             {
-                if (node.getCommonDescriptor().FileName.Equals(FileName))
+
+                if (node.getCommonDescriptor().FileID.Equals(FileName))
                 {
                     //get list of children nodes convert to a list of common discriptors and populate listView
                     LinkedList<Models.SupportClasses.TreeNode> children = node.getChildren();
@@ -338,7 +360,7 @@ namespace Guqu
 
         private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {
-            xamlRoot = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
+            xamlRoot = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName , ID = treeRoot.getCommonDescriptor().FileID};
             recursiveBuildTree(treeRoot, xamlRoot);
 
         }
@@ -347,9 +369,9 @@ namespace Guqu
         {
             foreach (Guqu.Models.SupportClasses.TreeNode child in treeRoot.getChildren())
             {
-                MenuItem currNode = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName };
+                MenuItem currNode = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName, ID = treeRoot.getCommonDescriptor().FileID };
                 recursiveBuildTree(child, currNode);
-                currNode.Items.Add(new MenuItem() { Title = child.getCommonDescriptor().FileName });
+                currNode.Items.Add(new MenuItem() { Title = child.getCommonDescriptor().FileName, ID = treeRoot.getCommonDescriptor().FileID });
                 xamlRoot.Items.Add(currNode);
             }
         }
@@ -364,6 +386,7 @@ namespace Guqu
         }
 
         public string Title { get; set; }
+        public string ID { get; set; }
 
         public ObservableCollection<MenuItem> Items { get; set; }
         public RoutedEventHandler Click { get; internal set; }
