@@ -1,0 +1,16 @@
+﻿<Window x:Class="Guqu.changePathWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Guqu"
+        mc:Ignorable="d"
+        Title="changePathWindow" Height="300" Width="300">
+    <Grid>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="77" Margin="10,120,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="172"/>
+        <Button x:Name="chooseFolderButton" Content="Choose Folder" HorizontalAlignment="Left" Height="77" Margin="195,120,0,0" VerticalAlignment="Top" Width="85" Click="chooseFolder_Click"/>
+        <TextBlock x:Name="instructionBox" HorizontalAlignment="Left" Height="96" Margin="10,13,0,0" TextWrapping="Wrap" Text="Choose the folder where Guqu will store metadata in order to function." VerticalAlignment="Top" Width="272"/>
+        <Button x:Name="confirmButton" Content="Confirm" HorizontalAlignment="Left" Height="38" Margin="15,215,0,0" VerticalAlignment="Top" Width="120" Click="confirmButton_Click"/>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Height="38" Margin="160,215,0,0" VerticalAlignment="Top" Width="120" Click="cancelButton_Click"/>
+    </Grid>
+</Window>

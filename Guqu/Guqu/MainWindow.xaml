@@ -11,27 +11,24 @@
 
     <Grid>
         <Menu x:Name="menu1" Height="20" Width="1024"  HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
-            <MenuItem Header="File" Height="20" Width="40" >
-                <MenuItem Header="_Log out" Click="logoutClicked" />
-                <MenuItem Header="_Exit" Click="exitClicked"/>
+            <MenuItem Header="Settings" Height="20" Width="60" >
+                
                 <MenuItem Header="_Check for updates" Click="checkForUpdatesClicked"/>
-            </MenuItem>
-            <MenuItem Header="Edit" Height="20" Width="40" >
                 <MenuItem Header="_Manage Accounts" Click="manageAccountsClicked"/>
                 <MenuItem Header="_Change Password" Click="changePasswordClicked"/>
                 <MenuItem Header="_Change Local Download Path" Click="changePathClicked"/>
-            </MenuItem>
-            <MenuItem Header="Help" Height="20" Width="40" >
-                <Hyperlink NavigateUri = "http://www.google.com">
+                <Hyperlink NavigateUri = "https://github.com/jordanmcgowan/guqu/wiki">
                     <MenuItem Header="_Wiki" Click="wikiClicked"/>
                 </Hyperlink>
+                <MenuItem Header="_Log out" Click="logoutClicked" />
+                <MenuItem Header="_Exit" Click="exitClicked"/>
             </MenuItem>
         </Menu>
 
-        <TreeView x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
+        <TreeView   x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" />
+                <HierarchicalDataTemplate  DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Title}" MouseDown="item_Click"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <ScrollViewer Height="100" Width="100"/>
@@ -40,16 +37,26 @@
 
             <ListView.View>
                 <GridView>
+                    <GridViewColumn   Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="-4,0,-4,0" IsChecked="{Binding Checked}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Name" Width="110" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Type" Width="110" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Type" Width="220" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="Size" Width="110" DisplayMemberBinding="{Binding Size}" />
-                    <GridViewColumn Header="DateModified" Width="110" DisplayMemberBinding="{Binding DateModified}" />
+                    <GridViewColumn Header="Dates Modified" Width="220" DisplayMemberBinding="{Binding DateModified}" />
+                    <GridViewColumn Header="Owner(s)" Width="110" DisplayMemberBinding="{Binding Owners}" />
+
+                    
                 </GridView>
             </ListView.View>
         </ListView>
 
 
-        <Button x:Name="uploadButton" Content="Upload" HorizontalAlignment="Left" Height="30" Margin="191,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="uploadButton_Click">
+        <Button x:Name="uploadButton" Width="100"  Content="Upload" HorizontalAlignment="Left" Height="30" Margin="191,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="uploadButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -59,7 +66,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="downloadButton" Content="Download" HorizontalAlignment="Left" Height="30" Margin="381,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="downloadButton_Click">
+        <Button x:Name="downloadButton" Width="100" Content="Download" HorizontalAlignment="Left" Height="30" Margin="294,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="downloadButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -69,7 +76,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="shareButton" Content="Share" HorizontalAlignment="Left" Height="30" Margin="570,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="shareButton_Click">
+        <Button x:Name="shareButton" Content="Share" Width="100" HorizontalAlignment="Left" Height="30" Margin="397,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="shareButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -79,7 +86,27 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Left" Height="30" Margin="759,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="deleteButton_Click">
+        <Button x:Name="moveButton" Content="Move" Width="100" HorizontalAlignment="Left" Height="30" Margin="501,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="moveButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="copyButton" Content="Copy" Width="100" HorizontalAlignment="Left" Height="30" Margin="604,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="copyButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="deleteButton" Content="Delete" Width="100" HorizontalAlignment="Left" Height="30" Margin="707,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="deleteButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
