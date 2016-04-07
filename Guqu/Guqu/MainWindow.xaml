@@ -27,8 +27,10 @@
 
         <TreeView   x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate  DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" MouseDown="item_Click"/>
+                <HierarchicalDataTemplate  DataType="{x:Type self:MenuItem}"  ItemsSource="{Binding Items}">
+
+                    <TextBlock Text="{Binding Title}" MouseDown="item_Click" Uid="{Binding ID}"/>
+                    
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <ScrollViewer Height="100" Width="100"/>
