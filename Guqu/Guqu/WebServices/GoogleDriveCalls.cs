@@ -15,22 +15,9 @@ namespace Guqu.WebServices
 {
     class GoogleDriveCalls : ICloudCalls
     {
-        private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
 
         private GoogleDriveCommunicationParser googleCommParser;
 
-        private static string replaceProhibitedCharacters(string path)
-        {
-            foreach (char curChar in forbiddenCharacters)
-            {
-                if (path.Contains(curChar))
-                {
-                    //the character to replace the forbidden character ostensibly doesn't matter, just needs to be consistent.
-                    path = path.Replace(curChar, '_');
-                }
-            }
-            return path;
-        }
 
         public GoogleDriveCalls()
         {
@@ -203,12 +190,12 @@ namespace Guqu.WebServices
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string curFileSerialized;
+            string cleansedName;
             CommonDescriptor curCD;
             
             while (allFiles.Count != 0) //while there are elements
             {
                 curFile = allFiles.First(); //get first file 
-                curFile.Name = replaceProhibitedCharacters(curFile.Name);
                 curFileSerialized = serializer.Serialize(curFile);
                 //pathForFile = controller.getAbsoluteFilePathForAddingMDFile(relativeRequestPath);
           
@@ -216,15 +203,17 @@ namespace Guqu.WebServices
                 if (curFile.MimeType.Equals(googleFolderName)) //folder
                 {
                     //For each folder add the metaDataFolder, the CD, and then recurse.
-                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
+                    cleansedName = controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
-                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + curFile.Name, curFile.Id);
+                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + cleansedName, curFile.Id);
                 }
                 else  //file
                 {
                     //For each file add the metadatafile, and the CD.                    
-                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
+
+                    //cleansedName is the 'clean' name of the curFile.Name, don't need to use it cause this terminates.
+                    cleansedName = controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath,curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
                     

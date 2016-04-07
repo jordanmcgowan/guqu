@@ -12,22 +12,6 @@ namespace Guqu.WebServices
     class OneDriveCalls : ICloudCalls
     {
 
-        private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
-
-        
-        private static string replaceProhibitedCharacters(string path)
-        {
-            foreach (char curChar in forbiddenCharacters)
-            {
-                if (path.Contains(curChar))
-                {
-                    //the character to replace the forbidden character ostensibly doesn't matter, just needs to be consistent.
-                    path = path.Replace(curChar, '_');
-                }
-            }
-            return path;
-        }
-
         OneDriveCommunicationParser oneDriveCommParser;
         public OneDriveCalls()
         {
@@ -190,25 +174,24 @@ namespace Guqu.WebServices
             //Have all of the children, now iterate through them
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             CommonDescriptor curCD;
-            string curFileSerialized;
+            string curFileSerialized, cleansedName;
 
             foreach (var child in allChildren)
             {
-
-                child.Name = replaceProhibitedCharacters(child.Name);
+                
                 curFileSerialized = serializer.Serialize(child);
                 if(child.File == null) //folder
                 {
                     //For each folder add the metaDataFolder, the CD, and then recurse.
-                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, child.Name);
+                    cleansedName = controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, child.Name);
                     curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
-                    await fetchAllMDFiles(controller, relativeRequestPath + "\\" + child.Name, child.Id);
+                    await fetchAllMDFiles(controller, relativeRequestPath + "\\" + cleansedName, child.Id);
                 }
                 else  //file
                 {
                     //For each file add the metadatafile, and the CD.
-                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, child.Name);
+                    cleansedName = controller.addMetaDataFile(curFileSerialized, relativeRequestPath, child.Name);
                     curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
 

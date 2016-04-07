@@ -76,20 +76,20 @@ namespace Guqu.Models
             return path;
 
         }
-        public void addMetaDataFile(string fileJsonData, string relativeFilePath, string fileName)
+        public string addMetaDataFile(string fileJsonData, string relativeFilePath, string fileName)
         {
-            //fileName = replaceProhibitedCharacters(fileName);
+            fileName = replaceProhibitedCharacters(fileName);
             string fileLocation = getAbsoluteFilePathForAddingMDFile(relativeFilePath);
             File.WriteAllText(fileLocation + "\\" + fileName + "_file.json", fileJsonData);
-            //return fileName;
+            return fileName;
         }
-        public void addMetaDataFolder(string folderJsonData, string relativeFilePath, string folderName)
+        public string addMetaDataFolder(string folderJsonData, string relativeFilePath, string folderName)
         {
-            //folderName = replaceProhibitedCharacters(folderName);
+            folderName = replaceProhibitedCharacters(folderName);
             string folderDirectory = getAbsoluteFilePathForAddingMDFile(relativeFilePath);
             createDirectory(relativeFilePath + "\\" + folderName);
             File.WriteAllText(folderDirectory + "\\" + folderName + "_folder.json", folderJsonData);
-            //return folderName;
+            return folderName;
         }
         /*
         Takes in a CommonDescriptor object, transforms it to a JSON file, and then saves it to the disk
@@ -97,15 +97,15 @@ namespace Guqu.Models
         public void addCommonDescriptorFile(CommonDescriptor cd)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
-            string filePath = getAbsoluteFilePathForAddingCDFile(cd.FilePath);
+            string filePath = getAbsoluteFilePathForAddingCDFile(cd.FilePath); //this filePath should be cleansed from CD creation.
             var serializedJson = jsonSerializer.Serialize(cd);
             if (cd.FileType.Equals("folder"))
             {
-                File.WriteAllText(filePath + "\\" + cd.FileName + "_folder.json", serializedJson);
+                File.WriteAllText(filePath + "\\" + replaceProhibitedCharacters(cd.FileName) + "_folder.json", serializedJson);
             }
             else
             {
-                File.WriteAllText(filePath + "\\" + cd.FileName + "_file.json", serializedJson);
+                File.WriteAllText(filePath + "\\" + replaceProhibitedCharacters(cd.FileName) + "_file.json", serializedJson);
             }
         }
         public Boolean deleteCloudObjet(CommonDescriptor cd)
@@ -225,14 +225,15 @@ namespace Guqu.Models
             }
             return true;
         }
-        private string replaceProhibitedCharacters(string path)
+
+        private static string replaceProhibitedCharacters(string path)
         {
             foreach (char curChar in forbiddenCharacters)
             {
                 if (path.Contains(curChar))
                 {
                     //the character to replace the forbidden character ostensibly doesn't matter, just needs to be consistent.
-                    path.Replace(curChar, '_');
+                    path = path.Replace(curChar, '_');
                 }
             }
             return path;
