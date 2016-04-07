@@ -207,7 +207,9 @@
     <Compile Include="Models\IUploadManager.cs" />
     <Compile Include="Models\SettingsController.cs" />
     <Compile Include="Models\SupportClasses\SettingsFile.cs" />
+    <Compile Include="Models\SupportClasses\TemporaryFileInformation.cs" />
     <Compile Include="Models\SupportClasses\UploadInfo.cs" />
+    <Compile Include="Models\TemporaryFileController.cs" />
     <Compile Include="Models\WindowsUploadManager.cs" />
     <Compile Include="Views\changePathWindow.xaml.cs">
       <DependentUpon>changePathWindow.xaml</DependentUpon>
