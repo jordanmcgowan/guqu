@@ -43,6 +43,24 @@ namespace Guqu
             CloudLogin.oneDriveLogin();
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("oneDrive");
             //cloudLogWin.Show();
+            bool main = false;//check to see if there is a main open
+            foreach (var wnd in Application.Current.Windows)
+            {
+                //TODO: removed || cloudPickerWindow for demo purposes for Iteration 1.
+                //TODO: this logic needs to be redone.
+                if (wnd is MainWindow)
+                {
+                    Console.WriteLine("Main or Cloud window open");
+                    main = true;
+                }
+                //does a mainWindow exist?
+                if (main == false)
+                {
+                    //only if this was on new guqu account
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                }
+            }
             this.Close();
         }
         private void googleDriveClick(object sender, RoutedEventArgs e)
@@ -51,7 +69,7 @@ namespace Guqu
             CloudLogin.googleDriveLogin();
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("googleDrive");
             //cloudLogWin.Show();
-            foreach (var wnd in Application.Current.Windows)
+            /*foreach (var wnd in Application.Current.Windows)
             {
                 //TODO: removed || cloudPickerWindow for demo purposes for Iteration 1.
                 //TODO: this logic needs to be redone.
@@ -61,6 +79,25 @@ namespace Guqu
                 }
                 else
                 {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                }
+            }*/
+
+            bool main = false;//check to see if there is a main open
+            foreach (var wnd in Application.Current.Windows)
+            {
+                //TODO: removed || cloudPickerWindow for demo purposes for Iteration 1.
+                //TODO: this logic needs to be redone.
+                if (wnd is MainWindow)
+                {
+                    Console.WriteLine("Main or Cloud window open");
+                    main = true;
+                }
+                //does a mainWindow exist?
+                if (main == false)
+                {
+                    //only if this was on new guqu account
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                 }

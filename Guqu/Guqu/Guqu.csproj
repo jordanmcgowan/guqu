@@ -59,6 +59,26 @@
   <PropertyGroup>
     <ApplicationIcon>cloud.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.7.4137.9688, Culture=neutral, PublicKeyToken=a4292a325f69b123, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.1.7.0\lib\Net40-Client\BouncyCastle.Crypto.dll</HintPath>
@@ -203,6 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="dispFolder.cs" />
     <Compile Include="Exceptions\ExtensionNotFoundException.cs" />
     <Compile Include="Models\IUploadManager.cs" />
     <Compile Include="Models\SettingsController.cs" />
@@ -237,8 +258,11 @@
     <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="Models\WindowsDownloadManager.cs" />
-    <Compile Include="Views\errorManagerWindow.xaml.cs">
-      <DependentUpon>errorManagerWindow.xaml</DependentUpon>
+    <Compile Include="Views\dynamicPrompt.xaml.cs">
+      <DependentUpon>dynamicPrompt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\moveView.xaml.cs">
+      <DependentUpon>moveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\shareWindow.xaml.cs">
       <DependentUpon>shareWindow.xaml</DependentUpon>
@@ -271,9 +295,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\errorManagerWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\dynamicPrompt.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\logInWindow.xaml">
       <SubType>Designer</SubType>
@@ -299,6 +323,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\changePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\moveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

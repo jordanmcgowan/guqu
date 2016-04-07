@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="shareWindow" Height="300" Width="300"
+        Title="shareWindow" Height="350" Width="300"
         ResizeMode="NoResize">
     <Grid>
         <TextBlock x:Name="shareWindowInfo" HorizontalAlignment="Left" Height="36" Margin="25,3,0,0" TextWrapping="Wrap" Text="Enter the email addresses of the people you want to share with separated by commas" VerticalAlignment="Top" Width="247"/>
@@ -15,10 +15,10 @@
             <RadioButton GroupName="shareType" Content="Read (Can download)" Checked="read_Checked" />
             <RadioButton GroupName="shareType" Content="View (Cannot download)" Checked="view_Checked" />
         </StackPanel>
-        <TextBox x:Name="optionalMessageBox" HorizontalAlignment="Left" Height="43" Margin="25,188,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="247"/>
-        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="180,240,0,0" VerticalAlignment="Top" Width="75" Click="cancelButton_Click"/>
-        <Button x:Name="shareButton" Content="Share" HorizontalAlignment="Left" Margin="30,240,0,0" VerticalAlignment="Top" Width="75" Click="shareButton_Click"/>
-        <TextBlock x:Name="shareWindowInfo2" HorizontalAlignment="Left" Height="36" Margin="25,153,0,0" TextWrapping="Wrap" Text="Enter a message to the people you are sharing with" VerticalAlignment="Top" Width="247"/>
+        <TextBox x:Name="optionalMessageBox" HorizontalAlignment="Left" Height="43" Margin="27,213,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="247"/>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="182,275,0,0" VerticalAlignment="Top" Width="75" Click="cancelButton_Click"/>
+        <Button x:Name="shareButton" Content="Share" HorizontalAlignment="Left" Margin="25,275,0,0" VerticalAlignment="Top" Width="75" Click="shareButton_Click"/>
+        <TextBlock x:Name="shareWindowInfo2" HorizontalAlignment="Left" Height="36" Margin="27,160,0,0" TextWrapping="Wrap" Text="Enter a message to the people you are sharing with" VerticalAlignment="Top" Width="247"/>
 
 
     </Grid>
