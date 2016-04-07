@@ -50,7 +50,7 @@ namespace Guqu.WebServices
         public static IOneDriveClient oneDriveClient;
         private const string onedrive_client_id = "000000004018A88F";
         private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
-        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
+        private static string[] onedrive_scope = { "wl.signin", "wl.offline_access", "onedrive.readwrite" };
         private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
 
         private static string google_client_secret = "ecgV2ElpJNNg3FunOu1QK43x";
@@ -72,19 +72,21 @@ namespace Guqu.WebServices
         From https://developers.google.com/drive/v3/web/quickstart/dotnet
                     
             */
-        public void initGoogleDriveAPI()
+        public  void initGoogleDriveAPI()
         {
 
             // If modifying these scopes, delete your previously saved credentials
             // at ~/.credentials/drive-dotnet-quickstart.json
-            string[] Scopes = { DriveService.Scope.DriveReadonly };
+            string[] Scopes = { DriveService.Scope.Drive };
 
 
             
             using (var stream =
                     new FileStream("../../WebServices/guqu_drive_client_id.json", FileMode.Open, FileAccess.Read))
                 {
-                    string credPath = System.Environment.GetFolderPath(
+
+                //TODO: saving as suth token in folder that ends with .json
+                string credPath = System.Environment.GetFolderPath(
                         System.Environment.SpecialFolder.LocalApplicationData);
                     credPath = Path.Combine(credPath, "Guqu/.credentials/guqu_gdrive_creds.json");
 
@@ -99,38 +101,7 @@ namespace Guqu.WebServices
                         new FileDataStore(credPath, true)).Result;
                     Console.WriteLine("Credential file saved to: " + credPath);
                 }
-
-
-
-            
-         /*
-            // Define parameters of request.
-            FilesResource.ListRequest listRequest = googleDriveService.Files.List();
-            listRequest.PageSize = 10;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-
-
-            /*
-            // List files.
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
-            Console.WriteLine("Files:");
-            if (files != null && files.Count > 0)
-            {
-                foreach (var file in files)
-                {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No files found.");
-            }
-            Console.Read();
-            */ 
-
-
-
+              
         }//end init google drive
 
 
@@ -214,16 +185,44 @@ namespace Guqu.WebServices
         */
         public async void initOneDriveAPI() {
 
-                oneDriveClient = OneDriveClient.GetMicrosoftAccountClient(
-                onedrive_client_id,
-                onedrive_redirect_uri,
-                onedrive_scope,
-                webAuthenticationUi: new FormsWebAuthenticationUi()
+            
+            oneDriveClient =  OneDriveClient.GetMicrosoftAccountClient(
+            onedrive_client_id,
+            onedrive_redirect_uri,
+            onedrive_scope,
+            webAuthenticationUi: new FormsWebAuthenticationUi()
 
                 );
 
             
        }
+
+
+        /*
+        //THIS SHIT DOESNT WORK
+        public static async Task<IOneDriveClient> getOneDriveClient()
+        {
+            var token = oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken;
+
+            //trys this sneak silent authenticator
+            try {
+                await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
+                    onedrive_client_id,
+                    onedrive_redirect_uri,
+                    onedrive_scope,
+                    onedrive_client_secret,
+                    token);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+            
+            return oneDriveClient; 
+                
+       }
+        */
 
     }
 }

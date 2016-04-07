@@ -27,11 +27,10 @@ namespace Guqu
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        //private CommonDescriptor cd;
         private List<Models.SupportClasses.TreeNode> roots = new List<Models.SupportClasses.TreeNode>();
         
         ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
+
 
 
         public MainWindow()
@@ -198,8 +197,17 @@ namespace Guqu
         
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
+            //move this code to a 'move' button? How are we doing moves?
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            WindowsUploadManager wum = new WindowsUploadManager();
+            List<UploadInfo> toUpload = wum.getUploadFiles();
+            List<string> fileIDs = gdc.uploadFiles(toUpload, cd);
+            //using the ID's returned from uploading the files, fetch the new metaData files and save them.
+
+            //Update the display to account for this.
 
         }
+
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
@@ -225,8 +233,9 @@ namespace Guqu
             */
 
 
-
-                FolderBrowserDialog fbd = new FolderBrowserDialog();
+ 
+            
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Please select a folder to download the files to.";
             DialogResult result = fbd.ShowDialog();
             string selectedFolderPath;
@@ -248,9 +257,6 @@ namespace Guqu
                 folderDisplay(hi, "CS564");
             }
             */
-
-
-            //TreeNode rootNode = mdc.getRoot("test");
         }
 
 
@@ -292,6 +298,8 @@ namespace Guqu
 
             shareWindow shareWin = new shareWindow();
             shareWin.Show();
+            GoogleDriveCalls gdc = new GoogleDriveCalls();
+            gdc.shareFile(cd);
         }
 
 
@@ -320,6 +328,7 @@ namespace Guqu
             {
                 System.Console.WriteLine("nothing in list");
             }
+
         }
 
 

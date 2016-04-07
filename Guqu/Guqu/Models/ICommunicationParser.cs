@@ -13,14 +13,15 @@ namespace Guqu.Models
         *Create a commonDescriptor from the information available in the
         *original metadata file retrieved from the cloud storage servce.
         */
-        CommonDescriptor createCommonDescriptor(StreamReader fileStreamReader, string relativeFilePath);
+        CommonDescriptor createCommonDescriptor(string relativeFilePath, string jsonMetaDataFile);
+
 
         /*
-        *Create a string that can be inserted into an API call that will
-        *define the required information for the specific call as defined 
-        *by the service descriptor 
+        *Return a string to represent the extension to be used for downloading.
+        *Input parameter is the Type of the file in question
+        *For example, the method will return ".xcel",".pdf", etc etc
+        
+        string get(string fileType);
         */
-        string createUploadBody(ServiceDescriptor descriptor);
-
     }
 }

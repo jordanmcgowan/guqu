@@ -70,86 +70,66 @@ namespace Guqu.Models
             return cd;
         }
 
-        /*
-        Returns the absolute file path for a file to be saved at. If the path leads to a place that does not exist. 
-        Path should result in a accessible location. If not the directory will be created here. 
-        */
-        public string getAbsoluteFilePathForAddingMDFile(string relativeFilePath)
+        private string getAbsoluteFilePathForAddingMDFile(string relativeFilePath)
         {
-            string toReturn = rootStoragePath + METADATAPATH + relativeFilePath;
-            if (!Directory.Exists(toReturn))
-            {
-                //create directory
-                createDirectory(relativeFilePath);
-            }
-
-            /*
-            //TODO: move the following to a diff module - also in WindowsDownloadManager
-            char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
-            foreach (char curChar in forbiddenCharacters)
-            {
-                if (toReturn.Contains(curChar))
-                {
-                    //TODO: uncomment after errorprompt is working
-                    //if any of the forbidden characters are found, return false
-                    //isValid = false;
-
-                    //temp fix, replace all bad characters with '-'
-                    //fileName.Replace(curChar, '-');
-                    toReturn = toReturn.Replace(curChar, '-');
-                }
-            }
-            */
-            return toReturn;
+            string path = rootStoragePath + METADATAPATH + relativeFilePath;
+            createDirectory(relativeFilePath);
+            return path;
         }
+        private string getAbsoluteFilePathForAddingCDFile(string relativeFilePath)
+        {
+            string path = rootStoragePath + COMMONDESCRIPTORPATH + relativeFilePath;
+            createDirectory(relativeFilePath);
+            return path;
 
+        }
+        public void addMetaDataFile(string fileJsonData, string relativeFilePath, string fileName)
+        {
+            string fileLocation = getAbsoluteFilePathForAddingMDFile(relativeFilePath);
+            File.WriteAllText(fileLocation + "\\" + fileName + "_file.json", fileJsonData);
+        }
+        public void addMetaDataFolder(string folderJsonData, string relativeFilePath, string folderName)
+        {
+            string folderDirectory = getAbsoluteFilePathForAddingMDFile(relativeFilePath);
+            createDirectory(relativeFilePath + "\\" + folderName);
+            File.WriteAllText(folderDirectory + "\\" + folderName + "_folder.json", folderJsonData);
+        }
         /*
         Takes in a CommonDescriptor object, transforms it to a JSON file, and then saves it to the disk
         */
-        public Boolean addCommonDescriptorFile(CommonDescriptor cd)
+        public void addCommonDescriptorFile(CommonDescriptor cd)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
-            string filePath;
-            try
+            string filePath = getAbsoluteFilePathForAddingCDFile(cd.FilePath);
+            var serializedJson = jsonSerializer.Serialize(cd);
+            if (cd.FileType.Equals("folder"))
             {
-                var serializedJson = jsonSerializer.Serialize(cd);
-                filePath = rootStoragePath + COMMONDESCRIPTORPATH + cd.FilePath + "\\" + cd.FileName;
-                if (cd.FileType.Equals("folder")){
-                    filePath += "_folder.json";
-                }
-                else
-                {
-                    filePath += "_file.json";
-                }
-                File.WriteAllText(filePath, serializedJson);
+                File.WriteAllText(filePath + "\\" + cd.FileName + "_folder.json", serializedJson);
             }
-            catch (InvalidOperationException e)
+            else
             {
-                Console.WriteLine("{0} InvalidOperation caught.", e);
-                return false;
+                File.WriteAllText(filePath + "\\" + cd.FileName + "_file.json", serializedJson);
             }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine("{0} ArgumentException caught.", e);
-                return false;
-            }
-            catch (DirectoryNotFoundException e)
-            {
-                //TODO: Should we ever get this error? Should be handled by other procs
-                Console.WriteLine("{0} DirectoryNotFoundException caught.", e);
-                return false;
-            }
-            //TODO: other cases that need to be caught
-
-            return true;
         }
+        public Boolean deleteCloudObjet(CommonDescriptor cd)
+        {
+            if (cd.FileType.Equals("folder"))
+            {
+                return removeDirectory(cd.FilePath);
+            }
+            else
+            {
+                return removeFile(cd.FilePath, cd.FileName);
+            }
+        }
+
         /*
         Removes both the CommonDescriptor file and the Actual metadata file if they exist
         */
-        public Boolean removeFile(string filePath)
+        public Boolean removeFile(string filePath, string fileName)
         {
-            string mdPath = rootStoragePath + METADATAPATH + filePath + ".json";
-            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + filePath + ".json";
+            string mdPath = rootStoragePath + METADATAPATH + filePath + "\\" + fileName + "_file.json";
+            string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + filePath + "\\" + fileName + "_file.json";
 
             if (File.Exists(mdPath))
             {
@@ -214,7 +194,7 @@ namespace Guqu.Models
         /*
         Will delete both the CD and MD directory at a given relative path. If the directory does not exist, then this function won't do anything.
         */
-        public Boolean removeDirectory(string relativeDirectoryPath)
+        private Boolean removeDirectory(string relativeDirectoryPath)
         {
             string mdPath = rootStoragePath + METADATAPATH + relativeDirectoryPath;
             string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + relativeDirectoryPath;
@@ -233,19 +213,10 @@ namespace Guqu.Models
         Will attempt to create the requested directory (for CD and MD) and will recrsively create all nested directories if applicable.
         If the directry already exists, then this will not do anything. 
         */
-        public Boolean createDirectory(string relativeDirectoryPath)
+        private Boolean createDirectory(string relativeDirectoryPath)
         {
             string mdPath = rootStoragePath + METADATAPATH + relativeDirectoryPath;
             string cdPath = rootStoragePath + COMMONDESCRIPTORPATH + relativeDirectoryPath;
-
-            if (mdPath.EndsWith("\\")) //ends with "\\"
-            {
-                mdPath = mdPath.Remove(mdPath.LastIndexOf("\\"));
-            }
-            if (cdPath.EndsWith("\\")) //ends with "\\"
-            {
-                cdPath = cdPath.Remove(cdPath.LastIndexOf("\\"));
-            }
 
             if (!Directory.Exists(mdPath))
             {

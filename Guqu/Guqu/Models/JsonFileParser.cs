@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Guqu.Models
 {
@@ -14,23 +10,21 @@ namespace Guqu.Models
         {
 
         }
-        public Dictionary<string, string> retrieveValues(Dictionary<string, string> cd_service_TermDictionary, StreamReader fileStreamReader)
+        public Dictionary<string, string> retrieveValues(Dictionary<string, string> cd_service_TermDictionary, string jsonData)
         {
             {
-                Dictionary<string, string> cd_service_ValueDictionary = new Dictionary<string, string>();
-
-                string jsonData = fileStreamReader.ReadToEnd();
+                Dictionary<string, string> cd_service_ValueDictionary = new Dictionary<string, string>();  
 
                 Dictionary<string, string> mdValues = new Dictionary<string, string>();
                 if (jsonData != null)
                 {
-                    JObject googleMD = JObject.Parse(jsonData);
+                    JObject metaData = JObject.Parse(jsonData);
                     JToken curToken;
                     string mdValue;
                     foreach (KeyValuePair<string, string> entry in cd_service_TermDictionary)
                     {
                         //todo: should we use trygetvalue?
-                        curToken = googleMD.GetValue(entry.Value);
+                        curToken = metaData.GetValue(entry.Value);
                         //curToken holds the data from Jobject for a specific field.
                         mdValue = (string)Convert.ChangeType(curToken.ToString(), typeof(string));
                         //mdValue gets the value for that field 

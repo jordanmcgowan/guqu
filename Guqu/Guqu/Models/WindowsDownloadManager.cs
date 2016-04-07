@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Guqu.Models
 {
-    class WindowsDownloadManager: DownloadManager
+    class WindowsDownloadManager: IDownloadManager
     {
         private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
         public WindowsDownloadManager()
@@ -46,7 +46,8 @@ namespace Guqu.Models
                     //todo?
                 //}
             }
-
+            //release resources
+            fbd.Dispose();
             return true;
         }
 

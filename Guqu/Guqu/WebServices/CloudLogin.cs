@@ -11,10 +11,19 @@ using System.Threading.Tasks;
 using Guqu.Models;
 using WindowsDownloadManager = Guqu.Models.WindowsDownloadManager;
 
+
 namespace Guqu.WebServices
 {
     class CloudLogin
     {
+
+
+        static AccountSession accountSession;
+        private const string onedrive_client_id = "000000004018A88F";
+        private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
+        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
+        private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
+
 
         public CloudLogin()
         {
@@ -39,163 +48,54 @@ namespace Guqu.WebServices
 
 
 
-            /*
-            ****************************************
-           THIS BLOCK NEEDED FOR TESTING
-           WILL PRINT OUT LIST OF FILES IN CONSOLE
-            *****************************************
-
-
-
-            FilesResource.ListRequest listRequest = _googleDriveService.Files.List();
-            listRequest.PageSize = 1;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-
-            // List files.
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
-            Console.WriteLine("Files:");
-           
-            
-            int count = 0;
-            if (files != null && files.Count > 0)
-            {
-                foreach (var file in files)
-                {
-
-                    if (count == 0)
-                    {
-                        count++;
-                        var fileId = file.Id;
-
-                        Console.WriteLine("********");
-                        Console.WriteLine(fileId);
-                        Console.WriteLine(file.Name);
-                        Console.Write(file.MimeType);
-                        Console.WriteLine("********");
-                        var request = _googleDriveService.Files.Export(fileId, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                        var stream = new MemoryStream();
-                        WindowsDownloadManager wdm = new WindowsDownloadManager();
-                        
-
-                        
-                        request.MediaDownloader.ProgressChanged +=
-                        (IDownloadProgress progress) =>
-                        {
-                            switch (progress.Status)
-                            {
-                                case DownloadStatus.Downloading:
-                                    {
-                                        Console.WriteLine(progress.BytesDownloaded);
-                                        break;
-                                    }
-                                case DownloadStatus.Completed:
-                                    {
-                                        Console.WriteLine("Download complete.");
-                                        break;
-                                    }
-                                case DownloadStatus.Failed:
-                                    {
-                                        Console.WriteLine("Download failed.");
-                                        break;
-                                    }
-                            }
-                        };
-
-                        try {
-                            await request.DownloadAsync(stream);
-                            //TODO: not always a .doc, change.
-                            wdm.downloadFile(stream, file.Name + ".doc");
-
-                        }
-                        catch(Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                        
-                    }
-                            Console.WriteLine("{0} ({1})", file.Name, file.Size);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No files found.");
-            }
-            Console.Read();
-            */
 
         }
 
         public async static void oneDriveLogin()
         {
-
             var _oneDriveClient = InitializeAPI.oneDriveClient;
-            Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
-            
+            //Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
+
             //these are also login params, should move to login class
 
+            //checks to see if the client is authenticated
             if (!_oneDriveClient.IsAuthenticated)
             {
-                try
+                //checks for active session
+                if (accountSession != null)
                 {
-                    await _oneDriveClient.AuthenticateAsync();
-                    var token = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
-                    Console.WriteLine("This succedded and Jordan is a bitch");
+                    var refreshToken = accountSession.RefreshToken;
+                    string[] secret = { onedrive_client_secret };
 
-                    var contentStream = await _oneDriveClient.Drive.Items["8FA41A1E5CF18E2B!112"].Content.Request().GetAsync();
-                    MemoryStream stream = (MemoryStream)contentStream;
-
-                    //TODO: not always a .doc, change.
-                    wdm.downloadFile(stream, "test.doc");
-
-
+                    //trys this sneak silent authenticator
+                    /*
+                    await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
+                        onedrive_client_id,
+                        onedrive_redirect_uri,
+                        secret,
+                        refreshToken);
+                        */
                 }
-                catch (OneDriveException e)
-                {
-                    Console.WriteLine(e);
+                else{
+                    
+                    try {
 
+                        await _oneDriveClient.AuthenticateAsync();
+                        
+                        accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                        Console.WriteLine("This succedded");
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("THIS ISH FAILED");
+                    }
+                    
+                                      
                 }
+                
             }
 
-            /*
-            *******************
-            This is all for testing how to download
-            It is not actually needed for instantiating One Drive
-            *******************
-
-
-             try {
-                 var root = await _oneDriveClient.Drive.Root.Request().Expand("children").GetAsync();
-                 Console.WriteLine(root.Id);
-
-                Stream cStream = await _oneDriveClient.Drive.Items[root.Id].Content.Request().GetAsync();
-                 Console.WriteLine(cStream.ToString());
-
-
-
-
-
-
-
-
-
-             }
-             catch(Exception e)
-             {
-                 Console.WriteLine(e);
-
-             }
-
-
-         }
-
-         private static bool boxLogin()
-         {
-
-             return false;
-         }
-         */
-
+            InitializeAPI.oneDriveClient = _oneDriveClient;
 
         }
     }
