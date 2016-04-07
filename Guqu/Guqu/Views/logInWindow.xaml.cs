@@ -17,16 +17,11 @@ using System.Security.Cryptography;
 
 namespace Guqu
 {
-    
-    
-
     /// <summary>
     /// Interaction logic for logInWindow.xaml
     /// </summary>
     public partial class logInWindow : Window
     {
-
-        
 
         public logInWindow()
         {
@@ -100,7 +95,6 @@ namespace Guqu
                 {
                     errorMessage.Text = "Username does not exist.";
                 }
-
 
                 /*
                 if (usernameExists(email))
