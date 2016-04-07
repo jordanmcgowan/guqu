@@ -28,14 +28,14 @@ namespace Guqu
     public partial class MainWindow : Window
     {
         private List<Models.SupportClasses.TreeNode> roots = new List<Models.SupportClasses.TreeNode>();
-        
+
         ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
 
-
-
-        public MainWindow()
+        public User user { get; set; }
+        
+        public MainWindow(User user)
         {
-
+            this.user = user;
             InitializeComponent();
             this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight);
             this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
@@ -157,7 +157,7 @@ namespace Guqu
 
         private void manageAccountsClicked(object sender, RoutedEventArgs e)
         {
-            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow();
+            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(user);
             manageAccountsWin.Show();
         }
 
@@ -197,12 +197,13 @@ namespace Guqu
         
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
-            //move this code to a 'move' button? How are we doing moves?
-            GoogleDriveCalls gdc = new GoogleDriveCalls();
-            WindowsUploadManager wum = new WindowsUploadManager();
-            List<UploadInfo> toUpload = wum.getUploadFiles();
-            List<string> fileIDs = gdc.uploadFiles(toUpload, cd);
-            //using the ID's returned from uploading the files, fetch the new metaData files and save them.
+            //TESTING CODE//
+                //move this code to a 'move' button? How are we doing moves?
+                //GoogleDriveCalls gdc = new GoogleDriveCalls();
+                //WindowsUploadManager wum = new WindowsUploadManager();
+                //List<UploadInfo> toUpload = wum.getUploadFiles();
+                //List<string> fileIDs = gdc.uploadFiles(toUpload, cd);
+                //using the ID's returned from uploading the files, fetch the new metaData files and save them.
 
             //Update the display to account for this.
 
@@ -295,11 +296,11 @@ namespace Guqu
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
-
-            shareWindow shareWin = new shareWindow();
-            shareWin.Show();
-            GoogleDriveCalls gdc = new GoogleDriveCalls();
-            gdc.shareFile(cd);
+            //TESTING CODE//
+                //shareWindow shareWin = new shareWindow();
+                //shareWin.Show();
+                //GoogleDriveCalls gdc = new GoogleDriveCalls();
+                //gdc.shareFile(cd);
         }
 
 
