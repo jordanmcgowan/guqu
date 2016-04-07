@@ -27,6 +27,9 @@ using System.Net;
 using Microsoft.OneDrive.Sdk.WindowsForms;
 using Microsoft.OneDrive;
 using Microsoft.OneDrive.Sdk;
+using GuquMysql;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Guqu.WebServices
 {
@@ -72,7 +75,9 @@ namespace Guqu.WebServices
         From https://developers.google.com/drive/v3/web/quickstart/dotnet
                     
             */
-        public  void initGoogleDriveAPI()
+
+        public string initGoogleDriveAPI()
+
         {
 
             // If modifying these scopes, delete your previously saved credentials
@@ -100,8 +105,71 @@ namespace Guqu.WebServices
                         CancellationToken.None,
                         new FileDataStore(credPath, true)).Result;
                     Console.WriteLine("Credential file saved to: " + credPath);
+
+
+                /*
+                string text;
+                using (var streamReader = new StreamReader(@"C:\Users\MJ\AppData\Local\Guqu\.credentials\guqu_gdrive_creds.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", Encoding.UTF8))
+                {
+                    text = streamReader.ReadToEnd();
                 }
-              
+                //Console.WriteLine("entire token file: " + text);
+                */
+
+                /* useful!!*/
+                using (FileStream fs = new FileStream(@"C:\Users\MJ\AppData\Local\Guqu\.credentials\guqu_gdrive_creds.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", FileMode.Open, FileAccess.Read))
+                using (StreamReader sr = new StreamReader(fs))
+                using (JsonTextReader reader = new JsonTextReader(sr))
+                {
+                    string toReturn = "";
+                    while (reader.Read())
+                    {
+                        if (reader.TokenType == JsonToken.StartObject)
+                        {
+                            // Load each object from the stream and do something with it
+                            JObject obj = JObject.Load(reader);
+                            toReturn = obj["access_token"] + "";
+                            Console.WriteLine("access_token: " + obj["access_token"]);
+                            Console.WriteLine("expires in: " + obj["expires_in"]);
+                            Console.WriteLine("refresh_token: " + obj["refresh_token"]);
+                        }
+                    }
+                    return toReturn;
+                }
+                
+                //return text;
+            }
+
+            
+
+
+            /*
+               // Define parameters of request.
+               FilesResource.ListRequest listRequest = googleDriveService.Files.List();
+               listRequest.PageSize = 10;
+               listRequest.Fields = "nextPageToken, files(id, name)";
+
+
+               /*
+               // List files.
+               IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
+                   .Files;
+               Console.WriteLine("Files:");
+               if (files != null && files.Count > 0)
+               {
+                   foreach (var file in files)
+                   {
+                       Console.WriteLine("{0} ({1})", file.Name, file.Id);
+                   }
+               }
+               else
+               {
+                   Console.WriteLine("No files found.");
+               }
+               Console.Read();
+               */
+
+
         }//end init google drive
 
 

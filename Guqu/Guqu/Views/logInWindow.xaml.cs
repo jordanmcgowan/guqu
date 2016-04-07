@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GuquMysql;
 using Guqu.WebServices;
+using System.Security.Cryptography;
 
 namespace Guqu
 {
@@ -62,17 +63,38 @@ namespace Guqu
                     User user = db.SelectUser(email);
                     db.UpdateLastLogin(email);
                     //List<String> list = db.SelectUser(email);
+                    byte[] salt, key;
+                    // load salt and key from database
+                    salt = Convert.FromBase64String(user.Pass_salt);
+                    key = Convert.FromBase64String(user.Pass_hash);
 
+                    using (var deriveBytes = new Rfc2898DeriveBytes(pass, salt))
+                    {
+                        byte[] newKey = (deriveBytes.GetBytes(20));  // derive a 20-byte key
+                        Console.WriteLine(Convert.ToBase64String(newKey) + " ----- " + Convert.ToBase64String(key));
+
+                        if (!newKey.SequenceEqual(key))
+                            throw new InvalidOperationException("Password is invalid!");
+                        else
+                        {
+                            MainWindow mainWin = new MainWindow(user);
+                            mainWin.Show();
+                            this.Close();
+                        }
+                    }
+                    /*
                     if (user.Pass_hash == pass) //TODO: Iteration 2: add hasing & salting
                     {
-                        MainWindow mainWin = new MainWindow();
+                        MainWindow mainWin = new MainWindow(user);
                         mainWin.Show();
                         this.Close();
                     }
+                    
                     else
                     {
                         errorMessage.Text = "Incorrect Password.";
                     }
+                    */
                 }
                 else
                 {

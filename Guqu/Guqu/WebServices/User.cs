@@ -8,8 +8,8 @@ namespace Guqu.WebServices
 {
     public class User
     {
-        private string user_id;
-        public string User_id
+        private int user_id;
+        public int User_id
         {
             get { return user_id; }
             set { user_id = value; }
@@ -50,13 +50,15 @@ namespace Guqu.WebServices
             set { pass_salt = value; }
         }
 
-        private string failed_pass_attempts;
-        public string Failed_pass_attempts
+        private int failed_pass_attempts;
+        public int Failed_pass_attempts
         {
             get { return failed_pass_attempts; }
             set { failed_pass_attempts = value; }
         }
 
+        //private DateTime failed_pass_date;
+        //public DateTime Failed_pass_date
         private string failed_pass_date;
         public string Failed_pass_date
         {
