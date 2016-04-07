@@ -20,7 +20,12 @@ namespace Guqu
     public partial class dynamicPrompt : Window
     {
         private String[] ret;         //responses
+        private bool ok = false;
 
+        public bool getOK()
+        {
+            return ok;
+        }
         public String[] getRet()
         {
             return this.ret;
@@ -45,7 +50,9 @@ namespace Guqu
 
                         dynamicPrompt dp = new dynamicPrompt(arr);
                         dp.ShowDialog();
-                        arr = dp.getRet();
+                        if(dp.getOK){
+                            arr = dp.getRet();
+                        }
             */
 
 
@@ -98,6 +105,8 @@ namespace Guqu
                     }
                 }
                 ret = answers; //ret to be accessed by caller
+                ok = true;
+                
                 this.Close();
             }
         }
