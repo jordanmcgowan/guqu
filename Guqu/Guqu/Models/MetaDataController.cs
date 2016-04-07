@@ -12,6 +12,7 @@ namespace Guqu.Models
 
     class MetaDataController
     {
+        private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
         private readonly string METADATAPATH = "\\MetaData\\";
         private readonly string COMMONDESCRIPTORPATH = "\\CommonDescriptor\\";
         private string rootStoragePath; //declares where the files are being stored
@@ -52,19 +53,10 @@ namespace Guqu.Models
         /*
         Deserialize the common descriptor file and return the object.
         */
-        public CommonDescriptor getCommonDescriptorFile(string relativeFilePath)
+        private CommonDescriptor getCommonDescriptorFile(string relativeFilePath)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
             string filePath = rootStoragePath + COMMONDESCRIPTORPATH + relativeFilePath;
-            //TODO: don't need the following because when I add in a CD, I append _file/_folder to it.
-            //if (isFile)
-            //{
-            //    filePath += "_file.json";
-           // }
-            //else
-            //{
-            //    filePath += "_folder.json";
-            //}
             string jsonCD = File.ReadAllText(filePath);
             CommonDescriptor cd = jsonSerializer.Deserialize<CommonDescriptor>(jsonCD);
             return cd;
@@ -72,7 +64,7 @@ namespace Guqu.Models
 
         private string getAbsoluteFilePathForAddingMDFile(string relativeFilePath)
         {
-            string path = rootStoragePath + METADATAPATH + relativeFilePath;
+            string path = rootStoragePath + METADATAPATH + relativeFilePath;     
             createDirectory(relativeFilePath);
             return path;
         }
@@ -227,6 +219,18 @@ namespace Guqu.Models
                 Directory.CreateDirectory(cdPath);
             }
             return true;
+        }
+        private string replaceProhibitedCharacters(string path)
+        {
+            foreach (char curChar in forbiddenCharacters)
+            {
+                if (path.Contains(curChar))
+                {
+                    //the character to replace the forbidden character ostensibly doesn't matter, just needs to be consistent.
+                    path.Replace(curChar, '_');
+                }
+            }
+            return path;
         }
     }
 }
