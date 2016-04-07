@@ -23,17 +23,17 @@ namespace Guqu.WebServices
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             _oneDriveClient.AuthenticateAsync();
 
-            //var fileId = cd.FileID;
-            var fileId = "8FA41A1E5CF18E2B!114";
+            var fileId = cd.FileID;
+            
 
 
 
 
-            //string extension = odcp.getExtension(cd.FileType); //TODO: ensure OneDriveComParser returns the proper extension
+            string extension = odcp.getExtension(cd.FileType); 
             try
             {
                 var contentStream = await _oneDriveClient.Drive.Items[fileId].Content.Request().GetAsync();
-                wdm.downloadFile((MemoryStream)contentStream, "Poop" + ".xlsx");
+                wdm.downloadFile((MemoryStream)contentStream, cd.FileName + extension);
             }
             catch (Exception e)
             {

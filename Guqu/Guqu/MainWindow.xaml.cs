@@ -182,11 +182,11 @@ namespace Guqu
                 
                 if (complete)
                 {
-                    Models.SupportClasses.TreeNode rootnode = mdc.getRoot("One Drive");
+                    //Models.SupportClasses.TreeNode rootnode = mdc.getRoot("One Drive");
 
-                    MenuItem root = new MenuItem() { Title = "One Drive" }; //label as the account name
-                    root = populateMenuItem(root, rootnode);
-                    fileTreeMenu.Items.Add(root);
+                    //MenuItem root = new MenuItem() { Title = "One Drive" }; //label as the account name
+                    //root = populateMenuItem(root, rootnode);
+                    //fileTreeMenu.Items.Add(root);
 
                    // LinkedList<Models.SupportClasses.TreeNode> nodes = rootnode.getChildren();
                    // IEnumerator<Models.SupportClasses.TreeNode> nodesEnum = nodes.GetEnumerator();

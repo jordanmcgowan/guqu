@@ -45,6 +45,13 @@ namespace Guqu.Models
                 //null represents 'not a file' aka a folder
                 fileType = "folder";
             }
+            else
+            {
+                JObject metaData = JObject.Parse(jsonMetaData);
+                JObject curToken = (JObject)metaData.GetValue("File");
+                JToken nextToken = curToken.GetValue("MimeType");
+                fileType = (string)Convert.ChangeType(nextToken.ToString(), typeof(string));
+            }
 
             cd_od_value_dictionary.TryGetValue("fileID", out fileID);
             cd_od_value_dictionary.TryGetValue("fileSize", out fsize);
