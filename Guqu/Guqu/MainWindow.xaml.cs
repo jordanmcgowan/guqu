@@ -47,19 +47,7 @@ namespace Guqu
             this.folderView.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 193;
             this.folderView.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 200;
 
-            dynamicPrompt dp = new dynamicPrompt(new String[] { "here","there","where","hi3ed3edd3d3d3d3d3ed3d3d3d3edxedxdxexexeddexexexeexexedxed"});
-            dp.Show();
-
-            //how to add to the folder view
-            /*for (int i = 0; i < 10; i++)
-            {
-                dF.Add(new dispFolder() { Name = "File", Type = ".pdf", Size = "11", DateModified = "1/11/11", Owners = "Bill", Checked = false });
-            }
-
-            folderView.ItemsSource = dF;
-            */
-
-
+            //initialize the folders tree on the left
 
             /*
             MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
@@ -144,7 +132,16 @@ namespace Guqu
             logInWin.Show();
             this.Close();
         }
+        private void moveButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO call the function that moves
 
+        }
+        private void copyButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO call the function that copies
+
+        }
 
         private void exitClicked(object sender, RoutedEventArgs e)
         {

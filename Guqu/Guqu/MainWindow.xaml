@@ -56,7 +56,7 @@
         </ListView>
 
 
-        <Button x:Name="uploadButton" Content="Upload" HorizontalAlignment="Left" Height="30" Margin="191,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="uploadButton_Click">
+        <Button x:Name="uploadButton" Width="100"  Content="Upload" HorizontalAlignment="Left" Height="30" Margin="191,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="uploadButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -66,7 +66,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="downloadButton" Content="Download" HorizontalAlignment="Left" Height="30" Margin="381,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="downloadButton_Click">
+        <Button x:Name="downloadButton" Width="100" Content="Download" HorizontalAlignment="Left" Height="30" Margin="294,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="downloadButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -76,7 +76,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="shareButton" Content="Share" HorizontalAlignment="Left" Height="30" Margin="570,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="shareButton_Click">
+        <Button x:Name="shareButton" Content="Share" Width="100" HorizontalAlignment="Left" Height="30" Margin="397,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="shareButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -86,7 +86,27 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Left" Height="30" Margin="759,40,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="0.5,0.5" Click="deleteButton_Click">
+        <Button x:Name="moveButton" Content="Move" Width="100" HorizontalAlignment="Left" Height="30" Margin="501,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="moveButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="copyButton" Content="Copy" Width="100" HorizontalAlignment="Left" Height="30" Margin="604,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="copyButton_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.302"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.477"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="deleteButton" Content="Delete" Width="100" HorizontalAlignment="Left" Height="30" Margin="707,40,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Click="deleteButton_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

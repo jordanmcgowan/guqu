@@ -255,6 +255,9 @@
     <Compile Include="Views\dynamicPrompt.xaml.cs">
       <DependentUpon>dynamicPrompt.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\moveView.xaml.cs">
+      <DependentUpon>moveView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\shareWindow.xaml.cs">
       <DependentUpon>shareWindow.xaml</DependentUpon>
     </Compile>
@@ -313,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\changePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\moveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
