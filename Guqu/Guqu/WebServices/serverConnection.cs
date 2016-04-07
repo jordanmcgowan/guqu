@@ -106,17 +106,26 @@ namespace GuquMysql
         }
 
         //public void InsertNewUserCloud(int userId, string cloudUsername, string token, int cloudId)
-        public void InsertNewUserCloud(int userId, string token, int cloudId)
+        public void InsertNewUserCloud(int userId, string token, int cloudId, string refreshToken)
         {
-            if (doesUserCloudExist(userId, token))
+            var cloudType = "";
+            if (cloudId == 1)
+            {
+                cloudType = "oneDrive";
+            }
+            else if (cloudId == 2)
+            {
+                cloudType = "googleDrive";
+            }
+            if (doesUserCloudExist(userId, cloudId))
             {
                 Console.WriteLine("Your user_cloud already registered in DB.");
             }
             else
             {
-                //prompt window asking user_cloud's customized name
-                string query = "INSERT INTO user_clouds (user_id, cloud_id, cloud_token, custom_cloud_name) "
-                    + "VALUES (" + userId + ", " + cloudId + ", '" + token + "', 'testname')";
+                //Stores user's cloud creds in the DB
+                string query = "INSERT INTO user_clouds (user_id, cloud_id, cloud_token, refresh_token, custom_cloud_name) "
+                    + "VALUES (" + userId + ", " + cloudId + ", '" + token + "', '" + refreshToken + "', '" + cloudType + "')";
 
                 //open connection
                 if (this.OpenConnection() == true)
@@ -136,9 +145,9 @@ namespace GuquMysql
         }
 
 
-        public Boolean doesUserCloudExist(int userId, string token)
+        public Boolean doesUserCloudExist(int userId, int cloudID)
         {
-            string query = "SELECT COUNT(*) AS user_cloud_count FROM user_clouds WHERE user_id = " + userId + " AND cloud_token = '" + token + "';";
+            string query = "SELECT COUNT(*) AS user_cloud_count FROM user_clouds WHERE user_id = '" + userId + "' AND cloud_id = '" + cloudID + "';";
             //Open Connection
             if (this.OpenConnection() == true)
             {
@@ -163,21 +172,24 @@ namespace GuquMysql
 
                 if (doesExist == 1)
                 {
-                    Console.WriteLine("EXISTS!!!!!!!!!!!!!!!!!!!");
+                    Console.WriteLine("User has 1 cloud service in DB");
                     return true;
                 }
                 else if (doesExist == 0)
                 {
-                    Console.WriteLine("DOESN'T EXIST!!!!!!!!!!!!!!!!!!!");
+                    Console.WriteLine("User has 0 cloud services in DB");
                     return false;
+                }
+                else if (doesExist > 1)
+                {
+                    Console.WriteLine("User has 2+ cloud services in DB");
+                    return true;
                 }
                 else
                 {
                     Console.WriteLine("ERROR: Verification failed.");
                     return false;
                 }
-
-
             }
             else
             {
@@ -227,12 +239,7 @@ namespace GuquMysql
         public User SelectUser(string email)
         {
             string query = "SELECT * FROM users WHERE email = '" + email + "';";
-            Console.WriteLine(query);
-
-            //Create a list to store the result
-            //List<string>[] list = new List<string>[8];
-            //list[0] = new List<string>();
-            //List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
+            //Console.WriteLine(query);
             User user = new User();
 
             //Create Command
@@ -265,28 +272,28 @@ namespace GuquMysql
                 //return list to be displayed
                 if (user.Email != null)
                 {
-                    Console.WriteLine(user.Email);
+                    Console.WriteLine("Logged user: " + user.Email);
                     return user;
                 }
                 else
                 {
-                    Console.WriteLine("No results");
+                    Console.WriteLine("No results for that user in the DB");
                     return user;
                 }
             }
             else
             {
-                Console.WriteLine("Conn not open");
-                return user;
+                Console.WriteLine("Server connection not open");
+                return null;
             }
         }
 
         public List<UserCloud> SelectUserClouds(int userId)
         {
             string query = "SELECT * FROM user_clouds WHERE user_id = " + userId + ";";
-            Console.WriteLine(query);
+            //Console.WriteLine(query);
 
-            List<UserCloud> list = new List<UserCloud>();
+            List<UserCloud> cloudList = new List<UserCloud>();
 
             //Create Command
             if (this.OpenConnection() == true)
@@ -300,11 +307,14 @@ namespace GuquMysql
                 {
                     UserCloud userCloud = new UserCloud();
 
+                    //TODO: Add token expiration to this
                     userCloud.User_id = Int32.Parse(dataReader["user_id"] + "");
                     userCloud.Cloud_id = Int32.Parse(dataReader["cloud_id"] + "");
-                    //TODO: finish this loop
+                    userCloud.Cloud_token = dataReader["cloud_token"].ToString();
+                    userCloud.Refresh_token = dataReader["refresh_token"].ToString();
+                    userCloud.Custom_cloud_name = dataReader["custom_cloud_name"].ToString();
 
-                    list.Add(userCloud);
+                    cloudList.Add(userCloud);
                 }
 
                 //close Data Reader
@@ -314,21 +324,21 @@ namespace GuquMysql
                 this.CloseConnection();
 
                 //return list to be displayed
-                if (list.Count != 0)
+                if (cloudList.Count != 0)
                 {
                     //Console.WriteLine("");
-                    return list;
+                    return cloudList;
                 }
                 else
                 {
                     Console.WriteLine("No userCloud found");
-                    return list;
+                    return cloudList;
                 }
             }
             else
             {
-                Console.WriteLine("Conn not open");
-                return list;
+                Console.WriteLine("Server connection not open");
+                return null;
             }
         }
         /*
@@ -454,12 +464,10 @@ namespace GuquMysql
                     Console.WriteLine("Verification failed.");
                     return false;
                 }
-
-                
             }
             else
             {
-                Console.WriteLine("ERROR!!");
+                Console.WriteLine("ERROR!! (serverConnection -- emailExists()");
                 return false;
             }
         }

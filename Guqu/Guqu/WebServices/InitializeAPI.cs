@@ -76,7 +76,7 @@ namespace Guqu.WebServices
                     
             */
 
-        public string initGoogleDriveAPI()
+        public List<String> initGoogleDriveAPI()
 
         {
 
@@ -112,17 +112,27 @@ namespace Guqu.WebServices
                 using (StreamReader sr = new StreamReader(fs))
                 using (JsonTextReader reader = new JsonTextReader(sr))
                 {
-                    string toReturn = "";
+                    List<String> toReturn = new List<String>();
                     while (reader.Read())
                     {
                         if (reader.TokenType == JsonToken.StartObject)
                         {
                             // Load each object from the stream and do something with it
                             JObject obj = JObject.Load(reader);
-                            toReturn = obj["access_token"] + "";
-                            Console.WriteLine("access_token: " + obj["access_token"]);
-                            Console.WriteLine("expires in: " + obj["expires_in"]);
-                            Console.WriteLine("refresh_token: " + obj["refresh_token"]);
+                            //toReturn = obj["access_token"] + "";
+                            //Create string vals for tokens
+                            string token = (obj["access_token"]).ToString();
+                            string refreshToken = (obj["refresh_token"]).ToString();
+                            //Console.WriteLine("token: " + token + " ----- " + "refresh: " + refreshToken);
+                            //element 0 = access token
+                            toReturn.Add(token);
+                            //element 1 = refresh token
+                            toReturn.Add(refreshToken);
+
+
+                            Console.WriteLine("Google Drive access_token: " + obj["access_token"]);
+                            Console.WriteLine("Google Drive expires in: " + obj["expires_in"]);
+                            Console.WriteLine("Google Drive refresh_token: " + obj["refresh_token"]);
                         }
                     }
                     return toReturn;
@@ -235,26 +245,20 @@ namespace Guqu.WebServices
 
         }
 
-
-
         
         /* 
         One Drive Initialization - Uses the Web Forms Authenticator
-
         */
         public async void initOneDriveAPI() {
-
-            
             oneDriveClient =  OneDriveClient.GetMicrosoftAccountClient(
             onedrive_client_id,
             onedrive_redirect_uri,
             onedrive_scope,
             webAuthenticationUi: new FormsWebAuthenticationUi()
-
-                );
-
+            );
             
-       }
+            Console.WriteLine("OneDrive auth? " + oneDriveClient.IsAuthenticated);
+        }
 
 
         /*

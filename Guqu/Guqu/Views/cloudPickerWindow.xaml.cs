@@ -27,6 +27,7 @@ namespace Guqu
     {
         InitializeAPI api;
         public User user { get; set; }
+        int cloudId;
 
         public cloudPicker(User user)
         {
@@ -45,9 +46,9 @@ namespace Guqu
         }
         private void oneDriveClick(object sender, RoutedEventArgs e)
         {
-
+            cloudId = 1;
             api.initOneDriveAPI();
-            CloudLogin.oneDriveLogin();
+            CloudLogin.oneDriveLogin(user);
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("oneDrive");
             //cloudLogWin.Show();
             bool main = false;//check to see if there is a main open
@@ -72,16 +73,19 @@ namespace Guqu
         }
         private void googleDriveClick(object sender, RoutedEventArgs e)
         {
-            string token = api.initGoogleDriveAPI(); //TODO: try catch
+            cloudId = 2;
+            List<string> token = api.initGoogleDriveAPI(); //TODO: try catch
+            var accessToken = token[0];
+            var refreshToken = token[1];
             Console.WriteLine("googledrive token: " + token);
             
-            if (registerUserCloud(token))
+            if (registerUserCloud(accessToken, cloudId, refreshToken))
             {
-                Console.WriteLine("registration succeeded.");
+                Console.WriteLine("Registration succeeded for Google Drive.");
             }
             else
             {
-                Console.WriteLine("registration failed.");
+                Console.WriteLine("Registration failed for Google Drive.");
             }
             
             CloudLogin.googleDriveLogin();
@@ -123,12 +127,10 @@ namespace Guqu
             this.Close();
         }
 
-        private Boolean registerUserCloud(string token)
+        private Boolean registerUserCloud(string token, int cloudID, string refreshToken)
         {
             ServerCommunicationController db = new ServerCommunicationController();
-            int cloudId = 2; //Google Drive cloudId is 2
-            db.InsertNewUserCloud(user.User_id, token, cloudId);
-
+            db.InsertNewUserCloud(user.User_id, token, cloudId, refreshToken);
             return true; //TODO: refine it
         }
     }
