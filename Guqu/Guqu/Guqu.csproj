@@ -223,7 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="dispFolder.cs" />
+    <Compile Include="Views\dispFolder.cs" />
     <Compile Include="Exceptions\ExtensionNotFoundException.cs" />
     <Compile Include="Models\IUploadManager.cs" />
     <Compile Include="Models\SettingsController.cs" />

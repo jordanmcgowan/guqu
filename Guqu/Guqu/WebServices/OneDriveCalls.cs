@@ -5,16 +5,20 @@ using Microsoft.OneDrive.Sdk;
 using Guqu.Models;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Linq;
 
 namespace Guqu.WebServices
 {
     class OneDriveCalls : ICloudCalls
     {
+
         OneDriveCommunicationParser oneDriveCommParser;
         public OneDriveCalls()
         {
             oneDriveCommParser = new OneDriveCommunicationParser();
         }
+
+        
 
         public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
@@ -25,10 +29,6 @@ namespace Guqu.WebServices
 
             var fileId = cd.FileID;
             
-
-
-
-
             string extension = odcp.getExtension(cd.FileType); 
             try
             {
@@ -90,11 +90,11 @@ namespace Guqu.WebServices
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             var fileId = cd.FileID;
 
-            string file2 = "8FA41A1E5CF18E2B!1136";
+            
 
             try
             {
-                await _oneDriveClient.Drive.Items[file2].Request().DeleteAsync();
+                await _oneDriveClient.Drive.Items[fileId].Request().DeleteAsync();
             }
             catch (Exception e)
             {
@@ -174,23 +174,24 @@ namespace Guqu.WebServices
             //Have all of the children, now iterate through them
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             CommonDescriptor curCD;
-            string curFileSerialized;
+            string curFileSerialized, cleansedName;
 
             foreach (var child in allChildren)
             {
+                
                 curFileSerialized = serializer.Serialize(child);
                 if(child.File == null) //folder
                 {
                     //For each folder add the metaDataFolder, the CD, and then recurse.
-                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, child.Name);
+                    cleansedName = controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, child.Name);
                     curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
-                    await fetchAllMDFiles(controller, relativeRequestPath + "\\" + child.Name, child.Id);
+                    await fetchAllMDFiles(controller, relativeRequestPath + "\\" + cleansedName, child.Id);
                 }
                 else  //file
                 {
                     //For each file add the metadatafile, and the CD.
-                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, child.Name);
+                    cleansedName = controller.addMetaDataFile(curFileSerialized, relativeRequestPath, child.Name);
                     curCD = oneDriveCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
 
@@ -216,15 +217,7 @@ namespace Guqu.WebServices
             var newItemName = fileToMove.FileName;
             var itemId = fileToMove.FileID;
             var copyLocationId = folderDestination.FileID;
-
             
-
-            /* Hard coded snippet = worked with testing!!
-            var newItemName = "Copied File.docx";
-            var itemId = "8FA41A1E5CF18E2B!1130";
-            var copyLocationId = "8FA41A1E5CF18E2B!118";
-            */
-
             try
             {
                 var request = await _oneDriveClient.Drive.

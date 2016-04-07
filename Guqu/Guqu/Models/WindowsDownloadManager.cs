@@ -17,6 +17,8 @@ namespace Guqu.Models
         {
             while (!isValid(fileName))
             {
+
+
                 if(!getValidFileName(fileName, out fileName))
                 {
                     //if the user did not want to rename, we exit.
@@ -33,18 +35,9 @@ namespace Guqu.Models
             {
                 selectedFolderPath = fbd.SelectedPath;
                 FileStream fstream = new FileStream(selectedFolderPath + "\\" + fileName, FileMode.Create);
-
-                //try
-                //commented out try catch to see what errors we recieve.
-                //{
-                    stream.WriteTo(fstream);
-                    fstream.Close();
-                    stream.Close();
-                //}
-                //catch (Exception e)
-                //{
-                    //todo?
-                //}
+                stream.WriteTo(fstream);
+                fstream.Close();
+                stream.Close();
             }
             //release resources
             fbd.Dispose();
@@ -60,51 +53,40 @@ namespace Guqu.Models
             errorMessage.AppendLine("Please pick a new name for this file, Note: the name of this file will NOT be changed on the cloud");
 
             string newFileNameHeader = "New name for the file:";
-            string[] headers = new string[1];
-            headers[0] = newFileNameHeader;
+            string[] headers = new string[2];
+            headers[0] = errorMessage.ToString();
+            headers[1] = newFileNameHeader;
 
-            //Launch error prompt,
+            dynamicPrompt errorPrompt = new dynamicPrompt(headers);
 
-            //if cancel clicked
-            //fixedFileName = fileName;
-            //return false;
-
-            //if ok clicked
-            //fixedFileName = errorPrompt.getresponse[0];
-            //return true;
-
-            foreach (char curChar in forbiddenCharacters)
+            //blocks: TODO change to return a ResultDialog type
+            errorPrompt.ShowDialog();
+            if (errorPrompt.getOK())
             {
-                if (fileName.Contains(curChar))
-                {
-                    //TODO: uncomment after errorprompt is working
-                    //if any of the forbidden characters are found, return false
-                    //isValid = false;
-
-                    //temp fix, replace all bad characters with '-'
-                    //fileName.Replace(curChar, '-');
-                    fileName = fileName.Replace(curChar, '-');
-                }
+                //user accepted
+                string[] responses = errorPrompt.getRet();
+                fixedFileName = responses[0];
+                return true;
             }
-            fixedFileName = fileName;
-            return true;
+            else
+            {
+                fixedFileName = null;
+                return false;
+            }
 
         }
 
+        /*
+        Searches through a filename and determines if it has any forbidden characters
+        */
         private bool isValid(string fileName)
         {
 
-            bool isValid = true;
             foreach (char curChar in forbiddenCharacters)
             {
                 if (fileName.Contains(curChar))
                 {
-                    //TODO: uncomment after errorprompt is working
-                    //if any of the forbidden characters are found, return false
-                    //isValid = false;
-
-                    //temp fix, replace all bad characters with '-'
-                    //fileName.Replace(curChar, '-');
+                    return false;
                 }
             }
             //if none are found, return true

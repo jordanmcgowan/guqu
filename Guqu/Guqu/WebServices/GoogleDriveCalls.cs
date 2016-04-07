@@ -15,7 +15,9 @@ namespace Guqu.WebServices
 {
     class GoogleDriveCalls : ICloudCalls
     {
+
         private GoogleDriveCommunicationParser googleCommParser;
+
 
         public GoogleDriveCalls()
         {
@@ -164,7 +166,7 @@ namespace Guqu.WebServices
                 nextPageToken = exec.NextPageToken;
                 iterationFiles = exec.Files;
 
-                //files has first 20 items.
+                
                 foreach(var cur in iterationFiles)
                 {
                     if(cur.Trashed != true)
@@ -188,6 +190,7 @@ namespace Guqu.WebServices
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string curFileSerialized;
+            string cleansedName;
             CommonDescriptor curCD;
             
             while (allFiles.Count != 0) //while there are elements
@@ -200,15 +203,17 @@ namespace Guqu.WebServices
                 if (curFile.MimeType.Equals(googleFolderName)) //folder
                 {
                     //For each folder add the metaDataFolder, the CD, and then recurse.
-                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
+                    cleansedName = controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
-                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + curFile.Name, curFile.Id);
+                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + cleansedName, curFile.Id);
                 }
                 else  //file
                 {
-                    //For each file add the metadatafile, and the CD.
-                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
+                    //For each file add the metadatafile, and the CD.                    
+
+                    //cleansedName is the 'clean' name of the curFile.Name, don't need to use it cause this terminates.
+                    cleansedName = controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath,curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
                     
