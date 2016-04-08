@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Guqu.Models;
 
 namespace Guqu
 {
@@ -30,6 +31,8 @@ namespace Guqu
             }
         }
 
+        private CommonDescriptor _cd;
+        public CommonDescriptor CD { get { return _cd; } set { if (_cd != value) { _cd = value; OPC("CD"); } } }
 
         private String _type;
         public String Type { get { return _type; } set { if (_type != value) { _type = value; OPC("Type"); } } }

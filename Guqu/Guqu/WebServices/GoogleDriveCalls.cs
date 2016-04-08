@@ -312,11 +312,8 @@ namespace Guqu.WebServices
                 Google.Apis.Drive.v3.Data.File fileMetaData = new Google.Apis.Drive.v3.Data.File();
                 fileMetaData.Name = fileName;
 
-                //TODO: swap out following lines
-                // fileMetaData.Parents = new List<string> {folderDestination.FileID};
-                fileMetaData.Parents = new List<string> { "0B0F_8LaJGpURSGFMY2k5UzF0LTg" };
+                fileMetaData.Parents = new List<string> {folderDestination.FileID};
 
-                
                 request = _googleDriveService.Files.Create(fileMetaData, uInfo.getFileStream(), mimeType);
                 request.Fields = "id";
                 request.Upload();
@@ -383,9 +380,9 @@ namespace Guqu.WebServices
             var updateRequest = _googleDriveService.Files.Update(temp, fileToMove.FileID);
             updateRequest.Fields = "id, parents";
 
-            //TODO: switch out commented lines
-            //updateRequest.AddParents = folderDestination.FileID;
-            updateRequest.AddParents = "0B0F_8LaJGpURSGFMY2k5UzF0LTg";
+            
+            updateRequest.AddParents = folderDestination.FileID;
+            
 
             if (destructive)
             {

@@ -1,30 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Guqu.Models;
 using Guqu.WebServices;
 using System.Diagnostics;
-using System.IO;
 using System.Collections.ObjectModel;
-using Guqu.Models.SupportClasses;
 using System.Windows.Forms;
+
+using Guqu.Models.SupportClasses;
 
 namespace Guqu
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private List<Models.SupportClasses.TreeNode> roots = new List<Models.SupportClasses.TreeNode>();
@@ -32,51 +20,35 @@ namespace Guqu
         ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
 
         public User user { get; set; }
+
+        private static WindowsUploadManager windowsUploadManager;
+        private static WindowsDownloadManager windowsDownloadManager;
+        private static string metaDataStorageLocation = "..\\GuquMetaDataStorageLocation";
+        private static MetaDataController metaDataController;
+
+        private Models.SupportClasses.TreeNode selectedHierarchyFolder = null;
+
         
         public MainWindow(User user)
         {
             this.user = user;
             InitializeComponent();
-            this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight);
-            this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
-            this.menu1.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
-            this.fileTreeMenu.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 116; //82
-            this.pathBox.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 198;
-            this.scrollText.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 198;
-            this.folderView.Width = (System.Windows.SystemParameters.PrimaryScreenWidth) - 193;
-            this.folderView.Height = (System.Windows.SystemParameters.PrimaryScreenHeight) - 200;
-
-            //initialize the folders tree on the left
-
-            /*
-            MetaDataController mdc = new MetaDataController("C:\\guquTestFolder");
-            TreeNode rootnode = mdc.getRoot("test");
-            MenuItem root = new MenuItem() { Title = "test" }; //label as the account name
-            root = populateMenuItem(root, rootnode);
-            */
-
-            /*
-            foreach (var ele in rootnode.getChildren())
-            {
-                if (ele.getCommonDescriptor().FileType.Equals("folder"))
-                {
-                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName };
-                    root.Items.Add(newFolder);
-                }
-                else
-                {
-                    root.Items.Add(new MenuItem() { Title = ele.getCommonDescriptor().FileName });
-                }
-            }
-            */
-            //fileTreeMenu.Items.Add(root);
-
-
-            //populateListView();//pass the list of common descriptors
-            //Dummy data to display path
+            this.Height = (SystemParameters.PrimaryScreenHeight);
+            this.Width = (SystemParameters.PrimaryScreenWidth);
+            this.menu1.Width = (SystemParameters.PrimaryScreenWidth);
+            this.fileTreeMenu.Height = (SystemParameters.PrimaryScreenHeight) - 116; //82
+            this.pathBox.Width = (SystemParameters.PrimaryScreenWidth) - 198;
+            this.scrollText.Width = (SystemParameters.PrimaryScreenWidth) - 198;
+            this.folderView.Width = (SystemParameters.PrimaryScreenWidth) - 193;
+            this.folderView.Height = (SystemParameters.PrimaryScreenHeight) - 200;
+     
             List<string> mylist = new List<string>(new string[] { "element2", "element3", "element1", "element2", "element3", });
             String path = generatePath(mylist);
             pathBox.Text = path;
+
+            windowsDownloadManager = new WindowsDownloadManager();
+            windowsUploadManager = new WindowsUploadManager();
+            metaDataController = new MetaDataController(metaDataStorageLocation);
         }
 
         //implement this when a file/folder is clicked in services view
@@ -85,13 +57,12 @@ namespace Guqu
             foreach (CommonDescriptor file in files)
             {
                 // create new fileOrFolder Object with Checked = false but everything else from common descriptor may need to change for date and size
-                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID });
+                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID, AccountType = file.AccountType });
             }
             folderView.ItemsSource = dF;
         }
 
-
-        private MenuItem populateMenuItem(MenuItem root, Guqu.Models.SupportClasses.TreeNode node)
+        private MenuItem populateMenuItem(MenuItem root, Models.SupportClasses.TreeNode node)
         {
             MenuItem newFolder;
             foreach (var ele in node.getChildren())
@@ -110,14 +81,40 @@ namespace Guqu
             }
             return root;
         }
+
+        private void hierarchyAdd(Models.SupportClasses.TreeNode newRoot)
+        {
+            MenuItem root = new MenuItem() { Title = newRoot.getCommonDescriptor().FileName, ID = newRoot.getCommonDescriptor().FileID }; //label as the account name
+            roots.Add(newRoot);
+            root = populateMenuItem(root, newRoot);
+            fileTreeMenu.Items.Add(root);
+        }
+        private void hierarchyDelete(Models.SupportClasses.TreeNode root)
+        {
+            MenuItem rootToRemove = null;
+            foreach (var item in fileTreeMenu.Items)
+            {
+                if (item.GetType() == typeof(MenuItem)) {
+                    MenuItem file = (MenuItem)item;
+                    if (file.ID.Equals(root.getCommonDescriptor().FileID))
+                    {
+                        rootToRemove = file;
+                    }
+                }
+            }
+            if(rootToRemove != null)
+            {
+                fileTreeMenu.Items.Remove(rootToRemove);
+            }
+        }
         public void item_Click(object sender, RoutedEventArgs e)
         {
             dF = new ObservableCollection<dispFolder>();
-            //MenuItem name = e.OriginalSource as MenuItem;
             TextBlock name = e.OriginalSource as TextBlock;
             String fileClicked = name.Uid;
 
             //badly coded 
+            /*
             if (fileClicked.Equals("root"))
             {
                 Models.SupportClasses.TreeNode node = roots.ElementAt(0);
@@ -125,19 +122,17 @@ namespace Guqu
                 List<CommonDescriptor> disp = new List<CommonDescriptor>();
                 foreach (var item in children)
                 {
-                    //if (!(item.getCommonDescriptor().FileType.Equals("folder")))
-                    //{
                     disp.Add(item.getCommonDescriptor());
-                    //}
                 }
                 populateListView(disp);
             }
-            else {
+            */
+            //else {
                 foreach (var r in roots)
                 {
                     folderDisplay(r, fileClicked);
                 }
-            }
+            //}
         }
 
 
@@ -214,15 +209,63 @@ namespace Guqu
         
         private void uploadButton_Click(object sender, RoutedEventArgs e)
         {
-            //TESTING CODE//
-                //move this code to a 'move' button? How are we doing moves?
-                //GoogleDriveCalls gdc = new GoogleDriveCalls();
-                //WindowsUploadManager wum = new WindowsUploadManager();
-                //List<UploadInfo> toUpload = wum.getUploadFiles();
-                //List<string> fileIDs = gdc.uploadFiles(toUpload, cd);
-                //using the ID's returned from uploading the files, fetch the new metaData files and save them.
+            //get the destination location
+            if (selectedHierarchyFolder == null)
+            {
+                //can't upload without selecting
+                DialogResult res = System.Windows.Forms.MessageBox.Show("Please select a folder to upload to.");
+                return;
+            }
+            CommonDescriptor destinationLocation = selectedHierarchyFolder.getCommonDescriptor();
 
-            //Update the display to account for this.
+            //determine what controller to use (google vs one drive)
+            Models.SupportClasses.TreeNode rootNode = selectedHierarchyFolder.getParent();
+            while(rootNode.getParent() != null)
+            {
+                rootNode = rootNode.getParent();
+            }
+            CommonDescriptor root = rootNode.getCommonDescriptor();
+            string acctType = root.FileType;
+
+
+            ICloudCalls cloudCaller = null;
+            //should be done with a level of obfuscation
+            if (acctType.Equals("Google Drive"))
+            {
+                cloudCaller = new GoogleDriveCalls();
+            }
+            else if(acctType.Equals("One Drive"))
+            {
+                cloudCaller = new OneDriveCalls();
+            }
+            else
+            {
+                DialogResult res = System.Windows.Forms.MessageBox.Show("Cannot upload to this account for some reason.");
+                return; //somehow nothing was set for the root node, this should be impossible.
+            }
+            
+            //get the elements the user wants to upload
+            List<UploadInfo> filesToUpload = windowsUploadManager.getUploadFiles();
+
+            //make the calls to upload
+            List<string> uploadedFileIDs;
+            uploadedFileIDs = cloudCaller.uploadFiles(filesToUpload, destinationLocation);
+
+            //now that files are uploaded
+
+            //download the metaData from these files 
+            //really bad, should have a more precise solution
+            cloudCaller.fetchAllMetaData(metaDataController, root.FileName);
+
+            //update the view
+            //again a dumb solution, should be more precise
+            Models.SupportClasses.TreeNode remadeRootNode = metaDataController.getRoot(root.FileName, root.FileID, root.FileType);
+
+            //attempt to 'refresh' the fileHierarchy view
+            MenuItem temp = new MenuItem() { Title = root.FileName, ID = root.FileID }; //label as the account name
+
+            hierarchyDelete(rootNode);
+            hierarchyAdd(remadeRootNode);
 
         }
 
@@ -230,42 +273,33 @@ namespace Guqu
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
             /*
-            if (dF.Count > 0)
+            //get selected items to download
+            List<CommonDescriptor> filesToDownload = null;
+            //get the controller
+            ICloudCalls cloudCaller = null;
+            //download
+            foreach(CommonDescriptor curFile in filesToDownload)
             {
-                List<dispFolder> itemsToDownload = new List<dispFolder>();
-
-                foreach (dispFolder file in dF)
-                {
-                    if (file.Checked)
-                    {
-                        itemsToDownload.Add(file);
-                    }
-                }
-                foreach (dispFolder file in itemsToDownload)
-                {
-                    //add download logic here using file.FileID
-
-
-                }
+                cloudCaller.downloadFileAsync(curFile);
             }
             */
 
-
  
             
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = "Please select a folder to download the files to.";
-            DialogResult result = fbd.ShowDialog();
-            string selectedFolderPath;
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                selectedFolderPath = fbd.SelectedPath;
-                MetaDataController mdc = new MetaDataController(selectedFolderPath);
+            //FolderBrowserDialog fbd = new FolderBrowserDialog();
+            //fbd.Description = "Please select a folder to download the files to.";
+            //DialogResult result = fbd.ShowDialog();
+            //string selectedFolderPath;
+            //if (result == System.Windows.Forms.DialogResult.OK)
+            //{
+                //selectedFolderPath = fbd.SelectedPath;
+                //MetaDataController mdc = new MetaDataController(selectedFolderPath);
                 GoogleDriveCalls gdc = new GoogleDriveCalls();
-                gdc.fetchAllMetaData(mdc, "Google Drive");
+                gdc.fetchAllMetaData(metaDataController, "Google Drive");
 
-                Models.SupportClasses.TreeNode rootnode = mdc.getRoot("Google Drive");
-                MenuItem root = new MenuItem() { Title = "Google Drive", ID = "root"}; //label as the account name
+                Models.SupportClasses.TreeNode rootnode = metaDataController.getRoot("Google Drive", "root", "Google Drive");
+
+            /*MenuItem root = new MenuItem() { Title = "Google Drive", ID = "root"}; //label as the account name
                 root.ID = "root";
                 roots.Add(rootnode);
                 root = populateMenuItem(root, rootnode);
@@ -273,46 +307,36 @@ namespace Guqu
                 
 
                 fileTreeMenu.Items.Add(root);
-            }
+            */
+            hierarchyAdd(rootnode);
+           // }
             /*foreach (var hi in roots)
             {
                 folderDisplay(hi, "CS564");
             }
             */
+
         }
 
 
         //call when a click is detected on the file hierarchy
-        private void folderDisplay(Models.SupportClasses.TreeNode node, String FileName)
+        private void folderDisplay(Models.SupportClasses.TreeNode node, String fileID)
         {
             if (node.getCommonDescriptor() != null)
             {
 
-                if (node.getCommonDescriptor().FileID.Equals(FileName))
+                if (node.getCommonDescriptor().FileID.Equals(fileID))
                 {
                     //get list of children nodes convert to a list of common discriptors and populate listView
                     LinkedList<Models.SupportClasses.TreeNode> children = node.getChildren();
                     List<CommonDescriptor> disp = new List<CommonDescriptor>();
+                    selectedHierarchyFolder = node;
                     foreach (var item in children)
                     {
-                        //if (!(item.getCommonDescriptor().FileType.Equals("folder")))
-                        //{
-                            disp.Add(item.getCommonDescriptor());
-                        //}
+                        disp.Add(item.getCommonDescriptor());
                     }
                     populateListView(disp);
                 }
-                /*
-                else {
-                    foreach (var ele in node.getChildren())
-                    {
-                        if (ele.getCommonDescriptor().FileType.Equals("folder"))
-                        {
-                            folderDisplay(ele, FileName);
-                        }
-                    }
-                }
-                */
             }
         }
 
@@ -328,9 +352,23 @@ namespace Guqu
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+            ICloudCalls cloudCaller = null;
             if (dF.Count > 0)
             {
                 List<dispFolder> itemsToRemove = new List<dispFolder>();
+                if(itemsToRemove.First().AccountType == "Google Drive")
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if(itemsToRemove.First().AccountType == "One Drive")
+                {
+                    cloudCaller = new OneDriveCalls();
+                }
+                else
+                {
+                    //failure
+                    return;
+                }
 
                 foreach (dispFolder file in dF)
                 {
@@ -343,13 +381,14 @@ namespace Guqu
                 {
                     //add delete call to actual web service
                     dF.Remove(file);
+                    //cloudCaller.deleteFile(file.CommonDescriptor);
                     
                 }
 
             }
             else
             {
-                System.Console.WriteLine("nothing in list");
+                Console.WriteLine("nothing in list");
             }
 
         }

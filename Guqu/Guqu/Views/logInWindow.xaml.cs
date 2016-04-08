@@ -75,7 +75,7 @@ namespace Guqu
                         //Console.WriteLine(Convert.ToBase64String(newKey) + " ----- " + Convert.ToBase64String(key));
 
                         if (!newKey.SequenceEqual(key))
-                            throw new InvalidOperationException("Password is invalid!");
+                            Console.WriteLine("Password is invalid!");
                         else
                         {
                             List<UserCloud> userClouds;
