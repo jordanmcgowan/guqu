@@ -12,11 +12,11 @@ namespace Guqu.Models
     [Serializable]
     public class CommonDescriptor
     {
-        private string fileName, fileType, filePath, fileID;
+        private string fileName, fileType, filePath, fileID, accountType;
         private DateTime lastModified;
         private long fileSize;
 
-        public CommonDescriptor(string name, string fileType, string filePath, string fileID, DateTime lastModified, long fileSize)
+        public CommonDescriptor(string name, string fileType, string filePath, string fileID, string accountType, DateTime lastModified, long fileSize)
         {
             //TODO: store a isFile boolean, in the future save the fileType as 'vnd.applicaiton.google.folder' (or whatever), and set is file to true
             FileName = name;
@@ -25,6 +25,7 @@ namespace Guqu.Models
             LastModified = lastModified;
             FileSize = fileSize;
             FileID = fileID;
+            AccountType = accountType;
         }
         public CommonDescriptor()
         {
@@ -78,6 +79,17 @@ namespace Guqu.Models
             set
             {
                 fileID = value;
+            }
+        }
+        public string AccountType
+        {
+            get
+            {
+                return accountType;
+            }
+            set
+            {
+                accountType = value;
             }
         }
         public DateTime LastModified

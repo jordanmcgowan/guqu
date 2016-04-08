@@ -143,10 +143,10 @@ namespace Guqu.Models
 
         
         
-        public TreeNode getRoot(string accountName, string rootID, string cloudType)
+        public TreeNode getRoot(string accountName, string rootID, string accountType)
         {
             //root has no parent, and a bastardized CD.
-            CommonDescriptor rootDescriptor = new CommonDescriptor(accountName, cloudType, accountName, rootID, new DateTime(),  0);
+            CommonDescriptor rootDescriptor = new CommonDescriptor(accountName, "folder", accountName, rootID, accountType, new DateTime(),  0);
             TreeNode root = new TreeNode(null, rootDescriptor);
             string rootPath = rootStoragePath + COMMONDESCRIPTORPATH + accountName;
             return createTree(root, rootPath);

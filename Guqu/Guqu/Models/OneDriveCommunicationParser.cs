@@ -59,7 +59,7 @@ namespace Guqu.Models
             lastModified = Convert.ToDateTime(lastMod);
             Int32.TryParse(fsize, out fileSize);
 
-            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
+            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID,"One Drive", lastModified, fileSize);
             
             return cd;
 

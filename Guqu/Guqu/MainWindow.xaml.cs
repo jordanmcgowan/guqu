@@ -57,7 +57,7 @@ namespace Guqu
             foreach (CommonDescriptor file in files)
             {
                 // create new fileOrFolder Object with Checked = false but everything else from common descriptor may need to change for date and size
-                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID });
+                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID, AccountType = file.AccountType });
             }
             folderView.ItemsSource = dF;
         }
@@ -352,10 +352,23 @@ namespace Guqu
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ICloudCalls cloudCaller = null;
             if (dF.Count > 0)
             {
                 List<dispFolder> itemsToRemove = new List<dispFolder>();
+                if(itemsToRemove.First().AccountType == "Google Drive")
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if(itemsToRemove.First().AccountType == "One Drive")
+                {
+                    cloudCaller = new OneDriveCalls();
+                }
+                else
+                {
+                    //failure
+                    return;
+                }
 
                 foreach (dispFolder file in dF)
                 {
@@ -368,14 +381,14 @@ namespace Guqu
                 {
                     //add delete call to actual web service
                     dF.Remove(file);
-
+                    //cloudCaller.deleteFile(file.CommonDescriptor);
                     
                 }
 
             }
             else
             {
-                System.Console.WriteLine("nothing in list");
+                Console.WriteLine("nothing in list");
             }
 
         }
