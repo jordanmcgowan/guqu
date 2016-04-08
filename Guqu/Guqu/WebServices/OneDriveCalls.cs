@@ -103,8 +103,7 @@ namespace Guqu.WebServices
             }
 
             return true;
-
-            //throw new NotImplementedException();
+            
         }
 
         public async Task<bool> moveFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)

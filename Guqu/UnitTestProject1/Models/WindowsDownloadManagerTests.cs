@@ -14,13 +14,20 @@ namespace Guqu.Models.Tests
         [TestMethod()]
         public void WindowsDownloadManagerTest()
         {
-            Assert.Fail();
+            try
+            {
+                WindowsDownloadManager win = new WindowsDownloadManager();
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void downloadFileTest()
         {
-            Assert.Fail();
+            
         }
     }
 }
