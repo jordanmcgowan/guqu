@@ -27,7 +27,7 @@ namespace Guqu.Models.Tests
         [TestMethod()]
         public void retrieveValuesTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
     }
 }

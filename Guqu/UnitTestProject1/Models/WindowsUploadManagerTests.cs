@@ -14,13 +14,28 @@ namespace Guqu.Models.Tests
         [TestMethod()]
         public void WindowsUploadManagerTest()
         {
-            Assert.Fail();
+            try
+            {
+               WindowsUploadManager wum  = new WindowsUploadManager();
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void getUploadFilesTest()
         {
-            Assert.Fail();
+            try
+            {
+                WindowsUploadManager wum = new WindowsUploadManager();
+                wum.getUploadFiles();
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
     }
 }
