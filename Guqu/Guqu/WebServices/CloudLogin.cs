@@ -21,8 +21,10 @@ namespace Guqu.WebServices
         static AccountSession accountSession;
         private const string onedrive_client_id = "000000004018A88F";
         private const string onedrive_client_secret = "ancYlnjuaGCF15jnUZDO-jQDQ6Yn8tdY";
-        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access" };
+        private static string[] onedrive_scope = { "onedrive.readwrite", "wl.signin", "wl.offline_access", };
         private const string onedrive_redirect_uri = "https://login.live.com/oauth20_desktop.srf";
+        //private const string onedrive_redirect_uri = "https://login.live.com/oauth20_token.srf";
+        //
 
 
         public CloudLogin()
@@ -54,58 +56,99 @@ namespace Guqu.WebServices
         public async static void oneDriveLogin(User user)
         {
             var _oneDriveClient = InitializeAPI.oneDriveClient;
+            var refreshToken = "";
+            var accessToken = "";
             int cloudId = 1;
+            ServerCommunicationController db = new ServerCommunicationController();
             //Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
 
             //these are also login params, should move to login class
 
             //checks to see if the client is authenticated
-            if (!_oneDriveClient.IsAuthenticated)
+
+            //checks for active session
+
+            if (db.doesUserCloudExist(user.User_id, cloudId))
             {
-                //checks for active session
-                if (accountSession != null)
+
+                await _oneDriveClient.AuthenticateAsync();
+                accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                Console.WriteLine("One Drive login succedded for user " + user.User_id);
+
+                //Console.WriteLine("1D refresh: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken);
+                //Console.WriteLine("1D token: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken);
+                refreshToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken;
+                accessToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+
+
+                /* BLOCK NOT WORKING                
+                Was used to try to login the user in the background 
+                But I get an unexpected exception at the GetSilentlyAuthent... method   
+
+
+                var userClouds = db.SelectUserClouds(user.User_id);
+
+                foreach (var cloud in userClouds)
                 {
-                    var refreshToken = accountSession.RefreshToken;
-                    string[] secret = { onedrive_client_secret };
-
-                    //trys this sneak silent authenticator
-                    /*
-                    await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
-                        onedrive_client_id,
-                        onedrive_redirect_uri,
-                        secret,
-                        refreshToken);
-                        */
-                }
-                else{
-                    
-                    try {
-
-                        await _oneDriveClient.AuthenticateAsync();
-                        
-                        accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
-                        Console.WriteLine("One Drive login succedded for user " + user.User_id);
-
-                        //Console.WriteLine("1D refresh: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken);
-                        //Console.WriteLine("1D token: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken);
-                        string refreshToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken;
-                        string accessToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
-                        ServerCommunicationController db = new ServerCommunicationController();
-                        db.InsertNewUserCloud(user.User_id, accessToken, cloudId, refreshToken);
-
-                    }
-                    catch(Exception e)
+                    if (db.doesUserCloudExist(user.User_id, cloudId))
                     {
-                        Console.WriteLine("One Drive login FAILED: " + e.Message);
+                        accessToken = cloud.Cloud_token;
+                        refreshToken = cloud.Refresh_token;
                     }
+
+
+
+
+                }
+
+                
+
+                try
+                {
                     
-                                      
+                    _oneDriveClient = await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
+                            onedrive_client_id,
+                            onedrive_redirect_uri,
+                            onedrive_scope,
+                            refreshToken);
                 }
                 
+                    catch (OneDriveException e)
+                {
+                    Console.WriteLine(e);
+                }*/
+            }
+
+            //trys this sneak silent authenticator
+
+
+            else {
+
+
+                try
+                {
+                    await _oneDriveClient.AuthenticateAsync();
+
+                    accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
+                    Console.WriteLine("One Drive login succedded for user " + user.User_id);
+
+                    //Console.WriteLine("1D refresh: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken);
+                    //Console.WriteLine("1D token: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken);
+                    refreshToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken;
+                    accessToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+
+
+                    db.InsertNewUserCloud(user.User_id, accessToken, cloudId, refreshToken);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("One Drive login FAILED: " + e.Message);
+                }
             }
 
             InitializeAPI.oneDriveClient = _oneDriveClient;
-
         }
     }
 }
+
