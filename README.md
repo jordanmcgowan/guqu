@@ -17,5 +17,7 @@ Since no .exe file can be generated until the program is run, in order to use ou
 
 
 To use Guqu, follow these steps:<br/>
-UPDATE FOR ITERATION 2
+
+
+Create an account by going to the create an account window and entering in the proper fields. Follow instructions for email and password requirements. After creating an account you will go to a cloud picker view. At this view select either Google Drive or One Drive (Box not yet implemented). When one of these is choosen a prompt will pop up that asks you to log in. After logging in you will be sent to the main Guqu window. On the left the cloud service you logged into and its folders will be displayed. You can expand these folders and click on any of them. When you do this the contents of that folder will be displayed on the right. You can select one of these files by checking the box to the left of the file. after this you can download it or delete it (Share, move and copy comming soon). From the main menu one can also click on the settings tab. This tab displays several different options (Exit, Logout, Wiki, and Manage Accounts currently functional). Manage Accounts will allow one to add another acount to by clicking on the add acount button. the manage account will be more functional when the DB is functioning better.  
 
