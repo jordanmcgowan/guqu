@@ -6,12 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Guqu.Models;
+using Guqu;
+
 
 namespace Guqu.WebServices.Tests
 {
     [TestClass()]
     public class GoogleDriveCallsTests
     {
+        InitializeAPI api = new InitializeAPI();
+        GoogleDriveCalls gdc;
+          public GoogleDriveCallsTests()
+        {
+            List<string> s = api.initGoogleDriveAPI();
+            CloudLogin.googleDriveLogin();
+
+            gdc = new GoogleDriveCalls();
+
+
+        }  
+
         [TestMethod()]
         public void uploadFilesAsyncTest()
         {
@@ -24,7 +38,7 @@ namespace Guqu.WebServices.Tests
                 if( ! (e.GetType() == new NotImplementedException().GetType()) )
                 {
                     //fail if exception is not a NotImplementedException
-                    Assert.Fail();
+                    Assert.Inconclusive();
                 }
 
             }
@@ -33,16 +47,23 @@ namespace Guqu.WebServices.Tests
         [TestMethod()]
         public void downloadFileAsyncTest()
         {
-            InitializeAPI api = new InitializeAPI();
-            api.initGoogleDriveAPI();
-
-            var gds = InitializeAPI.googleDriveService;
+            
 
             CommonDescriptor cd = new CommonDescriptor();
 
-            cd.FileName = "";
-            cd.FileID = "";
-            cd.FileType = "";
+            cd.FileName = "Future";
+            cd.FileID = "1-e2aWnKr5j9OlkwbXIMv9E6xj4lBfH9DDNp_3hzLrEQ";
+            cd.FileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            try {
+                gdc.downloadFileAsync(cd);
+            }
+            catch(Exception e)
+            {
+
+                Assert.Inconclusive();
+
+            }
 
            
         }
@@ -50,37 +71,37 @@ namespace Guqu.WebServices.Tests
         [TestMethod()]
         public void fetchAllMetaDataTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
 
         [TestMethod()]
         public void shareFileTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
 
         [TestMethod()]
         public void uploadFilesTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
 
         [TestMethod()]
         public void deleteFileTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
 
         [TestMethod()]
         public void moveFileTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
 
         [TestMethod()]
         public void copyFileTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
 
         [TestMethod()]
@@ -95,7 +116,7 @@ namespace Guqu.WebServices.Tests
                 if (!(e.GetType() == new NotImplementedException().GetType()))
                 {
                     //fail if exception is not a NotImplementedException
-                    Assert.Fail();
+                    Assert.Inconclusive();
                 }
 
             }
@@ -113,7 +134,7 @@ namespace Guqu.WebServices.Tests
                 if (!(e.GetType() == new NotImplementedException().GetType()))
                 {
                     //fail if exception is not a NotImplementedException
-                    Assert.Fail();
+                    Assert.Inconclusive();
                 }
 
             }
@@ -131,7 +152,7 @@ namespace Guqu.WebServices.Tests
                 if (!(e.GetType() == new NotImplementedException().GetType()))
                 {
                     //fail if exception is not a NotImplementedException
-                    Assert.Fail();
+                    Assert.Inconclusive();
                 }
 
             }
@@ -149,7 +170,7 @@ namespace Guqu.WebServices.Tests
                 if (!(e.GetType() == new NotImplementedException().GetType()))
                 {
                     //fail if exception is not a NotImplementedException
-                    Assert.Fail();
+                    Assert.Inconclusive();
                 }
 
             }

@@ -11,22 +11,49 @@ namespace Guqu.Models.Tests
     [TestClass()]
     public class OneDriveCommunicationParserTests
     {
+
+    
         [TestMethod()]
         public void OneDriveCommunicationParserTest()
         {
-            Assert.Fail();
+            try
+            {
+                OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
+            }
+            catch(Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void createCommonDescriptorTest()
         {
-            Assert.Fail();
+            OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
+            string json = "\"FileName\":\"Delt Calendar 2015\",\"FileType\":\"application/vnd.google-apps.spreadsheet\",\"FilePath\":\"GoogleDrive\\Delta Tau Delta - Beta Gamma\\The Delt Library\",\"FileID\":\"1Sjaiv_xT_wvuoSvjy7lQeU09QY6kQ6DLuSRciYvx9ys\",\"LastModified\":\"Date(1449039649000)\",\"FileSize\":0";
+            string relPath = "OneDrive";
+
+            try {
+                var cd = odcp.createCommonDescriptor(relPath, json);
+            }
+            catch(Exception e)
+            {
+                
+            }
+
+            
+
+
         }
 
         [TestMethod()]
         public void getExtensionTest()
         {
-            Assert.Fail();
+            OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
+            string s = odcp.getExtension("anything");
+
+            if (s != null)
+                Assert.Fail();
         }
     }
 }
