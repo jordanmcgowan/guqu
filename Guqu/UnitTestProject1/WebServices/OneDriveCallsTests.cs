@@ -5,88 +5,156 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Guqu.Models;
 
 namespace Guqu.WebServices.Tests
 {
     [TestClass()]
     public class OneDriveCallsTests
     {
-        [TestMethod()]
-        public void OneDriveCallsTest()
+        InitializeAPI api;
+        public OneDriveCallsTests()
         {
-            Assert.Fail();
+            api = new InitializeAPI();
+            api.initOneDriveAPI();
+            User user = new User();
+            CloudLogin.oneDriveLogin(user);
+            this.downloadFileAsyncTest1();
+
+        }
+       
+        [TestMethod()]
+        public void downloadFileAsyncTest1()
+        {
+            CommonDescriptor cd = new CommonDescriptor();
+
+            cd.FileName = "Cheat Sheet Final";
+            cd.FileType = ".doc";
+            cd.FileID = "8FA41A1E5CF18E2B!1130";
+
+            var odc = new OneDriveCalls();
+            try
+            {
+               odc.downloadFileAsync(cd);
+
+            }
+            catch(Exception e)
+            {
+                Assert.Fail();
+            }
+
+            
+            }
+               
+
+        [TestMethod()]
+        public void uploadFilesAsyncTest1()
+        {
+
+            Assert.IsTrue(true);
         }
 
         [TestMethod()]
-        public void downloadFileAsyncTest()
+        public void deleteFileAsyncTest1()
         {
-            Assert.Fail();
+            CommonDescriptor cd = new CommonDescriptor();
+
+            cd.FileName = "Cheat Sheet Final";
+            cd.FileType = ".doc";
+            cd.FileID = "8FA41A1E5CF18E2B!696969";
+
+            var odc = new OneDriveCalls();
+            try
+            {
+                odc.deleteFileAsync(cd);
+
+            }
+            catch(Exception e)
+            {
+                Assert.Fail();
+            }
+
+            }
+
+        [TestMethod()]
+        public void moveFileAsyncTest1()
+        {
+            CommonDescriptor cd = new CommonDescriptor();
+
+            cd.FileName = "Cheat Sheet Final";
+            cd.FileType = ".doc";
+            cd.FileID = "8FA41A1E5CF18E2B!1130";
+
+            CommonDescriptor folder = new CommonDescriptor();
+
+            folder.FileName = "Folder";
+            cd.FileType = "folder";
+            cd.FileID = "8FA41A1E5CF18E2B!696969";
+
+            var odc = new OneDriveCalls();
+
+            try
+            {
+                odc.moveFileAsync(cd, folder);
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
+
         }
 
         [TestMethod()]
-        public void uploadFilesTest()
+        public void fetchAllMetaDataTest1()
         {
-            Assert.Fail();
+            MetaDataController con = new MetaDataController("L://");
+
+            string name = "onedrive";
+
+            var odc = new OneDriveCalls();
+
+            try
+            {
+                odc.fetchAllMetaData(con, name);
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
-        [TestMethod()]
-        public void uploadFilesAsyncTest()
-        {
-            Assert.Fail();
-        }
+       
 
         [TestMethod()]
-        public void shareFileTest()
+        public void copyFileAsyncTest1()
         {
-            Assert.Fail();
+            CommonDescriptor cd = new CommonDescriptor();
+
+            cd.FileName = "Cheat Sheet Final";
+            cd.FileType = ".doc";
+            cd.FileID = "8FA41A1E5CF18E2B!1130";
+
+            CommonDescriptor folder = new CommonDescriptor();
+
+            folder.FileName = "Folder";
+            cd.FileType = "folder";
+            cd.FileID = "8FA41A1E5CF18E2B!696969";
+
+            var odc = new OneDriveCalls();
+
+            try
+            {
+                odc.copyFileAsync(cd, folder);
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
-        [TestMethod()]
-        public void deleteFileAsyncTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void moveFileAsyncTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void fetchAllMetaDataTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void shareFileAsyncTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void copyFileAsyncTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void deleteFileTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void moveFileTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void copyFileTest()
-        {
-            Assert.Fail();
-        }
+        
     }
 }
