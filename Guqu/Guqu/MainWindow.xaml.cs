@@ -49,6 +49,8 @@ namespace Guqu
             windowsDownloadManager = new WindowsDownloadManager();
             windowsUploadManager = new WindowsUploadManager();
             metaDataController = new MetaDataController(metaDataStorageLocation);
+
+            mimicLogin();
         }
 
         //implement this when a file/folder is clicked in services view
@@ -60,6 +62,34 @@ namespace Guqu
                 dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID, CD = file});
             }
             folderView.ItemsSource = dF;
+        }
+        private async void mimicLogin()
+        {
+            InitializeAPI temp = new InitializeAPI();
+            try
+            {
+                temp.initGoogleDriveAPI();
+                await CloudLogin.googleDriveLogin();
+                temp.initOneDriveAPI();
+                await CloudLogin.oneDriveLogin(user);
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+
+                GoogleDriveCalls gdc = new GoogleDriveCalls();
+                OneDriveCalls odc = new OneDriveCalls();
+                bool goog = await gdc.fetchAllMetaData(metaDataController, "Google Drive");
+                bool one = await odc.fetchAllMetaData(metaDataController, "One Drive");
+
+                Models.SupportClasses.TreeNode googleRootnode = metaDataController.getRoot("Google Drive", "googleRoot", "Google Drive");
+                Models.SupportClasses.TreeNode oneDriveRootnode = metaDataController.getRoot("One Drive", "driveRoot", "One Drive");
+                hierarchyAdd(googleRootnode);
+                hierarchyAdd(oneDriveRootnode);
+            }
         }
 
         private MenuItem populateMenuItem(MenuItem root, Models.SupportClasses.TreeNode node)
@@ -145,7 +175,6 @@ namespace Guqu
         }
         private void moveButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO call the function that moves
 
         }
         private void copyButton_Click(object sender, RoutedEventArgs e)
@@ -272,17 +301,34 @@ namespace Guqu
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             //get selected items to download
-            List<CommonDescriptor> filesToDownload = null;
+            List<CommonDescriptor> filesToDownload = new List<CommonDescriptor>();
             //get the controller
             ICloudCalls cloudCaller = null;
             //download
-            foreach(CommonDescriptor curFile in filesToDownload)
+            foreach (dispFolder file in dF)
+            {
+                if (file.Checked)
+                {
+                    filesToDownload.Add(file.CD);
+                }
+            }
+
+            if(filesToDownload.First().AccountType.Equals("Google Drive"))
+            {
+                cloudCaller = new GoogleDriveCalls();
+            }
+            else
+            {
+                cloudCaller = new OneDriveCalls();
+            }
+
+            foreach (CommonDescriptor curFile in filesToDownload)
             {
                 cloudCaller.downloadFileAsync(curFile);
             }
-
+            
 
 
             //FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -390,9 +436,19 @@ namespace Guqu
         {
             ICloudCalls cloudCaller = null;
             
+
             if (dF.Count > 0)
             {
+
                 List<dispFolder> itemsToRemove = new List<dispFolder>();
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToRemove.Add(file);
+                    }
+                }
+
                 if(itemsToRemove.First().CD.AccountType == "Google Drive")
                 {
                     cloudCaller = new GoogleDriveCalls();
