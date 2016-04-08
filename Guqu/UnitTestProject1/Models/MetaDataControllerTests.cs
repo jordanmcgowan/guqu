@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Guqu.Models.Tests
 {
@@ -15,61 +16,117 @@ namespace Guqu.Models.Tests
         public void MetaDataControllerTest()
         {
             string root = "L://TestingFolder";
-            try {
+            try
+            {
                 MetaDataController controller = new MetaDataController(root);
                 if (controller.GetType() == null)
                     Assert.Fail();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Assert.Fail(); 
+                Assert.Fail();
             }
-            
+
         }
 
         [TestMethod()]
         public void getMetaDataFileTest()
         {
-            Assert.Fail();
+            try
+            {
+                MetaDataController mc = new MetaDataController("\\");
+                mc.getMetaDataFile("\\");
+            }
+            catch (ArgumentException)
+            {
+                Assert.IsTrue(true);
+            }
+
+
         }
 
         [TestMethod()]
         public void addMetaDataFileTest()
         {
-            Assert.Fail();
-        }    
-       
+            string root = "L://TestingFolder";
+            MetaDataController mc = new MetaDataController(root);
+            string testString = mc.addMetaDataFile("", "", "a*");
+            Assert.AreEqual("a_", testString);
+        }
+
 
         [TestMethod()]
         public void addMetaDataFolderTest()
         {
-            Assert.Fail();
+
+            string root = "L://TestingFolder";
+            MetaDataController mc = new MetaDataController(root);
+            string testString = mc.addMetaDataFolder("", "", "a*");
+            Assert.AreEqual("a_", testString);
         }
 
         [TestMethod()]
         public void addCommonDescriptorFileTest()
         {
-            //CommonDescriptor cd = new CommonDescriptor();
-            
-            Assert.Fail();
+            try
+            {
+                string root = "L://TestingFolder";
+                CommonDescriptor cd = new CommonDescriptor("name", "ftype", "fpath", "fid", new DateTime(1), 10);
+                MetaDataController mc = new MetaDataController(root);
+                mc.addCommonDescriptorFile(cd);
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
         }
 
         [TestMethod()]
         public void deleteCloudObjetTest()
         {
-            Assert.Fail();
+            try
+            {
+                string root = "L://TestingFolder";
+                CommonDescriptor cd = new CommonDescriptor("name", "ftype", "fpath", "fid", new DateTime(), 10);
+                MetaDataController mc = new MetaDataController(root);
+                mc.deleteCloudObjet(cd);
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
+        // probably not great for code coverage
         public void removeFileTest()
         {
-            Assert.Fail();
+            string root = "L://TestingFolder";
+            MetaDataController mc = new MetaDataController(root);
+            try
+            {
+                mc.removeFile("", "");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void getRootTest()
         {
-            Assert.Fail();
+            try
+            {
+                string root = "L://TestingFolder";
+                MetaDataController mc = new MetaDataController(root);
+                mc.getRoot("");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
     }
 }
