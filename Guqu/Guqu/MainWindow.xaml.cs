@@ -15,7 +15,7 @@ namespace Guqu
 {
     public partial class MainWindow : Window
     {
-        private List<Models.SupportClasses.TreeNode> roots = new List<Models.SupportClasses.TreeNode>();
+        private List<List<Models.SupportClasses.TreeNode>> roots = new List<List<Models.SupportClasses.TreeNode>>();
 
         ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
 
@@ -92,17 +92,17 @@ namespace Guqu
             }
         }
 
-        private MenuItem populateMenuItem(MenuItem root, Models.SupportClasses.TreeNode node)
+        private MenuItem populateMenuItem(MenuItem root, Models.SupportClasses.TreeNode node, List<Models.SupportClasses.TreeNode> folders)
         {
             MenuItem newFolder;
             foreach (var ele in node.getChildren())
             {
                 if (ele.getCommonDescriptor().FileType.Equals("folder"))
                 {
-                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName , ID = ele.getCommonDescriptor().FileID};
-                    roots.Add(ele);
+                    newFolder = new MenuItem() { Title = ele.getCommonDescriptor().FileName, ID = ele.getCommonDescriptor().FileID };
+                    folders.Add(ele);
                     newFolder.Click = new RoutedEventHandler(item_Click);
-                    root.Items.Add(populateMenuItem(newFolder, ele));
+                    root.Items.Add(populateMenuItem(newFolder, ele, folders));
                 }
                 else
                 {
@@ -115,8 +115,10 @@ namespace Guqu
         private void hierarchyAdd(Models.SupportClasses.TreeNode newRoot)
         {
             MenuItem root = new MenuItem() { Title = newRoot.getCommonDescriptor().FileName, ID = newRoot.getCommonDescriptor().FileID }; //label as the account name
-            roots.Add(newRoot);
-            root = populateMenuItem(root, newRoot);
+            List<Models.SupportClasses.TreeNode> newList = new List<Models.SupportClasses.TreeNode>();
+            newList.Add(newRoot);
+            roots.Add(newList);
+            root = populateMenuItem(root, newRoot, newList);
             fileTreeMenu.Items.Add(root);
         }
         private void hierarchyDelete(Models.SupportClasses.TreeNode root)
@@ -124,7 +126,8 @@ namespace Guqu
             MenuItem rootToRemove = null;
             foreach (var item in fileTreeMenu.Items)
             {
-                if (item.GetType() == typeof(MenuItem)) {
+                if (item.GetType() == typeof(MenuItem))
+                {
                     MenuItem file = (MenuItem)item;
                     if (file.ID.Equals(root.getCommonDescriptor().FileID))
                     {
@@ -132,11 +135,43 @@ namespace Guqu
                     }
                 }
             }
-            if(rootToRemove != null)
+            if (rootToRemove != null)
             {
+                //deleteMenuItems(rootToRemove);
+                //roots = new List<Models.SupportClasses.TreeNode>();
                 fileTreeMenu.Items.Remove(rootToRemove);
+                for (int j = 0; j < roots.Count; j++)
+                {
+                    if (roots.ElementAt(j).ElementAt(0).getCommonDescriptor().FileID.Equals(rootToRemove.ID))
+                    {
+                        roots.RemoveAt(j);
+                    }
+                }
             }
         }
+
+        /* public void deleteMenuItems(MenuItem item)
+         {
+             foreach (var menuItem in item.Items)
+             {
+                 if (menuItem.Items.Count != 0)
+                 {
+                     deleteMenuItems(menuItem);
+                 }
+                 //List<MenuItem> menList = new List<MenuItem>();
+                 for(int i = 0; i < menuItem.Items.Count; i++)
+                 {
+                     //  menList.Add(child);
+                     for(int x = 0; x < roots.Count; x++)
+                     {
+                         if (menuItem.Items.ElementAt(i).ID.Equals(roots.ElementAt(i).getCommonDescriptor().FileID))
+                         {
+                             roots.RemoveAt(x);
+                         }
+                     }
+                 }
+             }
+         }*/
         public void item_Click(object sender, RoutedEventArgs e)
         {
             dF = new ObservableCollection<dispFolder>();
@@ -158,12 +193,17 @@ namespace Guqu
             }
             */
             //else {
-                foreach (var r in roots)
+            foreach (var list in roots)
+            {
+                foreach (var r in list)
                 {
                     folderDisplay(r, fileClicked);
                 }
+            }
             //}
         }
+
+
 
 
         private void logoutClicked(object sender, RoutedEventArgs e)
@@ -331,35 +371,6 @@ namespace Guqu
             
 
 
-            //FolderBrowserDialog fbd = new FolderBrowserDialog();
-            //fbd.Description = "Please select a folder to download the files to.";
-            //DialogResult result = fbd.ShowDialog();
-            //string selectedFolderPath;
-            //if (result == System.Windows.Forms.DialogResult.OK)
-            //{
-            //selectedFolderPath = fbd.SelectedPath;
-            //MetaDataController mdc = new MetaDataController(selectedFolderPath);
-            // GoogleDriveCalls gdc = new GoogleDriveCalls();
-            // gdc.fetchAllMetaData(metaDataController, "Google Drive");
-
-            // Models.SupportClasses.TreeNode rootnode = metaDataController.getRoot("Google Drive", "root", "Google Drive");
-
-            /*MenuItem root = new MenuItem() { Title = "Google Drive", ID = "root"}; //label as the account name
-                root.ID = "root";
-                roots.Add(rootnode);
-                root = populateMenuItem(root, rootnode);
-                
-                
-
-                fileTreeMenu.Items.Add(root);
-            */
-            //hierarchyAdd(rootnode);
-            // }
-            /*foreach (var hi in roots)
-            {
-                folderDisplay(hi, "CS564");
-            }
-            */
 
         }
 
