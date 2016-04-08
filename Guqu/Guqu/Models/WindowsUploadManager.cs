@@ -9,7 +9,7 @@ using Guqu.Models.SupportClasses;
 
 namespace Guqu.Models
 {
-    class WindowsUploadManager : IUploadManager
+    public class WindowsUploadManager : IUploadManager
     {
         OpenFileDialog fileDialog;
 

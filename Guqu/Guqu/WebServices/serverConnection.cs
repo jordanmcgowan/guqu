@@ -10,7 +10,7 @@ using Guqu.WebServices;
 
 namespace GuquMysql
 {
-    class ServerCommunicationController
+    public class ServerCommunicationController
     {
         private MySqlConnection connection;
         private string server;
@@ -105,6 +105,24 @@ namespace GuquMysql
             }
         }
 
+        public void Delete(string email)
+        {
+            string query = "DELETE FROM users WHERE email = '" + email + "';";
+
+            //open connection
+            if (this.OpenConnection() == true)
+            {
+                //create command and assign the query and connection from the constructor
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                //Execute command
+                cmd.ExecuteNonQuery();
+
+                //close connection
+                this.CloseConnection();
+            }
+        }
+
         //public void InsertNewUserCloud(int userId, string cloudUsername, string token, int cloudId)
         public void InsertNewUserCloud(int userId, string token, int cloudId, string refreshToken)
         {
@@ -142,6 +160,24 @@ namespace GuquMysql
                 }
             }
 
+        }
+
+        public void DeleteUserCloud(int userId)
+        {
+            string query = "DELETE FROM user_clouds WHERE user_id = " + userId + ";";
+
+            //open connection
+            if (this.OpenConnection() == true)
+            {
+                //create command and assign the query and connection from the constructor
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                //Execute command
+                cmd.ExecuteNonQuery();
+
+                //close connection
+                this.CloseConnection();
+            }
         }
 
 

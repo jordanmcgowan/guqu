@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.Models.SupportClasses
 {
-    class TreeNode
+    public class TreeNode
     {
         private CommonDescriptor commonDescriptor;
         private TreeNode parent;

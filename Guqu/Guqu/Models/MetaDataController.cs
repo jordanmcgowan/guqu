@@ -10,7 +10,7 @@ using System.Linq;
 namespace Guqu.Models
 {
 
-    class MetaDataController
+    public class MetaDataController
     {
         private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
         private readonly string METADATAPATH = "\\MetaData\\";
@@ -20,6 +20,7 @@ namespace Guqu.Models
       
         public MetaDataController(string rootPath)
         {
+
             //rootpath should be defined in settng and on creation of this module, the value is passed in.
             rootStoragePath = rootPath;
             //create MetaData/Common descriptor folders if they don't exist.
@@ -96,6 +97,7 @@ namespace Guqu.Models
         */
         public void addCommonDescriptorFile(CommonDescriptor cd)
         {
+
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
             string filePath = getAbsoluteFilePathForAddingCDFile(cd.FilePath); //this filePath should be cleansed from CD creation.
             var serializedJson = jsonSerializer.Serialize(cd);

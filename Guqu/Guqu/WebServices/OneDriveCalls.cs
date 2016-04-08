@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Guqu.WebServices
 {
-    class OneDriveCalls : ICloudCalls
+    public class OneDriveCalls : ICloudCalls
     {
 
         OneDriveCommunicationParser oneDriveCommParser;
@@ -103,8 +103,7 @@ namespace Guqu.WebServices
             }
 
             return true;
-
-            //throw new NotImplementedException();
+            
         }
 
         public async Task<bool> moveFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)

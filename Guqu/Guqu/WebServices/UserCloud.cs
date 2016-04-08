@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.WebServices
 {
-    class UserCloud
+    public class UserCloud
     {
         private int user_cloud_id;
         public int User_cloud_id

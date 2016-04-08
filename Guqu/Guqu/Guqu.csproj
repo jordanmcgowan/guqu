@@ -255,7 +255,6 @@
     <Compile Include="Models\JsonFileParser.cs" />
     <Compile Include="Models\MetaDataController.cs" />
     <Compile Include="Models\OneDriveCommunicationParser.cs" />
-    <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="Models\WindowsDownloadManager.cs" />
     <Compile Include="Views\dynamicPrompt.xaml.cs">
@@ -279,7 +278,6 @@
     <Compile Include="WebServices\serverConnection.cs" />
     <Compile Include="WebServices\CloudLogin.cs" />
     <Compile Include="WebServices\InitializeAPI.cs" />
-    <Compile Include="WebServices\WebCallerController.cs" />
     <Page Include="Views\cloudLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
