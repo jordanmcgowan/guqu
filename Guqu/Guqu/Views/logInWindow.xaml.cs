@@ -37,6 +37,7 @@ namespace Guqu
         
         private void loginClick(object sender, RoutedEventArgs e)
         {
+
             string email = textBox.Text.ToString();
             string pass = passwordBox.Password.ToString();
 
@@ -66,12 +67,34 @@ namespace Guqu
                     using (var deriveBytes = new Rfc2898DeriveBytes(pass, salt))
                     {
                         byte[] newKey = (deriveBytes.GetBytes(20));  // derive a 20-byte key
-                        Console.WriteLine(Convert.ToBase64String(newKey) + " ----- " + Convert.ToBase64String(key));
+                        //Checks to see if keys are the same
+                        //Console.WriteLine(Convert.ToBase64String(newKey) + " ----- " + Convert.ToBase64String(key));
 
                         if (!newKey.SequenceEqual(key))
-                            throw new InvalidOperationException("Password is invalid!");
+                            Console.WriteLine("Password is invalid!");
                         else
                         {
+                            List<UserCloud> userClouds;
+                            if (db.doesUserCloudExist(user.User_id, 2) || db.doesUserCloudExist(user.User_id, 1))
+                            {
+                                userClouds = db.SelectUserClouds(user.User_id);
+                                foreach (UserCloud cloud in userClouds)
+                                {
+                                    string type = "";
+                                    if (cloud.Cloud_id == 1)
+                                    {
+                                        type = "One Drive";
+                                    }
+                                    else if (cloud.Cloud_id == 2)
+                                    {
+                                        type = "Google Drive";
+                                    }
+                                    Console.WriteLine("Cloud token (" + type + ") printed from logInWindow: " + cloud.Cloud_token);
+                                    Console.WriteLine("Refresh token (" + type + ") printed from logInWindow: " + cloud.Refresh_token);
+
+                                }
+                            }
+
                             MainWindow mainWin = new MainWindow(user);
                             mainWin.Show();
                             this.Close();

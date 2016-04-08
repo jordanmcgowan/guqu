@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.Models.SupportClasses
 {
-    class UploadInfo
+    public class UploadInfo
     {
         Stream fileToUpload;
         string fileName;

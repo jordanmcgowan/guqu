@@ -10,11 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Guqu.Models;
 using WindowsDownloadManager = Guqu.Models.WindowsDownloadManager;
-
+using GuquMysql;
 
 namespace Guqu.WebServices
 {
-    class CloudLogin
+    public class CloudLogin
     {
 
 
@@ -37,7 +37,6 @@ namespace Guqu.WebServices
             var _googleDriveService = InitializeAPI.googleDriveService;
 
             // Create Drive API service & login 
-            //TODO - move this code snippet to the login section - not init
             _googleDriveService = new DriveService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = _googleDriveCredential,
@@ -51,9 +50,10 @@ namespace Guqu.WebServices
 
         }
 
-        public async static void oneDriveLogin()
+        public async static void oneDriveLogin(User user)
         {
             var _oneDriveClient = InitializeAPI.oneDriveClient;
+            int cloudId = 1;
             //Models.WindowsDownloadManager wdm = new WindowsDownloadManager();
 
             //these are also login params, should move to login class
@@ -83,11 +83,19 @@ namespace Guqu.WebServices
                         await _oneDriveClient.AuthenticateAsync();
                         
                         accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
-                        Console.WriteLine("This succedded");
+                        Console.WriteLine("One Drive login succedded for user " + user.User_id);
+
+                        //Console.WriteLine("1D refresh: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken);
+                        //Console.WriteLine("1D token: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken);
+                        string refreshToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken;
+                        string accessToken = _oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken;
+                        ServerCommunicationController db = new ServerCommunicationController();
+                        db.InsertNewUserCloud(user.User_id, accessToken, cloudId, refreshToken);
+
                     }
                     catch(Exception e)
                     {
-                        Console.WriteLine("THIS ISH FAILED");
+                        Console.WriteLine("One Drive login FAILED: " + e.Message);
                     }
                     
                                       
