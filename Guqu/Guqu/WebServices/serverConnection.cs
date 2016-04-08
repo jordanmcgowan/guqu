@@ -10,7 +10,7 @@ using Guqu.WebServices;
 
 namespace GuquMysql
 {
-    class ServerCommunicationController
+    public class ServerCommunicationController
     {
         private MySqlConnection connection;
         private string server;

@@ -6,7 +6,7 @@ using Guqu.Exceptions;
 
 namespace Guqu.Models
 {
-    class GoogleDriveCommunicationParser : ICommunicationParser
+    public class GoogleDriveCommunicationParser : ICommunicationParser
     {
         private static Dictionary<string, string> extension_mimeType_Dictionary;
         private static Dictionary<string, string> convert_extension_Dictionary;

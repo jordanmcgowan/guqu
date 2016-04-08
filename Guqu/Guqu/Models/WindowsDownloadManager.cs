@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Guqu.Models
 {
-    class WindowsDownloadManager: IDownloadManager
+    public class WindowsDownloadManager: IDownloadManager
     {
         private static char[] forbiddenCharacters = new char[] { '\\', '/', '*', '"', ':', '?', '>', '<', '|' };
         public WindowsDownloadManager()

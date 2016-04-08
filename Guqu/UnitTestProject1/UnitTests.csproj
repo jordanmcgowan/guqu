@@ -82,12 +82,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Models\CommonDescriptorTests.cs" />
+    <Compile Include="Models\GoogleDriveCommunicationParserTests.cs" />
+    <Compile Include="Models\JsonFileParserTests.cs" />
     <Compile Include="Models\MetaDataControllerTests.cs" />
+    <Compile Include="Models\OneDriveCommunicationParserTests.cs" />
+    <Compile Include="Models\WindowsDownloadManagerTests.cs" />
+    <Compile Include="Models\WindowsUploadManagerTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebServices\CloudLoginTests.cs" />
     <Compile Include="WebServices\GoogleDriveCallsTests.cs" />
     <Compile Include="WebServices\InitializeAPITests.cs" />
+    <Compile Include="WebServices\OneDriveCallsTests.cs" />
+    <Compile Include="WebServices\ServerCommunicationControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Guqu\Guqu.csproj">

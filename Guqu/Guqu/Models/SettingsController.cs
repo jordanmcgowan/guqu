@@ -10,7 +10,7 @@ using SettingsFile = Guqu.Models.SupportClasses.SettingsFile;
 
 namespace Guqu.Models
 {
-    class SettingsController
+    public class SettingsController
     {
         
         private readonly string SETTINGSFILEPATH = "../SETTINGFILEPATH.json";

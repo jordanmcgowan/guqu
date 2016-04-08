@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Guqu.WebServices
 {
-    class OneDriveCalls : ICloudCalls
+    public class OneDriveCalls : ICloudCalls
     {
 
         OneDriveCommunicationParser oneDriveCommParser;
