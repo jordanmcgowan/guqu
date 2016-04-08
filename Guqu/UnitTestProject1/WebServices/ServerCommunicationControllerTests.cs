@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Guqu.WebServices;
 
 namespace GuquMysql.Tests
 {
@@ -14,49 +15,119 @@ namespace GuquMysql.Tests
         [TestMethod()]
         public void ServerCommunicationControllerTest()
         {
-            Assert.Fail();
+            try
+            {
+                ServerCommunicationController db = new ServerCommunicationController();
+            }
+            catch (ArgumentException e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
-        public void InsertTest()
+        public void InsertDeleteTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                db.Insert("users", "test@test.test", "hash", "salt");
+                db.Delete("test@test.test");
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
-        public void InsertNewUserCloudTest()
+        public void InsertDeleteNewUserCloudTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                db.InsertNewUserCloud(777, "token", 2, "token"); 
+                db.DeleteUserCloud(777);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void doesUserCloudExistTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                bool testBool = db.doesUserCloudExist(777, 2); //userCloud with user_cloud_id = 777 already added for testing purpose
+                Assert.AreEqual(testBool, true);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void SelectUserTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                User testUser = db.SelectUser("dont@remove.me"); //user with email = 'dont@remove.me' already added for testing purpose
+                Assert.AreEqual(testUser.Email, "dont@remove.me");
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void SelectUserCloudsTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                List<UserCloud> testUserCloudList = new List<UserCloud>();
+                testUserCloudList = db.SelectUserClouds(777); //userCloud with user_cloud_id = 777 already added for testing purpose
+                Assert.AreEqual(testUserCloudList.Count > 0, true);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void emailExistsTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                bool testBool = db.emailExists("dont@remove.me");
+                Assert.AreEqual(testBool, true);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
         public void UpdateLastLoginTest()
         {
-            Assert.Fail();
+            ServerCommunicationController db = new ServerCommunicationController();
+            try
+            {
+                db.UpdateLastLogin("dont@remove.me");
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
         }
     }
 }
