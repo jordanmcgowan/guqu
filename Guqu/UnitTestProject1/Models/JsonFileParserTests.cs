@@ -14,7 +14,14 @@ namespace Guqu.Models.Tests
         [TestMethod()]
         public void JsonFileParserTest()
         {
-            Assert.Fail();
+            try
+            {
+                JsonFileParser parser = new JsonFileParser();
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
