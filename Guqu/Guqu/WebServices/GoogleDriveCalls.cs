@@ -33,16 +33,6 @@ namespace Guqu.WebServices
         {
 
             var _googleDriveService = InitializeAPI.googleDriveService;
-            //Google.Apis.Drive.v3.Data.File file = new Google.Apis.Drive.v3.Data.File();
-            //file.Id = cd.FileID;
-            //var _file = _googleDriveService.Files.Get(cd.FileID);
-            
-            Console.WriteLine("********");
-            Console.WriteLine(cd.FileID);
-            //Console.WriteLine(_file.);
-            //Console.Write(_file.);
-            Console.WriteLine("********");
-
 
             //TODO: THE MIMETYPE THIS IS CAN'T BE THE SAME MIMETYPE AS WHAT IT WAS SAVED. It needs to be an export type.
             //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents

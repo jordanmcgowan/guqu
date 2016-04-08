@@ -30,7 +30,7 @@ namespace Guqu.WebServices
             //empty constructor 
         }
 
-        public async static void googleDriveLogin()
+        public async static Task googleDriveLogin()
         {
 
             var _googleDriveCredential = InitializeAPI.googleDriveCredential;
@@ -48,7 +48,7 @@ namespace Guqu.WebServices
             
         }
 
-        public async static void oneDriveLogin(User user)
+        public async static Task oneDriveLogin(User user)
         {
             var _oneDriveClient = InitializeAPI.oneDriveClient;
             int cloudId = 1;
