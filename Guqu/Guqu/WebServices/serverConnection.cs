@@ -135,7 +135,7 @@ namespace GuquMysql
             {
                 cloudType = "googleDrive";
             }
-            if (doesUserCloudExist(userId, cloudId))
+            if (doesUserCloudExist(userId))
             {
                 Console.WriteLine("Your user_cloud already registered in DB.");
             }
@@ -181,9 +181,9 @@ namespace GuquMysql
         }
 
 
-        public Boolean doesUserCloudExist(int userId, int cloudID)
+        public Boolean doesUserCloudExist(int userId)
         {
-            string query = "SELECT COUNT(*) AS user_cloud_count FROM user_clouds WHERE user_id = '" + userId + "' AND cloud_id = '" + cloudID + "';";
+            string query = "SELECT COUNT(*) AS user_cloud_count FROM user_clouds WHERE user_id = '" + userId + "';";
             //Open Connection
             if (this.OpenConnection() == true)
             {
