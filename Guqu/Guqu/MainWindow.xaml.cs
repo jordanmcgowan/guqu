@@ -57,7 +57,8 @@ namespace Guqu
             foreach (CommonDescriptor file in files)
             {
                 // create new fileOrFolder Object with Checked = false but everything else from common descriptor may need to change for date and size
-                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID });
+                dF.Add(new dispFolder() { Name = file.FileName, Type = file.FileType, Size = ""+file.FileSize, DateModified = ""+file.LastModified, Owners = "owners", Checked = false, FileID = file.FileID , CD=file});
+                
             }
             folderView.ItemsSource = dF;
         }
