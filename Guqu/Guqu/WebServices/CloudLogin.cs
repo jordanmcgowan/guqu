@@ -45,10 +45,7 @@ namespace Guqu.WebServices
             });
 
             InitializeAPI.googleDriveService = _googleDriveService;
-
-
-
-
+            
         }
 
         public async static void oneDriveLogin(User user)

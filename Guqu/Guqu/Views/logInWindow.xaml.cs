@@ -79,7 +79,7 @@ namespace Guqu
                         else
                         {
                             List<UserCloud> userClouds;
-                            if (db.doesUserCloudExist(user.User_id, 2) || db.doesUserCloudExist(user.User_id, 1))
+                            if (db.doesUserCloudExist(user.User_id))
                             {
                                 userClouds = db.SelectUserClouds(user.User_id);
                                 foreach (UserCloud cloud in userClouds)
@@ -181,6 +181,7 @@ namespace Guqu
             }
         }
         */
+
         private void createAccountClick(object sender, RoutedEventArgs e)
         {
 
