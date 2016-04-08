@@ -61,7 +61,7 @@ namespace GuquMysql.Tests
             ServerCommunicationController db = new ServerCommunicationController();
             try
             {
-                bool testBool = db.doesUserCloudExist(778, 2); //userCloud with user_cloud_id = 777 already added for testing purpose
+                bool testBool = db.doesUserCloudExist(778, 2); //userCloud with user_cloud_id = 778 already added in DB for testing purpose
                 Assert.AreEqual(testBool, true);
             }
             catch (Exception e)
@@ -76,7 +76,7 @@ namespace GuquMysql.Tests
             ServerCommunicationController db = new ServerCommunicationController();
             try
             {
-                User testUser = db.SelectUser("dont@remove.me"); //user with email = 'dont@remove.me' already added for testing purpose
+                User testUser = db.SelectUser("dont@remove.me"); //user with email = 'dont@remove.me' already added in DB for testing purpose
                 Assert.AreEqual(testUser.Email, "dont@remove.me");
             }
             catch (Exception e)
@@ -92,7 +92,7 @@ namespace GuquMysql.Tests
             try
             {
                 List<UserCloud> testUserCloudList = new List<UserCloud>();
-                testUserCloudList = db.SelectUserClouds(778); //userCloud with user_cloud_id = 777 already added for testing purpose
+                testUserCloudList = db.SelectUserClouds(778); //userCloud with user_cloud_id = 778 already added in DB for testing purpose
                 Assert.AreEqual(testUserCloudList.Count > 0, true);
             }
             catch (Exception e)
