@@ -20,10 +20,12 @@ namespace Guqu.WebServices.Tests
        [TestMethod()]
         public void googleDriveLoginTest()
         {
-            InitializeAPI api = new InitializeAPI();
-            var s = api.initGoogleDriveAPI();
-            try {
+            try
+            {
 
+                InitializeAPI api = new InitializeAPI();
+            var s = api.initGoogleDriveAPI();
+            
                 var _googleDriveService = InitializeAPI.googleDriveService;
                 
             }

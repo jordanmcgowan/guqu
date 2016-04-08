@@ -16,13 +16,18 @@ namespace Guqu.WebServices.Tests
     {
         InitializeAPI api = new InitializeAPI();
         GoogleDriveCalls gdc;
+
+
           public GoogleDriveCallsTests()
         {
-            List<string> s = api.initGoogleDriveAPI();
-            CloudLogin.googleDriveLogin();
+            try
+            {
+                List<string> s = api.initGoogleDriveAPI();
+                CloudLogin.googleDriveLogin();
 
-            gdc = new GoogleDriveCalls();
-
+                gdc = new GoogleDriveCalls();
+            }
+            catch (Exception e) { }
 
         }  
 
@@ -38,7 +43,7 @@ namespace Guqu.WebServices.Tests
                 if( ! (e.GetType() == new NotImplementedException().GetType()) )
                 {
                     //fail if exception is not a NotImplementedException
-                    Assert.Inconclusive();
+                    Assert.Fail();
                 }
 
             }
