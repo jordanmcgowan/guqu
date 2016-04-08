@@ -72,6 +72,11 @@ namespace Guqu
                 await CloudLogin.googleDriveLogin();
                 temp.initOneDriveAPI();
                 await CloudLogin.oneDriveLogin(user);
+
+                GoogleDriveCalls gdc = new GoogleDriveCalls();
+                OneDriveCalls odc = new OneDriveCalls();
+                bool goog = await gdc.fetchAllMetaData(metaDataController, "Google Drive");
+                bool one = await odc.fetchAllMetaData(metaDataController, "One Drive");
             }
             catch (Exception e)
             {
@@ -79,11 +84,6 @@ namespace Guqu
             }
             finally
             {
-
-                GoogleDriveCalls gdc = new GoogleDriveCalls();
-                OneDriveCalls odc = new OneDriveCalls();
-                bool goog = await gdc.fetchAllMetaData(metaDataController, "Google Drive");
-                bool one = await odc.fetchAllMetaData(metaDataController, "One Drive");
 
                 Models.SupportClasses.TreeNode googleRootnode = metaDataController.getRoot("Google Drive", "googleRoot", "Google Drive");
                 Models.SupportClasses.TreeNode oneDriveRootnode = metaDataController.getRoot("One Drive", "driveRoot", "One Drive");

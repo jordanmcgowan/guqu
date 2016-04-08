@@ -61,7 +61,7 @@ namespace GuquMysql.Tests
             ServerCommunicationController db = new ServerCommunicationController();
             try
             {
-                bool testBool = db.doesUserCloudExist(778, 2); //userCloud with user_cloud_id = 778 already added in DB for testing purpose
+                bool testBool = db.doesUserCloudExist(778); //userCloud with user_cloud_id = 778 already added in DB for testing purpose
                 Assert.AreEqual(testBool, true);
             }
             catch (Exception e)

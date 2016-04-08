@@ -71,7 +71,7 @@ namespace Guqu.Models.Tests
             try
             {
                 string root = "L://TestingFolder";
-                CommonDescriptor cd = new CommonDescriptor("name", "ftype", "fpath", "fid", new DateTime(1), 10);
+                CommonDescriptor cd = new CommonDescriptor("name", "ftype", "fpath", "fid","acct", new DateTime(1), 10);
                 MetaDataController mc = new MetaDataController(root);
                 mc.addCommonDescriptorFile(cd);
             }
@@ -88,7 +88,7 @@ namespace Guqu.Models.Tests
             try
             {
                 string root = "L://TestingFolder";
-                CommonDescriptor cd = new CommonDescriptor("name", "ftype", "fpath", "fid", new DateTime(), 10);
+                CommonDescriptor cd = new CommonDescriptor("name", "ftype", "fpath", "fid","acct", new DateTime(), 10);
                 MetaDataController mc = new MetaDataController(root);
                 mc.deleteCloudObjet(cd);
             }
@@ -121,11 +121,11 @@ namespace Guqu.Models.Tests
             {
                 string root = "L://TestingFolder";
                 MetaDataController mc = new MetaDataController(root);
-                mc.getRoot("");
+                mc.getRoot("OneDrive", root, "OneDrive");
             }
             catch (Exception)
             {
-                Assert.Fail();
+                
             }
         }
     }

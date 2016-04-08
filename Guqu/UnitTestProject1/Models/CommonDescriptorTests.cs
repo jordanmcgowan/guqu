@@ -14,15 +14,16 @@ namespace Guqu.Models.Tests
         [TestMethod()]
         public void CommonDescriptorTest()
         {
-            string name, type, path, id;
+            string name, type, path, id, account;
             name = "name";
             type = "type";
             path = "path";
+            account = "acct";
             DateTime date = DateTime.Now;
             long size = 1024; ;
             id = "id";
 
-            CommonDescriptor con = new CommonDescriptor(name, type, path, id, date, size);
+            CommonDescriptor con = new CommonDescriptor(name, type, path, id, account, date, size);
             CommonDescriptor cd = con;
             cd.FileName = name;
             cd.FileType = type;
