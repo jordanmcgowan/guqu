@@ -91,13 +91,20 @@ namespace Guqu
         }
         private void hierarchyDelete(Models.SupportClasses.TreeNode root)
         {
-            foreach(var item in fileTreeMenu.Items)
+            MenuItem rootToRemove = null;
+            foreach (var item in fileTreeMenu.Items)
             {
-                MenuItem newItem = (MenuItem)item;
-                    if (newItem.ID.Equals(root.getCommonDescriptor().FileID))
-                {
-                    fileTreeMenu.Items.Remove(item);
+                if (item.GetType() == typeof(MenuItem)) {
+                    MenuItem file = (MenuItem)item;
+                    if (file.ID.Equals(root.getCommonDescriptor().FileID))
+                    {
+                        rootToRemove = file;
+                    }
                 }
+            }
+            if(rootToRemove != null)
+            {
+                fileTreeMenu.Items.Remove(rootToRemove);
             }
         }
         public void item_Click(object sender, RoutedEventArgs e)
@@ -265,6 +272,7 @@ namespace Guqu
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
+            /*
             //get selected items to download
             List<CommonDescriptor> filesToDownload = null;
             //get the controller
@@ -274,7 +282,7 @@ namespace Guqu
             {
                 cloudCaller.downloadFileAsync(curFile);
             }
-
+            */
 
  
             
@@ -344,6 +352,7 @@ namespace Guqu
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (dF.Count > 0)
             {
                 List<dispFolder> itemsToRemove = new List<dispFolder>();
@@ -359,6 +368,7 @@ namespace Guqu
                 {
                     //add delete call to actual web service
                     dF.Remove(file);
+
                     
                 }
 
