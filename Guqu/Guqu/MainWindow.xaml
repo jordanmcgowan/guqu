@@ -120,7 +120,7 @@
         </Button>
         <ScrollViewer x:Name ="scrollText" HorizontalAlignment="Left" Height="38" Margin="193,81,0,0" VerticalAlignment="Top" Width="813" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Visible"
 >
-            <TextBox x:Name="pathBox" Height="20" TextWrapping="Wrap" Text="TextBox" Width="8130"/>
+            <TextBox x:Name="pathBox" Height="20" TextWrapping="Wrap" Text="" Width="8130"/>
 
         </ScrollViewer>
 

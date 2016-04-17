@@ -42,9 +42,16 @@ namespace Guqu
             this.folderView.Width = (SystemParameters.PrimaryScreenWidth) - 193;
             this.folderView.Height = (SystemParameters.PrimaryScreenHeight) - 200;
      
-            List<string> mylist = new List<string>(new string[] { "element2", "element3", "element1", "element2", "element3", });
-            String path = generatePath(mylist);
-            pathBox.Text = path;
+//          Test Code to show that generatePath works
+            CommonDescriptor cd1 = new CommonDescriptor("gpname", "filetype", "filePath", "fileID", "accountType", new DateTime(1), 1);
+            CommonDescriptor cd2 = new CommonDescriptor("pname", "filetype", "filePath", "fileID", "accountType", new DateTime(1), 1);
+            CommonDescriptor cd3 = new CommonDescriptor("name", "filetype", "filePath", "fileID", "accountType", new DateTime(1), 1);
+
+            Models.SupportClasses.TreeNode grandparentNode = new Models.SupportClasses.TreeNode(null, cd1);
+            Models.SupportClasses.TreeNode parentNode = new Models.SupportClasses.TreeNode(grandparentNode, cd2);
+            Models.SupportClasses.TreeNode node = new Models.SupportClasses.TreeNode(parentNode, cd3);
+            generatePath(node," ");
+//          End generatePath testcode
 
             windowsDownloadManager = new WindowsDownloadManager();
             windowsUploadManager = new WindowsUploadManager();
@@ -288,15 +295,18 @@ namespace Guqu
         }
 
 
-        private String generatePath(List<String> hierarchy)
+        private void generatePath(Models.SupportClasses.TreeNode currFolder, string path)
         {
-            String path = "";
-            foreach (String file in hierarchy)
-            {
-                path = path + file + " > ";
-            }
-            return path;
-
+            
+           if(currFolder.getParent() != null){
+               pathBox.Text = currFolder.getCommonDescriptor().FileName + " > " + path;
+               generatePath(currFolder.getParent(), currFolder.getCommonDescriptor().FileName + " > " + path);
+           }
+           else
+           {
+               pathBox.Text = currFolder.getCommonDescriptor().FileName + " > " + path;
+           }
+          
         }
 
         
