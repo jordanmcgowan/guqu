@@ -269,7 +269,12 @@ namespace Guqu
 
         private void manageAccountsClicked(object sender, RoutedEventArgs e)
         {
-            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(user);
+            List<Models.SupportClasses.TreeNode> accounts = new List<Models.SupportClasses.TreeNode>();
+            for(int i = 0; i<roots.Count; i++)
+            {
+                accounts.Add(roots.ElementAt(i).ElementAt(0));
+            }
+            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(accounts);//user
             manageAccountsWin.Show();
         }
 

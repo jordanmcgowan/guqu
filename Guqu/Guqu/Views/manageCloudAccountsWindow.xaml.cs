@@ -37,24 +37,24 @@ namespace Guqu
                 TextBlock tBlock = new TextBlock();
 
                 image.BeginInit();
-                /*  
-                Account accounts[] = new Account();
+                  
+                //Account accounts[] = new Account();
                 //initialize and add accounts to the list of accounts
-                if (act[i].getType.equals("box"))
+                if (list.ElementAt(i).getCommonDescriptor().AccountType.Equals("box"))
                 {
-                    image.UriSource = new Uri("box.png", UriKind.Relative);
+                    image.UriSource = new Uri("../Res/box.png", UriKind.Relative);
                 }
-                else if (act[i].getType.equals("box"))
+                else if (list.ElementAt(i).getCommonDescriptor().AccountType.Equals("One Drive"))
                 {
-                    image.UriSource = new Uri("oneDrive.png", UriKind.Relative);
+                    image.UriSource = new Uri("../Res/oneDrive.png", UriKind.Relative);
                 }
-                else
+                else if (list.ElementAt(i).getCommonDescriptor().AccountType.Equals("Google Drive"))
                 {
-                    image.UriSource = new Uri("googleDrive.png", UriKind.Relative);
+                    image.UriSource = new Uri("../Res/googleDrive.png", UriKind.Relative);
                 }
-                */
-                //image.EndInit();
-                img.Width = 75;
+                
+                image.EndInit();
+                img.Width = 50;
                 img.Source = image;
 
 
@@ -62,17 +62,18 @@ namespace Guqu
                 
                 tBlock.Text = list.ElementAt(i).getCommonDescriptor().FileName;
                 //tBlock.Text = act[i].getUsername(); // 
-                tBlock.VerticalAlignment = VerticalAlignment.Bottom;
-                tBlock.Margin = new Thickness(10, 0, 10, 0); 
+                tBlock.VerticalAlignment = VerticalAlignment.Center;
+                tBlock.Margin = new Thickness(100, 0, 10, 0);
+                tBlock.TextAlignment = TextAlignment.Center;
                 
-                cBox.Content = "Save Password?";
-                cBox.VerticalAlignment = VerticalAlignment.Bottom;
+                //cBox.Content = "Save Password?";
+                //cBox.VerticalAlignment = VerticalAlignment.Bottom;
 
 
                 sPanel.Orientation = Orientation.Horizontal;
                 sPanel.Children.Add(img);
                 sPanel.Children.Add(tBlock);
-                sPanel.Children.Add(cBox);
+                //sPanel.Children.Add(cBox);
                 this.listView.Items.Add(sPanel);
             }//end for
         }
