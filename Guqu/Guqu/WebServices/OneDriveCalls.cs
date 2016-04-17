@@ -108,12 +108,8 @@ namespace Guqu.WebServices
 
         public async Task<bool> moveFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
-            OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
-
-
-            
-            
+ 
             //Move within 1D
             
             var newParentId = folderDestination.FileID;
