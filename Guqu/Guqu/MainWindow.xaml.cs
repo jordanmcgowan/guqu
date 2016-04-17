@@ -398,7 +398,7 @@ namespace Guqu
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
+            
             ICloudCalls cloudCaller = null;
             if (dF.Count > 0)
             {
@@ -428,8 +428,8 @@ namespace Guqu
                 foreach (dispFolder file in itemsToShare)
                 {
                     //add delete call to actual web service
-                    dF.Remove(file);
-                    //cloudCaller.deleteFile(file.CommonDescriptor);
+                    //dF.Remove(file);
+                    cloudCaller.shareFile(file.CD);
 
                 }
 
@@ -438,7 +438,7 @@ namespace Guqu
             {
                 Console.WriteLine("nothing in list");
             }
-        */
+        
 
         }
 

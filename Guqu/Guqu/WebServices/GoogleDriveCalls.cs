@@ -253,25 +253,13 @@ namespace Guqu.WebServices
                 //TODO: replace these permissions with the permissions entered on the shareWindow
                 Permission userPermission = new Permission();
                 userPermission.Type = "user";
-                userPermission.Role = "writer";
-                userPermission.EmailAddress = "njain9@wisc.edu";
+                userPermission.Role = "writer"; //TODO. pick the correct role
+                userPermission.EmailAddress = ; //TODO, enter the email address
 
-                //TOOD: replace the following two lines
-                //var request = _googleDriveService.Permissions.Create(userPermission, fileToShare.FileID);
-                var request = _googleDriveService.Permissions.Create(userPermission, "0B0F_8LaJGpURSGFMY2k5UzF0LTg");
+                var request = _googleDriveService.Permissions.Create(userPermission, fileToShare.FileID);
                 request.Fields = "id";
-                request.EmailMessage = "If you are seeing this, the matrix is real";
-                batch.Queue(request, callback);
-                /*
-                Permission domainPermission = new Permission();
-                domainPermission.Type = "domain";
-                domainPermission.Role = "reader";
-                domainPermission.Domain = "appsrocks.com";
-                request = _googleDriveService.Permissions.Create(domainPermission, fileId);
-                request.Fields = "id";
-                batch.Queue(request, callback);
-                var task = batch.ExecuteAsync();
-                */
+                request.EmailMessage = ; //TODO enter message
+                batch.Queue(request, callback);              
 
                 var task = batch.ExecuteAsync();
             }
