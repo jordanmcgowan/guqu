@@ -198,6 +198,35 @@ namespace GuquMysql
             }
 
         }
+
+        //Delete statement
+        public void DeleteUserCloud(User user, String cloudType)
+
+        {
+            int cloudId = -1;
+            if (cloudType == "Google Drive")
+            {
+                cloudId = 2;
+            }
+            else if (cloudType == "One Drive")
+            {
+                cloudId = 1;
+            }
+            else
+            {
+                Console.WriteLine("No valid Cloud Type");
+            }
+            string query = "DELETE FROM user_clouds WHERE user_id='" + user.User_id + "' and cloud_id='" + cloudId + "';";
+
+            if (this.OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine(user.User_id + " account for " + cloudId + " was deleted.");
+                this.CloseConnection();
+            }
+        }
+
         /*
         //Update statement
         public void Update()

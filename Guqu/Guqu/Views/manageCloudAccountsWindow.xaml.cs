@@ -1,4 +1,5 @@
 ﻿using Guqu.WebServices;
+using GuquMysql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,8 +80,11 @@ namespace Guqu
 
         private void delete_click(object sender, RoutedEventArgs e)
         {
-            confirmationPrompt cPrompt = new confirmationPrompt();
-            cPrompt.Show();
+            //confirmationPrompt cPrompt = new confirmationPrompt();
+            //cPrompt.Show();
+            ServerCommunicationController db = new ServerCommunicationController();
+            //TODO: Need to un-hardcode this ASAP
+            db.DeleteUserCloud(user, "Google Drive");
             this.Close();
         }
 
