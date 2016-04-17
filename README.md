@@ -8,7 +8,7 @@ Matthew WIlcox [mwilcox@wisc.edu] <br/>
 MJ Oak [oak@wisc.edu] <br/>
 Brent Grimm [bwgrimm@wisc.edu] <br/>
 
-Since no .exe file can be generated until the program is run, in order to use our application, you will need to download the zip (or clone the git repo - your choice). The user will also <strong>need to have Visual Studio installed </strong> as we are running the application within the VS software right now. Once VS is installed open the project via: <br/>
+Since no .exe file can be generated until the program is run, in order to use our application, you will need to download the zip (or clone the git repo - your choice). The user will also <strong>need to have Visual Studio 2013 installed </strong> as we are running the application within the VS software right now. Once VS is installed open the project via: <br/>
 -Open VS <br/>
 -Click “Open Project”<br/>
 -Navigate to and open ‘guqu-master’ folder<br/>
