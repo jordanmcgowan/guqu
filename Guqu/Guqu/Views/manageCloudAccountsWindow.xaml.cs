@@ -21,9 +21,10 @@ namespace Guqu
     public partial class manageCloudAccountsWindow : Window
     {
         public User user { get; set; }
-
-        public manageCloudAccountsWindow(List<Guqu.Models.SupportClasses.TreeNode> list) //User user when that actually works
+        List<Guqu.Models.SupportClasses.TreeNode> list;
+        public manageCloudAccountsWindow(List<Guqu.Models.SupportClasses.TreeNode> list, User user) //User user when that actually works
         {
+            this.list = list;
             InitializeComponent();
             this.user = user;
             //basic skelly of accounts
@@ -33,9 +34,10 @@ namespace Guqu
                 BitmapImage image = new BitmapImage();
                 Image img = new Image();
                 StackPanel sPanel = new StackPanel();
-                CheckBox cBox = new CheckBox();
+                CheckBox cB = new CheckBox();
+                
                 TextBlock tBlock = new TextBlock();
-
+                //MenuItem item = new MenuItem();
                 image.BeginInit();
                   
                 //Account accounts[] = new Account();
@@ -63,26 +65,67 @@ namespace Guqu
                 tBlock.Text = list.ElementAt(i).getCommonDescriptor().FileName;
                 //tBlock.Text = act[i].getUsername(); // 
                 tBlock.VerticalAlignment = VerticalAlignment.Center;
-                tBlock.Margin = new Thickness(100, 0, 10, 0);
+                tBlock.Margin = new Thickness(50, 0, 10, 0);
                 tBlock.TextAlignment = TextAlignment.Center;
-                
+
                 //cBox.Content = "Save Password?";
                 //cBox.VerticalAlignment = VerticalAlignment.Bottom;
-
-
+                cB.Margin = new Thickness(10, 0, 50, 0);
+                cB.VerticalAlignment = VerticalAlignment.Center;
                 sPanel.Orientation = Orientation.Horizontal;
+                sPanel.Children.Add(cB);
                 sPanel.Children.Add(img);
                 sPanel.Children.Add(tBlock);
+                //sPanel.Click = new RoutedEventHandler(account_Item_Click);
                 //sPanel.Children.Add(cBox);
                 this.listView.Items.Add(sPanel);
             }//end for
         }
 
+        public void account_Item_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void delete_click(object sender, RoutedEventArgs e)
         {
+            List<string> deleteList = new List<string>(); 
             confirmationPrompt cPrompt = new confirmationPrompt();
-            cPrompt.Show();
-            this.Close();
+            cPrompt.ShowDialog();
+            if (cPrompt.getRet())
+            {
+                List<StackPanel> listRemove = new List<StackPanel>();
+                foreach (var ele in listView.Items)
+                {
+                    StackPanel sp = (StackPanel)ele;
+                    foreach(var child in sp.Children)
+                    {
+                        if (child is CheckBox)
+                        {
+                            CheckBox cB = (CheckBox)child;
+                            if (cB.IsChecked == true)
+                            { 
+                                foreach (var ch in sp.Children)
+                                {
+                                    if (ch is TextBlock)
+                                    {
+                                        TextBlock tb = (TextBlock)ch;
+                                        deleteList.Add(tb.Text);
+                                        Console.WriteLine("do stuff");
+                                        listRemove.Add(sp);
+                                    }
+                                }
+                             }
+                        }
+                    }
+                }
+                for (int x = 0; x < listRemove.Count; x++)
+                {
+
+                    listView.Items.Remove(listRemove.ElementAt(x));
+                    //add logic to actually delete the items
+                }
+
+            }
         }
 
         private void add_click(object sender, RoutedEventArgs e)

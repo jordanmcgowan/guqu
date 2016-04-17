@@ -128,7 +128,7 @@ namespace Guqu
             root = populateMenuItem(root, newRoot, newList);
             fileTreeMenu.Items.Add(root);
         }
-        private void hierarchyDelete(Models.SupportClasses.TreeNode root)
+        public void hierarchyDelete(Models.SupportClasses.TreeNode root)
         {
             MenuItem rootToRemove = null;
             foreach (var item in fileTreeMenu.Items)
@@ -222,36 +222,102 @@ namespace Guqu
         }
         private void moveButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Guqu.Models.SupportClasses.TreeNode> move = new List<Models.SupportClasses.TreeNode>();
-            for ( int i = 0; i < roots.Count; i++){
-                move.Add(roots.ElementAt(i).ElementAt(0));
-            }
-            Models.SupportClasses.TreeNode selected;
-            moveView mv = new moveView(move);
-            mv.ShowDialog();
-            if (mv.getOK())
+
+            ICloudCalls cloudCaller = null;
+            if (dF.Count > 0)
             {
-                selected  = mv.getSelected();
+                List<dispFolder> itemsToMove = new List<dispFolder>();
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToMove.Add(file);
+                    }
+                }
+               
+                if (itemsToMove.First().CD.AccountType.Equals( "Google Drive"))
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if (itemsToMove.First().CD.AccountType.Equals("One Drive"))
+                {
+                    cloudCaller = new OneDriveCalls();
+                }
+                else
+                {
+                    //failure
+                    return;
+                }
+
+
+                List<Guqu.Models.SupportClasses.TreeNode> move = new List<Models.SupportClasses.TreeNode>();
+                for (int i = 0; i < roots.Count; i++)
+                {
+                    move.Add(roots.ElementAt(i).ElementAt(0));
+                }
+                Models.SupportClasses.TreeNode selected;
+                moveView mv = new moveView(move);
+                mv.ShowDialog();
+                if (mv.getOK())
+                {
+                    selected = mv.getSelected();
+                    foreach (dispFolder file in itemsToMove)
+                    {
+                        cloudCaller.moveFile(file.CD, selected.getCommonDescriptor());
+                    }
+                }
+                
             }
-            
-            //do move logic here
+
         }
         private void copyButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO call the function that copies
-            List<Guqu.Models.SupportClasses.TreeNode> move = new List<Models.SupportClasses.TreeNode>();
-            for (int i = 0; i < roots.Count; i++)
+            ICloudCalls cloudCaller = null;
+            if (dF.Count > 0)
             {
-                move.Add(roots.ElementAt(i).ElementAt(0));
+                List<dispFolder> itemsToCopy = new List<dispFolder>();
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToCopy.Add(file);
+                    }
+                }
+
+
+       
+                if (itemsToCopy.First().CD.AccountType.Equals("Google Drive"))
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if (itemsToCopy.First().CD.AccountType.Equals("One Drive"))
+                {
+                    cloudCaller = new OneDriveCalls();
+                }
+                else
+                {
+                    //failure
+                    return;
+                }
+                List<Guqu.Models.SupportClasses.TreeNode> copy = new List<Models.SupportClasses.TreeNode>();
+                for (int i = 0; i < roots.Count; i++)
+                {
+                    copy.Add(roots.ElementAt(i).ElementAt(0));
+                }
+                Models.SupportClasses.TreeNode selected;
+                moveView mv = new moveView(copy);
+                mv.ShowDialog();
+                if (mv.getOK())
+                {
+                    selected = mv.getSelected();
+                    foreach (dispFolder file in itemsToCopy)
+                    {
+                        cloudCaller.copyFile(file.CD, selected.getCommonDescriptor());
+                    }
+                }
+
             }
-            Models.SupportClasses.TreeNode selected;
-            moveView mv = new moveView(move);
-            mv.ShowDialog();
-            if (mv.getOK())
-            {
-                selected = mv.getSelected();
-            }
-            //do copy logic here
+
         }
 
         private void exitClicked(object sender, RoutedEventArgs e)
@@ -274,7 +340,7 @@ namespace Guqu
             {
                 accounts.Add(roots.ElementAt(i).ElementAt(0));
             }
-            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(accounts);//user
+            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(accounts, user);//user
             manageAccountsWin.Show();
         }
 

@@ -235,16 +235,19 @@ namespace Guqu.WebServices
 
         public bool deleteFile(CommonDescriptor cd)
         {
-            throw new NotImplementedException();
+            deleteFileAsync(cd);
+            return true;
         }
 
         public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            moveFileAsync(fileToMove, folderDestination);
+            return true;
         }
         public bool copyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            copyFileAsync(fileToMove, folderDestination);
+            return true;
         }
     }
 }

@@ -19,19 +19,25 @@ namespace Guqu
     /// </summary>
     public partial class confirmationPrompt : Window
     {
+        private bool ret = false;
         public confirmationPrompt()
         {
             InitializeComponent();
         }
 
+        public bool getRet()
+        {
+            return ret;
+        }
         private void yesClick(object sender, RoutedEventArgs e)
         {
-
+            ret = true;
+            this.Close();
         }
 
         private void noClick(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }
