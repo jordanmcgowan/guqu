@@ -22,13 +22,13 @@ namespace Guqu
     {
         public User user { get; set; }
 
-        public manageCloudAccountsWindow(User user)
+        public manageCloudAccountsWindow(List<Guqu.Models.SupportClasses.TreeNode> list) //User user when that actually works
         {
             InitializeComponent();
             this.user = user;
             //basic skelly of accounts
             //loop to add accounts to listView
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < list.Count; i++)
             {        
                 BitmapImage image = new BitmapImage();
                 Image img = new Image();
@@ -60,7 +60,7 @@ namespace Guqu
 
                
                 
-                tBlock.Text = "act1";
+                tBlock.Text = list.ElementAt(i).getCommonDescriptor().FileName;
                 //tBlock.Text = act[i].getUsername(); // 
                 tBlock.VerticalAlignment = VerticalAlignment.Bottom;
                 tBlock.Margin = new Thickness(10, 0, 10, 0); 
