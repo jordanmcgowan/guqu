@@ -23,8 +23,8 @@ namespace Guqu
 
         private static WindowsUploadManager windowsUploadManager;
         private static WindowsDownloadManager windowsDownloadManager;
-        public static string metaDataStorageLocation = "..\\Guqu\\MetaDataStorage";
-        public static MetaDataController metaDataController;
+        private static string metaDataStorageLocation = "..\\GuquMetaDataStorageLocation";
+        private static MetaDataController metaDataController;
 
         private Models.SupportClasses.TreeNode selectedHierarchyFolder = null;
 
@@ -269,9 +269,22 @@ namespace Guqu
 
         private void manageAccountsClicked(object sender, RoutedEventArgs e)
         {
-            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(new List<Models.SupportClasses.TreeNode>());
+            List<Models.SupportClasses.TreeNode> accounts = new List<Models.SupportClasses.TreeNode>();
+            for(int i = 0; i<roots.Count; i++)
+            {
+                accounts.Add(roots.ElementAt(i).ElementAt(0));
+            }
+            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(accounts);//user
             manageAccountsWin.Show();
         }
+
+
+        private void changePasswordClicked(object sender, RoutedEventArgs e)
+        {
+            /*changePasswordWindow changePassWin = new changePasswordWindow();
+            changePassWin.Show();*/
+        }
+
 
         private void changePathClicked(object sender, RoutedEventArgs e)
         {
