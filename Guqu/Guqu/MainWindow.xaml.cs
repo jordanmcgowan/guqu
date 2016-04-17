@@ -215,12 +215,36 @@ namespace Guqu
         }
         private void moveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            List<Guqu.Models.SupportClasses.TreeNode> move = new List<Models.SupportClasses.TreeNode>();
+            for ( int i = 0; i < roots.Count; i++){
+                move.Add(roots.ElementAt(i).ElementAt(0));
+            }
+            Models.SupportClasses.TreeNode selected;
+            moveView mv = new moveView(move);
+            mv.ShowDialog();
+            if (mv.getOK())
+            {
+                selected  = mv.getSelected();
+            }
+            
+            //do move logic here
         }
         private void copyButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO call the function that copies
-
+            List<Guqu.Models.SupportClasses.TreeNode> move = new List<Models.SupportClasses.TreeNode>();
+            for (int i = 0; i < roots.Count; i++)
+            {
+                move.Add(roots.ElementAt(i).ElementAt(0));
+            }
+            Models.SupportClasses.TreeNode selected;
+            moveView mv = new moveView(move);
+            mv.ShowDialog();
+            if (mv.getOK())
+            {
+                selected = mv.getSelected();
+            }
+            //do copy logic here
         }
 
         private void exitClicked(object sender, RoutedEventArgs e)

@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Guqu"
         mc:Ignorable="d"
-        Title="moveView" Height="300" Width="300">
+        Title="moveView" Height="500" Width="400"
+        ResizeMode="NoResize">
     <Grid>
-        
+        <TextBlock Text="Select location" Width="200" Height="30" Margin="47,18,47,423" TextAlignment="Center"/>
+        <TreeView   x:Name="selectionTree" HorizontalAlignment="Left" Height="344" Margin="15,60,0,0" VerticalAlignment="Top" Width="364" RenderTransformOrigin="0.5,0.5" >
+            <TreeView.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-0.089"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.532"/>
+                </TransformGroup>
+            </TreeView.RenderTransform>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate  DataType="MenuItem"  ItemsSource="{Binding Items}">
+
+                    <TextBlock Text="{Binding Title}" MouseDown="move_Item_Click" Uid="{Binding ID}"/>
+
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            <ScrollViewer Height="100" Width="100"/>
+        </TreeView>
+        <Button Content="Accept" Width="100" Height="35" Click="accept_Click" Margin="146,413,148,23" />
     </Grid>
 </Window>
