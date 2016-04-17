@@ -46,11 +46,14 @@ namespace Guqu
             MenuItem root;
             for (int i = 0; i < rootNodes.Count; i++) {
                 root = new MenuItem();
+                treeFolders.Add(rootNodes.ElementAt(i));
                 hierarchyAdd(rootNodes.ElementAt(i));
             }
 
 
         }
+
+        //never used?
         private void populateTree(Guqu.Models.SupportClasses.TreeNode treeRoot, MenuItem xamlRoot)
         {
             xamlRoot = new MenuItem() { Title = treeRoot.getCommonDescriptor().FileName, ID = treeRoot.getCommonDescriptor().FileID };
