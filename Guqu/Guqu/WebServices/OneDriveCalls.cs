@@ -81,7 +81,8 @@ namespace Guqu.WebServices
 
         public bool shareFile(CommonDescriptor fileToShare)
         {
-            throw new NotImplementedException();
+            shareFileAsync(fileToShare);
+            return true;
         }
 
         public async Task<bool> deleteFileAsync(CommonDescriptor cd)
@@ -115,14 +116,21 @@ namespace Guqu.WebServices
             var newParentId = folderDestination.FileID;
             var fileId = fileToMove.FileID;
             var updateItem = new Item { ParentReference = new ItemReference { Id = newParentId } };
-            var itemWithUpdates = await _oneDriveClient
-                                            .Drive
-                                            .Items[fileId]
-                                            .Request()
-                                            .UpdateAsync(updateItem);
+            try {
+                var itemWithUpdates = await _oneDriveClient
+                                                .Drive
+                                                .Items[fileId]
+                                                .Request()
+                                                .UpdateAsync(updateItem);
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            return true;
+            
 
-            //Move to Google Drive location
-            throw new NotImplementedException();
+            
             
         }
 
@@ -200,9 +208,31 @@ namespace Guqu.WebServices
 
         }
 
-        public Task<bool> shareFileAsync(CommonDescriptor fileToShare)
+        public async Task<bool> shareFileAsync(CommonDescriptor fileToShare)
         {
-            throw new NotImplementedException();
+            var _oneDriveClient = InitializeAPI.oneDriveClient;
+            var itemID = fileToShare.FileID;
+            try {
+                var request = _oneDriveClient.Drive.Items[itemID].CreateLink("edit").Request();
+                var result = await request.PostAsync();
+                var shareLink = result.Link;
+                //the ability to send invitations is only in 'beta' and is not included in the SDK.
+                //the only thing we can do is create a link that the user can send to people.
+                //the link works, and they 'stack', that is if shared multiple times, many links (all valid)
+                //will be created. The only way to remove them is to go into the one drive website and delete it manually.
+
+                string[] msg = new string[1];
+                msg[0] = "Here is the link to share the file: " + shareLink.WebUrl;
+
+                dynamicPrompt dynamicPrompt = new dynamicPrompt(msg);
+                dynamicPrompt.Show();
+                //prompt is not showing the message
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<bool> copyFileAsync(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
@@ -231,16 +261,19 @@ namespace Guqu.WebServices
 
         public bool deleteFile(CommonDescriptor cd)
         {
-            throw new NotImplementedException();
+            deleteFileAsync(cd);
+            return true;
         }
 
         public bool moveFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            moveFileAsync(fileToMove, folderDestination);
+            return true;
         }
         public bool copyFile(CommonDescriptor fileToMove, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            copyFileAsync(fileToMove, folderDestination);
+            return true;
         }
     }
 }

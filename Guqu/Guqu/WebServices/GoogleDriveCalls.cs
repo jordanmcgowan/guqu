@@ -254,11 +254,11 @@ namespace Guqu.WebServices
                 Permission userPermission = new Permission();
                 userPermission.Type = "user";
                 userPermission.Role = "writer"; //TODO. pick the correct role
-                userPermission.EmailAddress = ; //TODO, enter the email address
+                userPermission.EmailAddress = "njain9@wisc.edu"; //TODO, enter the email address
 
                 var request = _googleDriveService.Permissions.Create(userPermission, fileToShare.FileID);
                 request.Fields = "id";
-                request.EmailMessage = ; //TODO enter message
+                request.EmailMessage = "You have been added to this document, gratz"; //TODO enter message
                 batch.Queue(request, callback);              
 
                 var task = batch.ExecuteAsync();

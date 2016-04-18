@@ -403,6 +403,14 @@ namespace Guqu
             if (dF.Count > 0)
             {
                 List<dispFolder> itemsToShare = new List<dispFolder>();
+
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToShare.Add(file);
+                    }
+                }
                 if (itemsToShare.First().CD.AccountType == "Google Drive")
                 {
                     cloudCaller = new GoogleDriveCalls();
@@ -417,13 +425,6 @@ namespace Guqu
                     return;
                 }
 
-                foreach (dispFolder file in dF)
-                {
-                    if (file.Checked)
-                    {
-                        itemsToShare.Add(file);
-                    }
-                }
 
                 foreach (dispFolder file in itemsToShare)
                 {
