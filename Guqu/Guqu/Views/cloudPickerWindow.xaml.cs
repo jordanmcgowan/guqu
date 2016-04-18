@@ -42,7 +42,7 @@ namespace Guqu
             
             //cloudLoginWindow cloudLogWin = new cloudLoginWindow("box");
             //cloudLogWin.Show();
-            this.Close();
+            //this.Close();
         }
         private void oneDriveClick(object sender, RoutedEventArgs e)
         {
