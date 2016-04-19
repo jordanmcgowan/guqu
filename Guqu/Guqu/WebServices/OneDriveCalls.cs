@@ -84,6 +84,12 @@ namespace Guqu.WebServices
             shareFileAsync(fileToShare);
             return true;
         }
+        public bool shareFile(CommonDescriptor fileToShare, string email, string role, string message)
+        {
+            shareFileAsync(fileToShare);
+            return true;
+        }
+
 
         public async Task<bool> deleteFileAsync(CommonDescriptor cd)
         {

@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Guqu.Models;
+using Guqu.WebServices;
 
 namespace Guqu
 {
@@ -20,34 +22,76 @@ namespace Guqu
     /// </summary>
     public partial class shareWindow : Window
     {
-        public shareWindow()
+        bool read = false;
+        bool comment = false;
+        bool write = false;
+        List<dispFolder> filesToShare;
+        public shareWindow(List<dispFolder> files)
         {
             InitializeComponent();
-        }
-
-        private void readWrite_Checked(object sender, RoutedEventArgs e)
-        {
-
+            filesToShare = files;
         }
 
         private void read_Checked(object sender, RoutedEventArgs e)
         {
-
+            read = true;
+            comment = false;
+            write = false;
         }
 
-        private void view_Checked(object sender, RoutedEventArgs e)
+        private void comment_Checked(object sender, RoutedEventArgs e)
         {
+            read = false;
+            comment = true;
+            write = false;
+        }
 
+        private void write_Checked(object sender, RoutedEventArgs e)
+        {
+            read = false;
+            comment = false;
+            write = true;
         }
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
             if (emailListFormattedCorrectly(emailsToShareBox.Text))
             {
+                ICloudCalls cloudCaller = null;
                 ArrayList shareEmails = parseEmailList(emailsToShareBox.Text);
+                if (filesToShare.First().CD.AccountType == "Google Drive")
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if (filesToShare.First().CD.AccountType == "One Drive")
+                {
+                    //not implemented yet
+                    //cloudCaller = new OneDriveCalls();
+                    this.Close();
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
                 foreach (String email in shareEmails)
                 {
-                    //call share functions 
+
+                    foreach (dispFolder file in filesToShare)
+                    {
+                           if(read){
+                            cloudCaller.shareFile(file.CD,"reader", email, optionalMessageBox.Text);
+                           }
+                           else if(write){
+                               cloudCaller.shareFile(file.CD, "writer", email, optionalMessageBox.Text);
+                           }
+                           else if(comment){
+                               cloudCaller.shareFile(file.CD, "commenter", email, optionalMessageBox.Text);
+                           }
+                           else
+                           {
+                               throw new InvalidOperationException();
+                           }
+                    }
                 }
             }
         }

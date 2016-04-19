@@ -19,14 +19,11 @@ namespace Guqu
 {
     
     
-
     /// <summary>
     /// Interaction logic for logInWindow.xaml
     /// </summary>
     public partial class logInWindow : Window
-    {
-
-        
+    {   
 
         public logInWindow()
         {

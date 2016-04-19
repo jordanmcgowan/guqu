@@ -24,7 +24,7 @@ namespace Guqu.WebServices
         //returns TRUE if file was shared successfully, 
         //else FALSE
         //TODO: pass in the list of emails to share with, AND the type of permission they should have
-        bool shareFile(CommonDescriptor fileToShare);
+        bool shareFile(CommonDescriptor fileToShare, string role, string email, string message);
         Task<bool> shareFileAsync(CommonDescriptor fileToShare);
 
         bool deleteFile(CommonDescriptor cd);

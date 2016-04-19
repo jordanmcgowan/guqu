@@ -11,9 +11,9 @@
         <TextBlock x:Name="shareWindowInfo" HorizontalAlignment="Left" Height="36" Margin="25,3,0,0" TextWrapping="Wrap" Text="Enter the email addresses of the people you want to share with separated by commas" VerticalAlignment="Top" Width="247"/>
         <TextBox x:Name="emailsToShareBox" HorizontalAlignment="Left" Height="43" Margin="25,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="247"/>
         <StackPanel Margin="25,94,20,125">
-            <RadioButton GroupName="shareType" Content="Read/Write (Can upload to folder)"  Checked="readWrite_Checked"/>
-            <RadioButton GroupName="shareType" Content="Read (Can download)" Checked="read_Checked" />
-            <RadioButton GroupName="shareType" Content="View (Cannot download)" Checked="view_Checked" />
+            <RadioButton GroupName="shareType" Content="Read (Can only view)"  Checked="read_Checked"/>
+            <RadioButton GroupName="shareType" Content="Comment (Can view and comment)" Checked="comment_Checked" />
+            <RadioButton GroupName="shareType" Content="Write (Can view, comment ,and edit)" Checked="write_Checked" />
         </StackPanel>
         <TextBox x:Name="optionalMessageBox" HorizontalAlignment="Left" Height="43" Margin="27,213,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="247"/>
         <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="182,275,0,0" VerticalAlignment="Top" Width="75" Click="cancelButton_Click"/>

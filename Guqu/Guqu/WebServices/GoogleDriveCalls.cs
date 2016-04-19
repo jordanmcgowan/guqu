@@ -220,8 +220,9 @@ namespace Guqu.WebServices
             return getRequest;
         }
 
-        public bool shareFile(CommonDescriptor fileToShare)
+        public bool shareFile(CommonDescriptor fileToShare , string role , string email, string optionalMessage)
         {
+            
             try {
                 Console.WriteLine("STARTED SHARING");
                 var _googleDriveService = InitializeAPI.googleDriveService;
@@ -253,12 +254,12 @@ namespace Guqu.WebServices
                 //TODO: replace these permissions with the permissions entered on the shareWindow
                 Permission userPermission = new Permission();
                 userPermission.Type = "user";
-                userPermission.Role = "writer"; //TODO. pick the correct role
-                userPermission.EmailAddress = "njain9@wisc.edu"; //TODO, enter the email address
+                userPermission.Role = role; //TODO. pick the correct role
+                userPermission.EmailAddress = email; //TODO, enter the email address
 
                 var request = _googleDriveService.Permissions.Create(userPermission, fileToShare.FileID);
                 request.Fields = "id";
-                request.EmailMessage = "You have been added to this document, gratz"; //TODO enter message
+                request.EmailMessage = optionalMessage; //TODO enter message
                 batch.Queue(request, callback);              
 
                 var task = batch.ExecuteAsync();

@@ -17,7 +17,7 @@ namespace Guqu
     {
         private List<List<Models.SupportClasses.TreeNode>> roots = new List<List<Models.SupportClasses.TreeNode>>();
 
-        ObservableCollection<dispFolder> dF = new ObservableCollection<dispFolder>();//test for folder disp
+       static ObservableCollection<dispFolder>  dF = new ObservableCollection<dispFolder>();//test for folder disp
 
         public User user { get; set; }
 
@@ -28,6 +28,10 @@ namespace Guqu
 
         private Models.SupportClasses.TreeNode selectedHierarchyFolder = null;
 
+        public static ObservableCollection<dispFolder> getDisplayFolder()
+        {
+            return dF;
+        }
         
         public MainWindow(User user)
         {
@@ -398,7 +402,6 @@ namespace Guqu
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
-            
             ICloudCalls cloudCaller = null;
             if (dF.Count > 0)
             {
@@ -411,7 +414,11 @@ namespace Guqu
                         itemsToShare.Add(file);
                     }
                 }
-                if (itemsToShare.First().CD.AccountType == "Google Drive")
+
+                shareWindow shareWin = new shareWindow(itemsToShare);
+                shareWin.Show();
+
+       /**         if (itemsToShare.First().CD.AccountType == "Google Drive")
                 {
                     cloudCaller = new GoogleDriveCalls();
                 }
@@ -421,18 +428,11 @@ namespace Guqu
                 }
                 else
                 {
-                    //failure
+                    throw new InvalidOperationException();
                     return;
                 }
+                **/
 
-
-                foreach (dispFolder file in itemsToShare)
-                {
-                    //add delete call to actual web service
-                    //dF.Remove(file);
-                    cloudCaller.shareFile(file.CD);
-
-                }
 
             }
             else
