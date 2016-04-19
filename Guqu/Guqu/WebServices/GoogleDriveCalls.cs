@@ -13,9 +13,11 @@ using System.IO;
 
 namespace Guqu.WebServices
 {
-    class GoogleDriveCalls : ICloudCalls
+    public class GoogleDriveCalls : ICloudCalls
     {
+
         private GoogleDriveCommunicationParser googleCommParser;
+
 
         public GoogleDriveCalls()
         {
@@ -24,23 +26,13 @@ namespace Guqu.WebServices
 
         public async Task<List<string>> uploadFilesAsync(List<UploadInfo> toUpload, CommonDescriptor folderDestination)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public async Task<bool> downloadFileAsync(CommonDescriptor cd)
         {
 
             var _googleDriveService = InitializeAPI.googleDriveService;
-            //Google.Apis.Drive.v3.Data.File file = new Google.Apis.Drive.v3.Data.File();
-            //file.Id = cd.FileID;
-            //var _file = _googleDriveService.Files.Get(cd.FileID);
-            
-            Console.WriteLine("********");
-            Console.WriteLine(cd.FileID);
-            //Console.WriteLine(_file.);
-            //Console.Write(_file.);
-            Console.WriteLine("********");
-
 
             //TODO: THE MIMETYPE THIS IS CAN'T BE THE SAME MIMETYPE AS WHAT IT WAS SAVED. It needs to be an export type.
             //https://developers.google.com/drive/v3/web/manage-downloads#downloading_google_documents
@@ -164,7 +156,7 @@ namespace Guqu.WebServices
                 nextPageToken = exec.NextPageToken;
                 iterationFiles = exec.Files;
 
-                //files has first 20 items.
+                
                 foreach(var cur in iterationFiles)
                 {
                     if(cur.Trashed != true)
@@ -188,6 +180,7 @@ namespace Guqu.WebServices
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string curFileSerialized;
+            string cleansedName;
             CommonDescriptor curCD;
             
             while (allFiles.Count != 0) //while there are elements
@@ -200,15 +193,17 @@ namespace Guqu.WebServices
                 if (curFile.MimeType.Equals(googleFolderName)) //folder
                 {
                     //For each folder add the metaDataFolder, the CD, and then recurse.
-                    controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
+                    cleansedName = controller.addMetaDataFolder(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath, curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
-                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + curFile.Name, curFile.Id);
+                    fetchAllMDFiles(controller, relativeRequestPath + "\\" + cleansedName, curFile.Id);
                 }
                 else  //file
                 {
-                    //For each file add the metadatafile, and the CD.
-                    controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
+                    //For each file add the metadatafile, and the CD.                    
+
+                    //cleansedName is the 'clean' name of the curFile.Name, don't need to use it cause this terminates.
+                    cleansedName = controller.addMetaDataFile(curFileSerialized, relativeRequestPath, curFile.Name);
                     curCD = googleCommParser.createCommonDescriptor(relativeRequestPath,curFileSerialized);
                     controller.addCommonDescriptorFile(curCD);
                     
@@ -307,11 +302,8 @@ namespace Guqu.WebServices
                 Google.Apis.Drive.v3.Data.File fileMetaData = new Google.Apis.Drive.v3.Data.File();
                 fileMetaData.Name = fileName;
 
-                //TODO: swap out following lines
-                // fileMetaData.Parents = new List<string> {folderDestination.FileID};
-                fileMetaData.Parents = new List<string> { "0B0F_8LaJGpURSGFMY2k5UzF0LTg" };
+                fileMetaData.Parents = new List<string> {folderDestination.FileID};
 
-                
                 request = _googleDriveService.Files.Create(fileMetaData, uInfo.getFileStream(), mimeType);
                 request.Fields = "id";
                 request.Upload();
@@ -378,9 +370,9 @@ namespace Guqu.WebServices
             var updateRequest = _googleDriveService.Files.Update(temp, fileToMove.FileID);
             updateRequest.Fields = "id, parents";
 
-            //TODO: switch out commented lines
-            //updateRequest.AddParents = folderDestination.FileID;
-            updateRequest.AddParents = "0B0F_8LaJGpURSGFMY2k5UzF0LTg";
+            
+            updateRequest.AddParents = folderDestination.FileID;
+            
 
             if (destructive)
             {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.Models
 {
-    class OneDriveCommunicationParser: ICommunicationParser
+    public class OneDriveCommunicationParser: ICommunicationParser
     {
         
         private static Dictionary<string, string> cd_od_Term_Dictionary;
@@ -59,7 +59,7 @@ namespace Guqu.Models
             lastModified = Convert.ToDateTime(lastMod);
             Int32.TryParse(fsize, out fileSize);
 
-            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
+            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID,"One Drive", lastModified, fileSize);
             
             return cd;
 

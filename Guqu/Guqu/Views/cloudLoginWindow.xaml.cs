@@ -35,6 +35,11 @@ namespace Guqu
             {
                 //login to googleDrive and add to accounts
             }
+            else
+            {
+                ArgumentException e = new ArgumentException("Only accepts box, oneDrive, or googleDrive as accountTypes");
+                throw e;
+            }
         }
     }
 }

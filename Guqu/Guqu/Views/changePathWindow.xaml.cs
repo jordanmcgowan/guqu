@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Guqu.Models;
+//using Microsoft.Win32.OpenFileDialog;
 
 namespace Guqu
 {
@@ -15,35 +17,25 @@ namespace Guqu
             InitializeComponent();
         }
 
-      private void chooseFolder_Click(object sender, RoutedEventArgs e)
-        {
-            /*var dlg = new CommonOpenFileDialog();
-            dlg.Title = "Choose Folder";
-            dlg.IsFolderPicker = true;
-            dlg.AddToMostRecentlyUsedList = false;
-            dlg.AllowNonFileSystemItems = false;
-            dlg.EnsureFileExists = true;
-            dlg.EnsurePathExists = true;
-            dlg.EnsureReadOnly = false;
-            dlg.EnsureValidNames = true;
-            dlg.Multiselect = false;
-            dlg.ShowPlacesList = true;
 
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                String folder = dlg.FileName;
-                //textBox.Text = folder;
-            }*/
-        }
-
-        private void confirmButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+        private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            //some metadata function call maybe not this
+            MetaDataController mdc = new MetaDataController(currFolder.Text);
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            currFolder.Text = dialog.SelectedPath;
+        }
+
     }
 }

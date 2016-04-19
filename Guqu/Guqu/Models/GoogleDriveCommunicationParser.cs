@@ -6,7 +6,7 @@ using Guqu.Exceptions;
 
 namespace Guqu.Models
 {
-    class GoogleDriveCommunicationParser : ICommunicationParser
+    public class GoogleDriveCommunicationParser : ICommunicationParser
     {
         private static Dictionary<string, string> extension_mimeType_Dictionary;
         private static Dictionary<string, string> convert_extension_Dictionary;
@@ -103,7 +103,7 @@ namespace Guqu.Models
             lastModified = Convert.ToDateTime(lastMod);
             Int32.TryParse(fsize, out fileSize);
             
-            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, lastModified, fileSize);
+            CommonDescriptor cd = new CommonDescriptor(fileName, fileType, relativeFilePath, fileID, "Google Drive", lastModified, fileSize);
 
             return cd;
         }

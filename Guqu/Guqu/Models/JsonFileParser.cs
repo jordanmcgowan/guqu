@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Guqu.Models
 {
-    class JsonFileParser
+    public class JsonFileParser
     {
         public JsonFileParser()
         {

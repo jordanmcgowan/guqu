@@ -15,7 +15,6 @@
                 
                 <MenuItem Header="_Check for updates" Click="checkForUpdatesClicked"/>
                 <MenuItem Header="_Manage Accounts" Click="manageAccountsClicked"/>
-                <MenuItem Header="_Change Password" Click="changePasswordClicked"/>
                 <MenuItem Header="_Change Local Download Path" Click="changePathClicked"/>
                 <Hyperlink NavigateUri = "https://github.com/jordanmcgowan/guqu/wiki">
                     <MenuItem Header="_Wiki" Click="wikiClicked"/>
@@ -27,8 +26,10 @@
 
         <TreeView   x:Name="fileTreeMenu" HorizontalAlignment="Left" Height="687" Margin="0,40,0,0" VerticalAlignment="Top" Width="188" >
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate  DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" MouseDown="item_Click"/>
+                <HierarchicalDataTemplate  DataType="{x:Type self:MenuItem}"  ItemsSource="{Binding Items}">
+
+                    <TextBlock Text="{Binding Title}" MouseDown="item_Click" Uid="{Binding ID}"/>
+                    
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <ScrollViewer Height="100" Width="100"/>
@@ -118,7 +119,7 @@
         </Button>
         <ScrollViewer x:Name ="scrollText" HorizontalAlignment="Left" Height="38" Margin="193,81,0,0" VerticalAlignment="Top" Width="813" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Visible"
 >
-            <TextBox x:Name="pathBox" Height="20" TextWrapping="Wrap" Text="TextBox" Width="8130"/>
+            <TextBox x:Name="pathBox" Height="20" TextWrapping="Wrap" Text="" Width="8130"/>
 
         </ScrollViewer>
 

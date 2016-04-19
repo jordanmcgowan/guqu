@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.WebServices
 {
-    class UserCloud
+    public class UserCloud
     {
         private int user_cloud_id;
         public int User_cloud_id
@@ -41,6 +41,13 @@ namespace Guqu.WebServices
         {
             get { return cloud_token; }
             set { cloud_token = value; }
+        }
+
+        private string refresh_token;
+        public string Refresh_token
+        {
+            get { return refresh_token; }
+            set { refresh_token = value; }
         }
 
         private string custom_cloud_name;

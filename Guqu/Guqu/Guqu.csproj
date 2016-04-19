@@ -223,7 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="dispFolder.cs" />
+    <Compile Include="Views\dispFolder.cs" />
     <Compile Include="Exceptions\ExtensionNotFoundException.cs" />
     <Compile Include="Models\IUploadManager.cs" />
     <Compile Include="Models\SettingsController.cs" />
@@ -255,7 +255,6 @@
     <Compile Include="Models\JsonFileParser.cs" />
     <Compile Include="Models\MetaDataController.cs" />
     <Compile Include="Models\OneDriveCommunicationParser.cs" />
-    <Compile Include="Models\ServiceDescriptor.cs" />
     <Compile Include="Models\SupportClasses\TreeNode.cs" />
     <Compile Include="Models\WindowsDownloadManager.cs" />
     <Compile Include="Views\dynamicPrompt.xaml.cs">
@@ -279,7 +278,6 @@
     <Compile Include="WebServices\serverConnection.cs" />
     <Compile Include="WebServices\CloudLogin.cs" />
     <Compile Include="WebServices\InitializeAPI.cs" />
-    <Compile Include="WebServices\WebCallerController.cs" />
     <Page Include="Views\cloudLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -320,10 +318,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\manageCloudAccountsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\changePasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
