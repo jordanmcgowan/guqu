@@ -9,6 +9,7 @@ MJ Oak [oak@wisc.edu] <br/>
 Brent Grimm [bwgrimm@wisc.edu] <br/>
 
 How to build and run Guqu:
+
 Since no .exe file can be generated until the program is run, in order to use our application, you will need to download the zip (or clone the git repo - your choice). The user will also need to have Visual Studio installed as we are running the application within the VS software right now. Once VS is installed open the project via:<br/>
 -Open VS
 -Click “Open Project”
