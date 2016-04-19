@@ -321,10 +321,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\changePasswordWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\moveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -46,9 +46,16 @@ namespace Guqu
             this.folderView.Width = (SystemParameters.PrimaryScreenWidth) - 193;
             this.folderView.Height = (SystemParameters.PrimaryScreenHeight) - 200;
      
-            List<string> mylist = new List<string>(new string[] { "element2", "element3", "element1", "element2", "element3", });
-            String path = generatePath(mylist);
-            pathBox.Text = path;
+//          Test Code to show that generatePath works
+            CommonDescriptor cd1 = new CommonDescriptor("gpname", "filetype", "filePath", "fileID", "accountType", new DateTime(1), 1);
+            CommonDescriptor cd2 = new CommonDescriptor("pname", "filetype", "filePath", "fileID", "accountType", new DateTime(1), 1);
+            CommonDescriptor cd3 = new CommonDescriptor("name", "filetype", "filePath", "fileID", "accountType", new DateTime(1), 1);
+
+            Models.SupportClasses.TreeNode grandparentNode = new Models.SupportClasses.TreeNode(null, cd1);
+            Models.SupportClasses.TreeNode parentNode = new Models.SupportClasses.TreeNode(grandparentNode, cd2);
+            Models.SupportClasses.TreeNode node = new Models.SupportClasses.TreeNode(parentNode, cd3);
+            generatePath(node," ");
+//          End generatePath testcode
 
             windowsDownloadManager = new WindowsDownloadManager();
             windowsUploadManager = new WindowsUploadManager();
@@ -125,7 +132,7 @@ namespace Guqu
             root = populateMenuItem(root, newRoot, newList);
             fileTreeMenu.Items.Add(root);
         }
-        private void hierarchyDelete(Models.SupportClasses.TreeNode root)
+        public void hierarchyDelete(Models.SupportClasses.TreeNode root)
         {
             MenuItem rootToRemove = null;
             foreach (var item in fileTreeMenu.Items)
@@ -220,10 +227,100 @@ namespace Guqu
         private void moveButton_Click(object sender, RoutedEventArgs e)
         {
 
+            ICloudCalls cloudCaller = null;
+            if (dF.Count > 0)
+            {
+                List<dispFolder> itemsToMove = new List<dispFolder>();
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToMove.Add(file);
+                    }
+                }
+               
+                if (itemsToMove.First().CD.AccountType.Equals( "Google Drive"))
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if (itemsToMove.First().CD.AccountType.Equals("One Drive"))
+                {
+                    cloudCaller = new OneDriveCalls();
+                }
+                else
+                {
+                    //failure
+                    return;
+                }
+
+
+                List<Guqu.Models.SupportClasses.TreeNode> move = new List<Models.SupportClasses.TreeNode>();
+                for (int i = 0; i < roots.Count; i++)
+                {
+                    move.Add(roots.ElementAt(i).ElementAt(0));
+                }
+                Models.SupportClasses.TreeNode selected;
+                moveView mv = new moveView(move);
+                mv.ShowDialog();
+                if (mv.getOK())
+                {
+                    selected = mv.getSelected();
+                    foreach (dispFolder file in itemsToMove)
+                    {
+                        cloudCaller.moveFile(file.CD, selected.getCommonDescriptor());
+                    }
+                }
+                
+            }
+
         }
         private void copyButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO call the function that copies
+            ICloudCalls cloudCaller = null;
+            if (dF.Count > 0)
+            {
+                List<dispFolder> itemsToCopy = new List<dispFolder>();
+                foreach (dispFolder file in dF)
+                {
+                    if (file.Checked)
+                    {
+                        itemsToCopy.Add(file);
+                    }
+                }
+
+
+       
+                if (itemsToCopy.First().CD.AccountType.Equals("Google Drive"))
+                {
+                    cloudCaller = new GoogleDriveCalls();
+                }
+                else if (itemsToCopy.First().CD.AccountType.Equals("One Drive"))
+                {
+                    cloudCaller = new OneDriveCalls();
+                }
+                else
+                {
+                    //failure
+                    return;
+                }
+                List<Guqu.Models.SupportClasses.TreeNode> copy = new List<Models.SupportClasses.TreeNode>();
+                for (int i = 0; i < roots.Count; i++)
+                {
+                    copy.Add(roots.ElementAt(i).ElementAt(0));
+                }
+                Models.SupportClasses.TreeNode selected;
+                moveView mv = new moveView(copy);
+                mv.ShowDialog();
+                if (mv.getOK())
+                {
+                    selected = mv.getSelected();
+                    foreach (dispFolder file in itemsToCopy)
+                    {
+                        cloudCaller.copyFile(file.CD, selected.getCommonDescriptor());
+                    }
+                }
+
+            }
 
         }
 
@@ -242,7 +339,12 @@ namespace Guqu
 
         private void manageAccountsClicked(object sender, RoutedEventArgs e)
         {
-            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(user);
+            List<Models.SupportClasses.TreeNode> accounts = new List<Models.SupportClasses.TreeNode>();
+            for(int i = 0; i<roots.Count; i++)
+            {
+                accounts.Add(roots.ElementAt(i).ElementAt(0));
+            }
+            manageCloudAccountsWindow manageAccountsWin = new manageCloudAccountsWindow(accounts, user);//user
             manageAccountsWin.Show();
         }
 
@@ -268,15 +370,18 @@ namespace Guqu
         }
 
 
-        private String generatePath(List<String> hierarchy)
+        private void generatePath(Models.SupportClasses.TreeNode currFolder, string path)
         {
-            String path = "";
-            foreach (String file in hierarchy)
-            {
-                path = path + file + " > ";
-            }
-            return path;
-
+            
+           if(currFolder.getParent() != null){
+               pathBox.Text = currFolder.getCommonDescriptor().FileName + " > " + path;
+               generatePath(currFolder.getParent(), currFolder.getCommonDescriptor().FileName + " > " + path);
+           }
+           else
+           {
+               pathBox.Text = currFolder.getCommonDescriptor().FileName + " > " + path;
+           }
+          
         }
 
         
