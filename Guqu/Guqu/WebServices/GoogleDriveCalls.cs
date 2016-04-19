@@ -311,9 +311,6 @@ namespace Guqu.WebServices
                 var request = _googleDriveService.Files.Delete(cd.FileID);
                 request.Execute();
 
-                //now that that file is gone remove the CD file and the metaData file from our records.
-                MetaDataController mdc = new MetaDataController("E:\\GuquTestFolder");
-                mdc.deleteCloudObjet(cd);
             }
             catch(Exception e)
             {

@@ -6,6 +6,7 @@ using Guqu.Models;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Linq;
+using System.Windows;
 
 namespace Guqu.WebServices
 {
@@ -48,7 +49,9 @@ namespace Guqu.WebServices
 
         public List<string> uploadFiles(List<Models.SupportClasses.UploadInfo> toUpload, CommonDescriptor folderDestination)
         {
-            throw new NotImplementedException();
+            uploadFilesAsync(toUpload, folderDestination);
+            return null;
+           
         }
 
         public async Task<List<string>> uploadFilesAsync(List<Models.SupportClasses.UploadInfo> toUpload, CommonDescriptor folderDestination)
@@ -227,11 +230,10 @@ namespace Guqu.WebServices
                 //the link works, and they 'stack', that is if shared multiple times, many links (all valid)
                 //will be created. The only way to remove them is to go into the one drive website and delete it manually.
 
-                string[] msg = new string[1];
-                msg[0] = "Here is the link to share the file: " + shareLink.WebUrl;
-
-                dynamicPrompt dynamicPrompt = new dynamicPrompt(msg);
-                dynamicPrompt.Show();
+                
+                string message = "Here is the link to share the file " + fileToShare.FileName + ":\n " + shareLink.WebUrl;
+                MessageBox.Show(message);
+                
                 //prompt is not showing the message
             }
             catch(Exception e)

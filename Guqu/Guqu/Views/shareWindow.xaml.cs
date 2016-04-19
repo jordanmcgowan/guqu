@@ -66,8 +66,7 @@ namespace Guqu
                 else if (filesToShare.First().CD.AccountType == "One Drive")
                 {
                     //not implemented yet
-                    //cloudCaller = new OneDriveCalls();
-                    this.Close();
+                    cloudCaller = new OneDriveCalls();
                 }
                 else
                 {
@@ -94,6 +93,7 @@ namespace Guqu
                     }
                 }
             }
+            this.Close();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

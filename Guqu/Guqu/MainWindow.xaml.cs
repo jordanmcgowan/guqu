@@ -403,7 +403,7 @@ namespace Guqu
                 rootNode = rootNode.getParent();
             }
             CommonDescriptor root = rootNode.getCommonDescriptor();
-            string acctType = root.FileType;
+            string acctType = root.AccountType;
 
 
             ICloudCalls cloudCaller = null;
@@ -437,7 +437,7 @@ namespace Guqu
 
             //update the view
             //again a dumb solution, should be more precise
-            Models.SupportClasses.TreeNode remadeRootNode = metaDataController.getRoot(root.FileName, root.FileID, root.FileType);
+            Models.SupportClasses.TreeNode remadeRootNode = metaDataController.getRoot(root.FileName, root.FileID, root.AccountType);
 
             //attempt to 'refresh' the fileHierarchy view
             MenuItem temp = new MenuItem() { Title = root.FileName, ID = root.FileID }; //label as the account name
@@ -507,7 +507,6 @@ namespace Guqu
 
         private void shareButton_Click(object sender, RoutedEventArgs e)
         {
-            ICloudCalls cloudCaller = null;
             if (dF.Count > 0)
             {
                 List<dispFolder> itemsToShare = new List<dispFolder>();
@@ -521,23 +520,7 @@ namespace Guqu
                 }
 
                 shareWindow shareWin = new shareWindow(itemsToShare);
-                shareWin.Show();
-
-       /**         if (itemsToShare.First().CD.AccountType == "Google Drive")
-                {
-                    cloudCaller = new GoogleDriveCalls();
-                }
-                else if (itemsToShare.First().CD.AccountType == "One Drive")
-                {
-                    cloudCaller = new OneDriveCalls();
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                    return;
-                }
-                **/
-
+                shareWin.Show();             
 
             }
             else
@@ -580,18 +563,17 @@ namespace Guqu
                     return;
                 }
 
-                foreach (dispFolder file in dF)
-                {
-                    if (file.Checked)
-                    {
-                        itemsToRemove.Add(file);
-                    }
-                }
+                bool res;
                 foreach (dispFolder file in itemsToRemove)
                 {
                     //add delete call to actual web service
                     dF.Remove(file);
-                    cloudCaller.deleteFile(file.CD);
+                    res = cloudCaller.deleteFile(file.CD);
+                    //if these delete went through, remove the object from our file hierarchy
+                    if (res)
+                    {
+                        metaDataController.deleteCloudObjet(file.CD);
+                    }
                 }
 
             }

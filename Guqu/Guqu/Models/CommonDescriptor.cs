@@ -13,6 +13,7 @@ namespace Guqu.Models
     public class CommonDescriptor
     {
         private string fileName, fileType, filePath, fileID, accountType;
+        private string[] owners;
         private DateTime lastModified;
         private long fileSize;
 
@@ -26,6 +27,7 @@ namespace Guqu.Models
             FileSize = fileSize;
             FileID = fileID;
             AccountType = accountType;
+            //Owners = owners;
         }
         public CommonDescriptor()
         {
@@ -90,6 +92,17 @@ namespace Guqu.Models
             set
             {
                 accountType = value;
+            }
+        }
+        public string[] Owners
+        {
+            get
+            {
+                return owners;
+            }
+            set
+            {
+                owners = value;
             }
         }
         public DateTime LastModified
