@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Guqu.WebServices
 {
-    interface ICloudCalls
+    public interface ICloudCalls
     {
 
         //returns Memory Stream of file data

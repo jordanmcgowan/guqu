@@ -61,7 +61,9 @@ namespace Guqu
             windowsUploadManager = new WindowsUploadManager();
             metaDataController = new MetaDataController(metaDataStorageLocation);
 
-            mimicLogin();
+            //mimicLogin();
+            setButtonsClickable(false);
+
         }
 
         //implement this when a file/folder is clicked in services view
@@ -238,7 +240,11 @@ namespace Guqu
                         itemsToMove.Add(file);
                     }
                 }
-               
+                if (itemsToMove.Count == 0)
+                {
+                    //no elements selected
+                    return;
+                }
                 if (itemsToMove.First().CD.AccountType.Equals( "Google Drive"))
                 {
                     cloudCaller = new GoogleDriveCalls();
@@ -288,8 +294,12 @@ namespace Guqu
                     }
                 }
 
+                if (itemsToCopy.Count == 0)
+                {
+                    //no elements selected
+                    return;
+                }
 
-       
                 if (itemsToCopy.First().CD.AccountType.Equals("Google Drive"))
                 {
                     cloudCaller = new GoogleDriveCalls();
@@ -463,7 +473,11 @@ namespace Guqu
                     filesToDownload.Add(file.CD);
                 }
             }
-
+            if(filesToDownload.Count == 0)
+            {
+                //no elements selected
+                return;
+            }
             if(filesToDownload.First().AccountType.Equals("Google Drive"))
             {
                 cloudCaller = new GoogleDriveCalls();
@@ -548,8 +562,12 @@ namespace Guqu
                         itemsToRemove.Add(file);
                     }
                 }
-
-                if(itemsToRemove.First().CD.AccountType == "Google Drive")
+                if (itemsToRemove.Count == 0)
+                {
+                    //no elements selected
+                    return;
+                }
+                if (itemsToRemove.First().CD.AccountType == "Google Drive")
                 {
                     cloudCaller = new GoogleDriveCalls();
                 }
@@ -585,7 +603,6 @@ namespace Guqu
 
             CommonDescriptor cd;
             Models.SupportClasses.TreeNode originalrootNode = selectedHierarchyFolder;
-            
             while (originalrootNode.getParent() != null)
             {
                 originalrootNode = originalrootNode.getParent();
@@ -614,6 +631,38 @@ namespace Guqu
                 recursiveBuildTree(child, currNode);
                 currNode.Items.Add(new MenuItem() { Title = child.getCommonDescriptor().FileName, ID = treeRoot.getCommonDescriptor().FileID });
                 xamlRoot.Items.Add(currNode);
+            }
+        }
+        public void setButtonsClickable(bool clickable)
+        {
+            //set the delete, move, copy, upload, download buttons to clickable/not clickable
+            System.Windows.Controls.Button uploadButton = this.uploadButton;
+            System.Windows.Controls.Button moveButton = this.moveButton;
+            System.Windows.Controls.Button deleteButton = this.deleteButton;
+            System.Windows.Controls.Button copyButton = this.copyButton;
+            System.Windows.Controls.Button downloadButton = this.downloadButton;
+            System.Windows.Controls.Button shareButton = this.shareButton;
+
+            uploadButton.IsEnabled = clickable;
+            moveButton.IsEnabled = clickable;
+            deleteButton.IsEnabled = clickable;
+            copyButton.IsEnabled = clickable;
+            downloadButton.IsEnabled = clickable;
+            shareButton.IsEnabled = clickable;
+
+        }
+        public async void addHierarchy(ICloudCalls cloudCalls, string accountName, string rootID, string accountType)
+        {
+
+            bool complete = await cloudCalls.fetchAllMetaData(metaDataController, accountName);
+
+            //Models.SupportClasses.TreeNode googleRootnode = metaDataController.getRoot("Google Drive", "googleRoot", "Google Drive");
+            //Models.SupportClasses.TreeNode oneDriveRootnode = metaDataController.getRoot("One Drive", "driveRoot", "One Drive");
+            if (complete)
+            {
+                Models.SupportClasses.TreeNode accountRootNode = metaDataController.getRoot(accountName, rootID, accountType);
+
+                hierarchyAdd(accountRootNode);
             }
         }
 
