@@ -26,7 +26,7 @@ namespace Guqu.WebServices
             OneDriveCommunicationParser odcp = new OneDriveCommunicationParser();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
             var _oneDriveClient = InitializeAPI.oneDriveClient;
-            _oneDriveClient.AuthenticateAsync();
+            //_oneDriveClient.AuthenticateAsync();
 
             var fileId = cd.FileID;
             
@@ -68,8 +68,8 @@ namespace Guqu.WebServices
                 FileStream fileStream = (FileStream)ui.getFileStream();
 
                 fileName = ui.getFileName();
-                string fullPath = folderDestination.FilePath + fileName;
-
+                string fullPath = folderDestination.FilePath + "\\" + fileName;
+                   //TODO: need to remove the account name at the beginning of this string.
 
                 //need file path
                 var uploadedItem = await _oneDriveClient.Drive.Root.ItemWithPath(fullPath).Content.Request().PutAsync<Item>(fileStream);

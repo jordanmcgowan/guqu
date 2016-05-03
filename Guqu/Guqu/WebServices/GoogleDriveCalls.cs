@@ -66,7 +66,7 @@ namespace Guqu.WebServices
                 return false;
             }
 
-            var request = _googleDriveService.Files.Export(cd.FileID, mimeType);
+            var request = _googleDriveService.Files.Get(cd.FileID);
             var stream = new MemoryStream();
             WindowsDownloadManager wdm = new WindowsDownloadManager();
 
@@ -98,7 +98,7 @@ namespace Guqu.WebServices
             try
             {
                 IDownloadProgress x = await request.DownloadAsync(stream);
-                wdm.downloadFile(stream, cd.FileName + extension);
+                wdm.downloadFile(stream, cd.FileName);
 
             }
             catch (Exception e)

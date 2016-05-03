@@ -48,7 +48,7 @@ namespace Guqu
         {
             cloudId = 1;
             api.initOneDriveAPI();
-            CloudLogin.oneDriveLogin(user);
+            //CloudLogin.oneDriveLogin(user);
             bool main = false;//check to see if there is a main open
             MainWindow mainWindow = null;
             foreach (var wnd in Application.Current.Windows)

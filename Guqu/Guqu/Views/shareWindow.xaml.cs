@@ -88,7 +88,9 @@ namespace Guqu
                            }
                            else
                            {
-                               throw new InvalidOperationException();
+                            //didn't want to share...
+                            this.Close();
+                            return;
                            }
                     }
                 }

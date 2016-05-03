@@ -63,7 +63,7 @@ namespace Guqu.WebServices
                 {
                     var refreshToken = accountSession.RefreshToken;
                     string[] secret = { onedrive_client_secret };
-
+                    await _oneDriveClient.AuthenticateAsync();
                     //trys this sneak silent authenticator
                     /*
                     await OneDriveClient.GetSilentlyAuthenticatedMicrosoftAccountClient(
@@ -80,7 +80,10 @@ namespace Guqu.WebServices
                         await _oneDriveClient.AuthenticateAsync();
                         
                         accountSession = _oneDriveClient.AuthenticationProvider.CurrentAccountSession;
-                        Console.WriteLine("One Drive login succedded for user " + user.User_id);
+                        if (_oneDriveClient.IsAuthenticated)
+                        {
+                            Console.WriteLine("One Drive login succedded for user " + user.User_id);
+                        }
 
                         //Console.WriteLine("1D refresh: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.RefreshToken);
                         //Console.WriteLine("1D token: " + oneDriveClient.AuthenticationProvider.CurrentAccountSession.AccessToken);
